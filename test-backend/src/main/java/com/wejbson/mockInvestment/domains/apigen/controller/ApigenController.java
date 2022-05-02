@@ -17,4 +17,12 @@ public class ApigenController {
     private ResponseEntity<Integer> apigenPrimitive() {
         return null;
     }
+
+    @PostMapping("/apigen-no-response")
+    private void apigenNoResponse() {
+        return;
+    }
+
+    @PostMapping("/apigen-form")
+    private void apigenForm(@RequestParam Integer param1) {return;}
 }

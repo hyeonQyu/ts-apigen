@@ -1,8 +1,8 @@
 export interface FileInfo {
     refs: string[];
-    typeInfo: ITypeInfo;
+    typeInfo: TypeInfo;
 }
 
-export type ITypeInfo = {
+export type TypeInfo = {
     [key in string]?: string;
 };

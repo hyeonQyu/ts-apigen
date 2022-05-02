@@ -20,19 +20,20 @@ export interface IApi {
     tags: string[];
     summary: string;
     parameters?: IParameter[];
-    responses?: IResponse;
+    responses: IResponse;
 }
 
 export interface IParameter {
-    in: string;
+    in: 'query' | 'body';
     name: string;
     description: string;
     required: boolean;
-    schema: ISchema;
+    schema?: ISchema;
+    type?: PrimitiveTypes;
 }
 
 export type IResponse = {
-    [key in number]?: IStatus;
+    [key in StatusCode]?: IStatus;
 };
 
 export interface IStatus {
@@ -54,6 +55,8 @@ export interface ISchema {
     type?: PrimitiveTypes;
     items?: ISchema;
 }
+
+export type StatusCode = '200' | '201' | '401' | '403' | '404';
 
 export type PrimitiveTypes = 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'string';
 

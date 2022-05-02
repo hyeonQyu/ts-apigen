@@ -8,7 +8,12 @@ import java.util.List;
 
 @Data
 public class ApigenReqVO {
-    private boolean isReq;
+    private Boolean isReq;
     private ApigenPerson person;
     private List<ApigenPersonalInfo> infoList;
+    private Integer integers;
+    private Float floats;
+    private Double doubles;
+    private Long longs;
+    private List<Long> longsList;
 }

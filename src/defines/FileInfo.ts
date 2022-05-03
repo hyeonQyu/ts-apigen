@@ -1,5 +1,5 @@
 export interface FileInfo {
-    refs: string[];
+    refSet: Set<string>;
     typeInfo: TypeInfo;
 }
 

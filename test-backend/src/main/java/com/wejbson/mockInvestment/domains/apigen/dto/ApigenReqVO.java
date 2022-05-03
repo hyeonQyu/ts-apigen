@@ -10,6 +10,7 @@ import java.util.List;
 public class ApigenReqVO {
     private Boolean isReq;
     private ApigenPerson person;
+    private ApigenPerson person2;
     private List<ApigenPersonalInfo> infoList;
     private Integer integers;
     private Float floats;

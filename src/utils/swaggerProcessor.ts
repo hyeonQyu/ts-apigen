@@ -5,8 +5,9 @@ const { getControllerInfoByController } = require('./controller/controllerParser
 module.exports = {
     generateCode(swaggerJson: SwaggerJson) {
         const { paths, definitions } = swaggerJson;
-        const objectByName = getByFileInfoByName(definitions);
+        const fileInfoByName = getByFileInfoByName(definitions);
         const controllerInfoByController = getControllerInfoByController(paths);
+        console.log(fileInfoByName);
         console.log(controllerInfoByController);
     },
 };

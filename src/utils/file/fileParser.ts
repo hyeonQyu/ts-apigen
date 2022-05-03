@@ -8,12 +8,12 @@ const getByFileInfoByName = (definitions: IDefinitions): Map<string, FileInfo> =
     Object.entries(definitions).forEach(([name, objectInfo]) => {
         const { properties } = objectInfo;
         const typeInfo: TypeInfo = {};
-        const refs: string[] = [];
+        const refSet = new Set<string>();
 
         Object.entries(properties).forEach(([property, schema]) => {
-            typeInfo[property] = getTypeNameFromSchema(schema, refs);
+            typeInfo[property] = getTypeNameFromSchema(schema, refSet);
         });
-        fileInfoByName.set(name, { refs, typeInfo });
+        fileInfoByName.set(name, { refSet, typeInfo });
     });
 
     return fileInfoByName;

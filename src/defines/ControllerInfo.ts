@@ -1,6 +1,7 @@
 import { MethodType, PrimitiveTypes } from './SwaggerJson';
 
 export interface ControllerInfo {
+    refSet: Set<string>;
     apiInfoList: ApiInfo[];
 }
 

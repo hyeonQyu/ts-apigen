@@ -16,17 +16,17 @@ const getQueryParamList = (parameterList: IParameter[]): QueryParam[] => {
     });
 };
 
-const getJson = (parameterList: IParameter[]): JsonBody => {
+const getJson = (parameterList: IParameter[], refSet: Set<string>): JsonBody => {
     const { name, required, schema } = parameterList[0];
     return {
         name,
-        type: getTypeNameFromSchema(schema),
+        type: getTypeNameFromSchema(schema, refSet),
         required,
     };
 };
 
 // 요청 정보
-const getRequestInfo = (api: IApi, path: string): RequestInfo | null => {
+const getRequestInfo = (api: IApi, path: string, refSet: Set<string>): RequestInfo | null => {
     if (!api.parameters) {
         return null;
     }
@@ -42,7 +42,7 @@ const getRequestInfo = (api: IApi, path: string): RequestInfo | null => {
         return {
             contentType: 'json',
             queryParamList: null,
-            jsonBody: getJson(parameterList),
+            jsonBody: getJson(parameterList, refSet),
         };
     } else {
         console.error(path, 'request parameter 이상');
@@ -51,7 +51,7 @@ const getRequestInfo = (api: IApi, path: string): RequestInfo | null => {
 };
 
 // 응답 정보
-const getResponseInfo = (responses: IResponse): ResponseInfo | null => {
+const getResponseInfo = (responses: IResponse, refSet: Set<string>): ResponseInfo | null => {
     const status: IStatus | null = responses[200] ?? null;
 
     if (!status || !status?.schema) {
@@ -59,7 +59,7 @@ const getResponseInfo = (responses: IResponse): ResponseInfo | null => {
     }
 
     return {
-        type: getTypeNameFromSchema(status.schema),
+        type: getTypeNameFromSchema(status.schema, refSet),
     };
 };
 
@@ -69,10 +69,12 @@ const getControllerInfoByController = (paths: IPaths): Map<string, ControllerInf
 
     Object.entries(paths).forEach(([path, restApi]) => {
         const controller: string = getController(restApi);
+        const controllerInfo = controllerInfoByController.get(controller);
+        const refSet: Set<string> = controllerInfo?.refSet ?? new Set();
 
         const methodInfoList: MethodInfo[] = Object.entries(restApi).map(([methodType, api]) => {
-            const request: RequestInfo | null = getRequestInfo(api, path);
-            const response: ResponseInfo | null = getResponseInfo(api.responses);
+            const request: RequestInfo | null = getRequestInfo(api, path, refSet);
+            const response: ResponseInfo | null = getResponseInfo(api.responses, refSet);
 
             return {
                 methodName: api.summary,
@@ -87,14 +89,16 @@ const getControllerInfoByController = (paths: IPaths): Map<string, ControllerInf
             methodInfoList,
         };
 
-        const controllerInfo = controllerInfoByController.get(controller);
         if (controllerInfo) {
+            const { apiInfoList } = controllerInfo;
             controllerInfoByController.set(controller, {
-                apiInfoList: [...controllerInfo.apiInfoList, apiInfo],
+                refSet,
+                apiInfoList: [...apiInfoList, apiInfo],
             });
             return;
         }
         controllerInfoByController.set(controller, {
+            refSet,
             apiInfoList: [apiInfo],
         });
     });

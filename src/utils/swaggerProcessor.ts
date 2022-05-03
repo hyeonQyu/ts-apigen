@@ -1,6 +1,7 @@
 import { SwaggerJson } from '../defines/SwaggerJson';
 const { getByFileInfoByName } = require('./parser/fileParser');
 const { getControllerInfoByController } = require('./parser/controllerParser');
+const { generateType } = require('./generator/typeGenerator');
 
 module.exports = {
     generateCode(swaggerJson: SwaggerJson) {
@@ -15,5 +16,7 @@ module.exports = {
         console.log('-------------------------------------가공 후 데이터------------------------------------');
         console.log(fileInfoByName);
         console.log(controllerInfoByController);
+
+        generateType(fileInfoByName);
     },
 };

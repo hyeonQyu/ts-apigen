@@ -1,6 +1,6 @@
 import { IDefinitions } from '../../defines/SwaggerJson';
 import { FileInfo, TypeInfo } from '../../defines/FileInfo';
-const { getTypeNameFromSchema } = require('../common/typeNameParser');
+const { getTypeNameFromSchema } = require('./typeNameParser');
 
 const getByFileInfoByName = (definitions: IDefinitions): Map<string, FileInfo> => {
     const fileInfoByName = new Map<string, FileInfo>();

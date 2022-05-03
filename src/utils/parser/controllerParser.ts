@@ -1,6 +1,6 @@
 import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '../../defines/SwaggerJson';
 import { ApiInfo, ControllerInfo, JsonBody, MethodInfo, QueryParam, RequestInfo, ResponseInfo } from '../../defines/ControllerInfo';
-const { getTypeNameFromSchema } = require('../common/typeNameParser');
+const { getTypeNameFromSchema } = require('./typeNameParser');
 
 const getController = (restApi: Omit<IRestApi, 'path'>): string => Object.values(restApi)[0].tags[0];
 

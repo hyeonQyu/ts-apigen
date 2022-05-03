@@ -54,6 +54,7 @@ export interface ISchema {
     $ref?: string;
     type?: PrimitiveTypes;
     items?: ISchema;
+    enum?: string[];
 }
 
 export type StatusCode = '200' | '201' | '401' | '403' | '404';

@@ -22,6 +22,10 @@ const getTypeNameFromPrimitiveType = (schema: ISchema, refSet?: Set<string>): st
         return items ? `${getTypeNameFromSchema(items, refSet)}[]` : 'any[]';
     }
 
+    if (type === 'string' && schema?.enum) {
+        return `\'${schema.enum.join("' | '")}\'`;
+    }
+
     return type ?? 'any';
 };
 

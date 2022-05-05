@@ -4,8 +4,7 @@ import { ITag } from '../defines/swaggerJson';
 export namespace ApigenConfig {
     export const config: Config = {
         apiDocsUri: 'http://localhost:8080/v2/api-docs',
-        generatedModelsPath: './api-src/models',
-        generatedRequestsPath: './api-src/requests',
+        generatedCodePath: './api-src',
         requestApi: 'fetch',
         // controllerList: ['ApigenController'],
     };

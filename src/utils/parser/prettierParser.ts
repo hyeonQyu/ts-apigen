@@ -12,11 +12,15 @@ export namespace PrettierParser {
             semi: true,
             singleQuote: true,
             printWidth: 140,
+            parser: 'babel-ts',
         };
 
         if (ApigenConfig.config?.prettierrcPath) {
             try {
-                return JSON.parse(fs.readFileSync(ApigenConfig.config.prettierrcPath, 'utf-8'));
+                return {
+                    ...JSON.parse(fs.readFileSync(ApigenConfig.config.prettierrcPath, 'utf-8')),
+                    parser: 'babel-ts',
+                };
             } catch (e) {
                 console.error('prettierrc path error:', e);
                 return defaultConfig;

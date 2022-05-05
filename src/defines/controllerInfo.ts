@@ -40,3 +40,7 @@ export interface ResponseInfo {
 }
 
 export type ContentType = 'formData' | 'json';
+
+export type ByContentType = {
+    [key in ContentType]: string;
+};

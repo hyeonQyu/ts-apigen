@@ -8,11 +8,8 @@ export interface Config {
     /** .prettierrc 파일 경로, 없으면 기본 prettier 설정을 사용 */
     prettierrcPath?: string;
 
-    /** 자동으로 생성된 모델 코드가 위치할 경로 */
-    generatedModelsPath: string;
-
-    /** 자동으로 생성된 요청 코드가 위치할 경로 */
-    generatedRequestsPath: string;
+    /** 자동 생성되는 코드가 위치할 경로 */
+    generatedCodePath: string;
 
     requestApi: 'axios' | 'fetch';
 }

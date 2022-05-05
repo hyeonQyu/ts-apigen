@@ -1,9 +1,9 @@
 import { IDefinitions } from '../../defines/SwaggerJson';
-import { FileInfo, TypeInfo } from '../../defines/FileInfo';
+import { ModelInfo, TypeInfo } from '../../defines/ModelInfo';
 const { getTypeNameFromSchema } = require('./typeNameParser');
 
-const getByFileInfoByName = (definitions: IDefinitions): Map<string, FileInfo> => {
-    const fileInfoByName = new Map<string, FileInfo>();
+const getByModelInfoByName = (definitions: IDefinitions): Map<string, ModelInfo> => {
+    const modelInfoByName = new Map<string, ModelInfo>();
 
     Object.entries(definitions).forEach(([name, objectInfo]) => {
         const { properties } = objectInfo;
@@ -13,12 +13,12 @@ const getByFileInfoByName = (definitions: IDefinitions): Map<string, FileInfo> =
         Object.entries(properties).forEach(([property, schema]) => {
             typeInfo[property] = getTypeNameFromSchema(schema, refSet);
         });
-        fileInfoByName.set(name, { refSet, typeInfo });
+        modelInfoByName.set(name, { refSet, typeInfo });
     });
 
-    return fileInfoByName;
+    return modelInfoByName;
 };
 
 module.exports = {
-    getByFileInfoByName,
+    getByModelInfoByName,
 };

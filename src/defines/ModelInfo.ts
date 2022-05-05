@@ -1,4 +1,4 @@
-export interface FileInfo {
+export interface ModelInfo {
     refSet: Set<string>;
     typeInfo: TypeInfo;
 }

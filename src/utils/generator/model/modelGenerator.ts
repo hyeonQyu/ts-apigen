@@ -1,9 +1,9 @@
-import { FileInfo } from '../../defines/FileInfo';
+import { ModelInfo } from '../../../defines/ModelInfo';
 const prettier = require('prettier');
 const fs = require('fs');
 
-const generateType = (fileInfoByName: Map<string, FileInfo>) => {
-    fileInfoByName.forEach((fileInfo, name) => {
+const generateModels = (modelInfoByName: Map<string, ModelInfo>) => {
+    modelInfoByName.forEach((fileInfo, name) => {
         const { refSet, typeInfo } = fileInfo;
         const refList = Array.from(refSet);
 
@@ -17,7 +17,7 @@ const generateType = (fileInfoByName: Map<string, FileInfo>) => {
         `;
 
         fs.writeFileSync(
-            `./api-src/types/${name}.ts`,
+            `./api-src/models/${name}.ts`,
             prettier.format(ts, {
                 trailingComma: 'all',
                 tabWidth: 4,
@@ -30,5 +30,5 @@ const generateType = (fileInfoByName: Map<string, FileInfo>) => {
 };
 
 module.exports = {
-    generateType,
+    generateModels,
 };

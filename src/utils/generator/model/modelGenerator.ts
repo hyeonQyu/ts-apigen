@@ -1,6 +1,6 @@
-import { ModelInfo } from '@defines/modelInfo';
-import { PrettierParser } from '@utils/parser/prettierParser';
-import { ApigenConfig } from '@config/apigenConfig';
+import { ModelInfo } from '../../../defines/modelInfo';
+import { ApigenConfig } from '../../../config/apigenConfig';
+import { PrettierParser } from '../../parser/prettierParser';
 
 const prettier = require('prettier');
 const fs = require('fs');

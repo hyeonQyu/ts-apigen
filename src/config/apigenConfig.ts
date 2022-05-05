@@ -1,4 +1,4 @@
-import { Config } from '@defines/config';
+import { Config } from '../defines/config';
 
 export namespace ApigenConfig {
     export const config: Config = {

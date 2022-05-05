@@ -1,7 +1,7 @@
-import { SwaggerJson } from '@defines/swaggerJson';
-import { ModelParser } from '@utils/parser/modelParser';
-import { ControllerParser } from '@utils/parser/controllerParser';
-import { ModelGenerator } from '@utils/generator/model/modelGenerator';
+import { SwaggerJson } from '../defines/swaggerJson';
+import { ModelParser } from './parser/modelParser';
+import { ControllerParser } from './parser/controllerParser';
+import { ModelGenerator } from './generator/model/modelGenerator';
 
 export namespace SwaggerProcessor {
     export function generateCode(swaggerJson: SwaggerJson) {

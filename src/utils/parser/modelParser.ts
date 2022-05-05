@@ -1,6 +1,6 @@
-import { IDefinitions } from '@defines/swaggerJson';
-import { ModelInfo, TypeInfo } from '@defines/modelInfo';
-import { TypeNameParser } from '@utils/parser/typeNameParser';
+import { IDefinitions } from '../../defines/swaggerJson';
+import { ModelInfo, TypeInfo } from '../../defines/modelInfo';
+import { TypeNameParser } from './typeNameParser';
 
 export namespace ModelParser {
     export function getByModelInfoByName(definitions: IDefinitions): Map<string, ModelInfo> {

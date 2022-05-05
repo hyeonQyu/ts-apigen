@@ -1,6 +1,6 @@
-import { SwaggerProcessor } from '@utils/swaggerProcessor';
-import { SwaggerJson } from '@defines/swaggerJson';
-import { ApigenConfig } from '@config/apigenConfig';
+import { ApigenConfig } from './config/apigenConfig';
+import { SwaggerProcessor } from './utils/swaggerProcessor';
+import { SwaggerJson } from './defines/swaggerJson';
 
 const express = require('express');
 const app = express();

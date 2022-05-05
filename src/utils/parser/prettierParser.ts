@@ -1,11 +1,9 @@
-import { ApigenConfig } from '@config/apigenConfig';
+import { ApigenConfig } from '../../config/apigenConfig';
 
 const fs = require('fs');
 
 export namespace PrettierParser {
     export const prettierConfig = getPrettierConfig();
-
-    const { prettierrcPath } = ApigenConfig.config;
 
     function getPrettierConfig() {
         const defaultConfig = {
@@ -16,9 +14,9 @@ export namespace PrettierParser {
             printWidth: 140,
         };
 
-        if (prettierrcPath) {
+        if (ApigenConfig.config?.prettierrcPath) {
             try {
-                return JSON.parse(fs.readFileSync(prettierrcPath, 'utf-8'));
+                return JSON.parse(fs.readFileSync(ApigenConfig.config.prettierrcPath, 'utf-8'));
             } catch (e) {
                 console.error('prettierrc path error:', e);
                 return defaultConfig;

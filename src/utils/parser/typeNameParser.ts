@@ -1,4 +1,4 @@
-import { ISchema } from '@defines/swaggerJson';
+import { ISchema } from '../../defines/swaggerJson';
 
 export namespace TypeNameParser {
     /**

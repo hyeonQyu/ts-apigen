@@ -1,7 +1,7 @@
-import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '@defines/swaggerJson';
-import { ApiInfo, ControllerInfo, JsonBody, MethodInfo, QueryParam, RequestInfo, ResponseInfo } from '@defines/controllerInfo';
-import { ApigenConfig } from '@config/apigenConfig';
-import { TypeNameParser } from '@utils/parser/typeNameParser';
+import { ApigenConfig } from '../../config/apigenConfig';
+import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '../../defines/swaggerJson';
+import { ApiInfo, ControllerInfo, JsonBody, MethodInfo, QueryParam, ResponseInfo, RequestInfo } from '../../defines/controllerInfo';
+import { TypeNameParser } from './typeNameParser';
 
 export namespace ControllerParser {
     // 컨트롤러마다 API 정보 리스트를 가짐

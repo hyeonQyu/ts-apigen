@@ -1,10 +1,12 @@
-import { SwaggerJson } from './defines/SwaggerJson';
+import { SwaggerProcessor } from '@utils/swaggerProcessor';
+import { SwaggerJson } from '@defines/swaggerJson';
+import { ApigenConfig } from '@config/apigenConfig';
 
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { generateCode } = require('./utils/swaggerProcessor');
+const axios = require('axios');
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -20,13 +22,11 @@ app.listen(6200, () => {
     console.log('express server started with port 6200');
 });
 
-const axios = require('axios');
-
 (async () => {
     try {
-        const { data } = await axios.get('http://localhost:8080/v2/api-docs');
+        const { data } = await axios.get(ApigenConfig.config.apiDocsUri);
 
-        generateCode(data as SwaggerJson);
+        SwaggerProcessor.generateCode(data as SwaggerJson);
     } catch (e) {
         console.error('에러', e);
     }

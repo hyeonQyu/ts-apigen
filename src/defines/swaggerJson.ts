@@ -28,7 +28,7 @@ export interface IParameter {
     name: string;
     description: string;
     required: boolean;
-    schema?: ISchema;
+    schema: ISchema;
     type?: PrimitiveTypes;
 }
 

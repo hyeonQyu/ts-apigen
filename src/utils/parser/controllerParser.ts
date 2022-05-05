@@ -2,6 +2,7 @@ import { ApigenConfig } from '../../config/apigenConfig';
 import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '../../defines/swaggerJson';
 import { ApiInfo, ControllerInfo, JsonBody, MethodInfo, QueryParam, ResponseInfo, RequestInfo } from '../../defines/controllerInfo';
 import { TypeNameParser } from './typeNameParser';
+import { CaseStyleFormatter } from '../string/caseStyleFormatter';
 
 export namespace ControllerParser {
     // 컨트롤러마다 API 정보 리스트를 가짐
@@ -53,7 +54,7 @@ export namespace ControllerParser {
     }
 
     function getController(restApi: Omit<IRestApi, 'path'>): string {
-        return Object.values(restApi)[0].tags[0];
+        return CaseStyleFormatter.snakeCaseToPascalCase(Object.values(restApi)[0].tags[0]);
     }
 
     function getQueryParamList(parameterList: IParameter[]): QueryParam[] {

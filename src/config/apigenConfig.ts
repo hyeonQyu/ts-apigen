@@ -1,4 +1,5 @@
 import { Config } from '../defines/config';
+import { ITag } from '../defines/swaggerJson';
 
 export namespace ApigenConfig {
     export const config: Config = {
@@ -6,5 +7,12 @@ export namespace ApigenConfig {
         generatedModelsPath: './api-src/models',
         generatedRequestsPath: './api-src/requests',
         requestApi: 'fetch',
+        // controllerList: ['ApigenController'],
     };
+
+    export function setControllerList(tags: ITag[]) {
+        if (!config.controllerList) {
+            config.controllerList = tags.map(({ description }) => description.replace(/\s/g, ''));
+        }
+    }
 }

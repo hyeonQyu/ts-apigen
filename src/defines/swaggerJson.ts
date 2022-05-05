@@ -1,5 +1,5 @@
 export interface SwaggerJson {
-    tags: any[];
+    tags: ITag[];
     paths: IPaths;
     definitions: IDefinitions;
 }
@@ -11,6 +11,11 @@ export type IPaths = {
 export type IDefinitions = {
     [key in string]: IObjectInfo;
 };
+
+export interface ITag {
+    name: string;
+    description: string;
+}
 
 export type IRestApi = {
     [key in MethodType]?: IApi;

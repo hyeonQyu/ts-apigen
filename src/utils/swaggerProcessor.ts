@@ -2,13 +2,18 @@ import { SwaggerJson } from '../defines/swaggerJson';
 import { ModelParser } from './parser/modelParser';
 import { ControllerParser } from './parser/controllerParser';
 import { ModelGenerator } from './generator/model/modelGenerator';
+import { RequestGenerator } from './generator/request/requestGenerator';
+import { ApigenConfig } from '../config/apigenConfig';
 
 export namespace SwaggerProcessor {
     export function generateCode(swaggerJson: SwaggerJson) {
-        const { paths, definitions } = swaggerJson;
+        const { paths, definitions, tags } = swaggerJson;
+        ApigenConfig.setControllerList(tags);
+
         console.log('----------------------------------Swagger row 데이터----------------------------------');
         console.log('definitions', definitions);
         console.log('paths', paths);
+        console.log('tags', tags);
 
         const fileInfoByName = ModelParser.getByModelInfoByName(definitions);
         const controllerInfoByController = ControllerParser.getControllerInfoByController(paths);
@@ -18,5 +23,6 @@ export namespace SwaggerProcessor {
         console.log(controllerInfoByController);
 
         ModelGenerator.generateModels(fileInfoByName);
+        RequestGenerator.generateRequests(controllerInfoByController);
     }
 }

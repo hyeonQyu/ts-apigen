@@ -3,80 +3,41 @@ import { ApigenConfig } from '../../../config/apigenConfig';
 import { ImportGenerator } from '../import/importGenerator';
 import { PrettierParser } from '../../parser/prettierParser';
 import { MethodType } from '../../../defines/swaggerJson';
+import { RequestCommonGenerator } from './requestCommonGenerator';
 
 const prettier = require('prettier');
 const fs = require('fs');
 
 export namespace RequestGenerator {
     const { requestApi } = ApigenConfig.config;
-    let useRequestCommon = false;
 
     /**
      * 요청 코드 생성
      * @param controllerInfoByController
      */
     export function generateRequests(controllerInfoByController: Map<string, ControllerInfo>) {
-        generateCommonCode();
+        RequestCommonGenerator.generateCommonCode();
 
         controllerInfoByController.forEach((controllerInfo, controllerName) => {
             console.log('controller 이름', controllerName);
             console.log('controller 정보', controllerInfo);
 
-            const importCommon = "import { RequestCommon } from './UseRequestCommon';";
             const { refSet, apiInfoList } = controllerInfo;
             const name = controllerName.replace('Controller', 'Request');
 
             let ts = `
+                import { RequestCommon } from './RequestCommon';
                 ${ImportGenerator.getImportCode(refSet, '../models')}
                 export namespace ${name} {
                     ${getAllRequestFunctionCodeOfController(apiInfoList)}
                 }
             `;
 
-            if (useRequestCommon) {
-                ts = `${importCommon}${ts}`;
-            }
-            console.log(ts);
             fs.writeFileSync(
                 `${ApigenConfig.config.generatedCodePath}/requests/${name}.ts`,
                 prettier.format(ts, PrettierParser.prettierConfig),
             );
-
-            useRequestCommon = false;
         });
-    }
-
-    /**
-     * 공통 코드 생성
-     * @private
-     */
-    function generateCommonCode() {
-        const ts = `
-            export namespace RequestCommon {
-                export function createFormData(data: object): FormData {
-                    const formData = new FormData();
-            
-                    Object.entries(data).forEach(([key, value]) => {
-                        if (value || value === false) {
-                            if (Array.isArray(value)) {
-                                formData.append(key, value.join());
-                            } else if (value.constructor === File) {
-                                formData.append(key, value);
-                            } else {
-                                formData.append(key, value.toString());
-                            }
-                        }
-                    });
-                    
-                    return formData;
-                }
-            }
-        `;
-
-        fs.writeFileSync(
-            `${ApigenConfig.config.generatedCodePath}/requests/UseRequestCommon.ts`,
-            prettier.format(ts, PrettierParser.prettierConfig),
-        );
     }
 
     /**
@@ -100,9 +61,10 @@ export namespace RequestGenerator {
         return methodInfoList
             .map(({ methodName, methodType, request, response }) => {
                 const functionName = hasVariousMethodByPath ? `${methodName}_${methodType}` : methodName;
+                const responseType = getResponseCode(response);
                 return `
-                    export async function ${functionName}(${getRequestCode(request)}): Promise<${getResponseCode(response)}> {
-                        ${getFunctionBodyCode(path, methodType, request ?? undefined)}
+                    export async function ${functionName}(${getRequestCode(request)}): Promise<${responseType}> {
+                        ${getFunctionBodyCode(path, methodType, responseType, request ?? undefined)}
                     }
                 `;
             })
@@ -161,12 +123,14 @@ export namespace RequestGenerator {
      * http 통신 API 에 따른 코드 반환
      * @param path
      * @param methodType
+     * @param responseType
      * @param request
      * @private
      */
     function getFunctionBodyCode(
         path: string,
         methodType: MethodType,
+        responseType: string,
         request: RequestInfo = { contentType: 'json', jsonBody: null, queryParamList: null },
     ): string {
         const { contentType, jsonBody, queryParamList } = request;
@@ -176,18 +140,19 @@ export namespace RequestGenerator {
             formData: 'application/x-www-form-urlencoded',
         };
 
-        const bodyMap: ByContentType = {
+        const fetchBodyMap: ByContentType = {
             json: `JSON.stringify(${jsonBody?.name})`,
             formData: `RequestCommon.createFormData({${queryParamList?.map(({ name }) => name).join()}})`,
+        };
+
+        const axiosDataMap: ByContentType = {
+            json: jsonBody ? jsonBody.name : '{}',
+            formData: fetchBodyMap.formData,
         };
 
         const hasFormDataBody = contentType === 'formData' && queryParamList;
         const hasJsonBody = contentType === 'json' && jsonBody;
         const hasBody = hasFormDataBody || hasJsonBody;
-
-        if (hasFormDataBody) {
-            useRequestCommon = true;
-        }
 
         switch (requestApi) {
             case 'fetch':
@@ -195,10 +160,26 @@ export namespace RequestGenerator {
                     return await (await fetch(\'${path}\', {
                         method: \'${methodType.toUpperCase()}\',
                         headers: { 'Content-Type': \'${contentTypeMap[contentType]}\' },
-                        ${hasBody ? `body: ${bodyMap[contentType]}` : ''}
+                        ${hasBody ? `body: ${fetchBodyMap[contentType]}` : ''}
                     })).json();`;
+
             case 'axios':
-                return '';
+                return `${(() => {
+                    switch (methodType) {
+                        case 'get':
+                            return getAxiosGetCode(path, hasBody ? axiosDataMap[contentType] : '{}', responseType);
+                        case 'post':
+                            return getAxiosPostCode(path, hasBody ? axiosDataMap[contentType] : '{}', responseType);
+                    }
+                })()}`;
         }
+    }
+
+    function getAxiosGetCode(path: string, params: string, responseType: string): string {
+        return `return (await RequestCommon.axiosGet<${responseType}>(\'${path}\', ${params})).data;`;
+    }
+
+    function getAxiosPostCode(path: string, data: string, responseType: string): string {
+        return `return (await RequestCommon.axiosPost<${responseType}>(\'${path}\', ${data})).data`;
     }
 }

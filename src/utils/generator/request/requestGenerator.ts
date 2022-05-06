@@ -9,6 +9,7 @@ const fs = require('fs');
 
 export namespace RequestGenerator {
     const { requestApi } = ApigenConfig.config;
+    let useRequestCommon = false;
 
     /**
      * 요청 코드 생성
@@ -21,22 +22,27 @@ export namespace RequestGenerator {
             console.log('controller 이름', controllerName);
             console.log('controller 정보', controllerInfo);
 
+            const importCommon = "import { RequestCommon } from './UseRequestCommon';";
             const { refSet, apiInfoList } = controllerInfo;
             const name = controllerName.replace('Controller', 'Request');
 
-            const ts = `
-                import { RequestCommon } from './common';
+            let ts = `
                 ${ImportGenerator.getImportCode(refSet, '../models')}
                 export namespace ${name} {
                     ${getAllRequestFunctionCodeOfController(apiInfoList)}
                 }
             `;
 
+            if (useRequestCommon) {
+                ts = `${importCommon}${ts}`;
+            }
             console.log(ts);
             fs.writeFileSync(
                 `${ApigenConfig.config.generatedCodePath}/requests/${name}.ts`,
                 prettier.format(ts, PrettierParser.prettierConfig),
             );
+
+            useRequestCommon = false;
         });
     }
 
@@ -67,7 +73,10 @@ export namespace RequestGenerator {
             }
         `;
 
-        fs.writeFileSync(`${ApigenConfig.config.generatedCodePath}/requests/common.ts`, prettier.format(ts, PrettierParser.prettierConfig));
+        fs.writeFileSync(
+            `${ApigenConfig.config.generatedCodePath}/requests/UseRequestCommon.ts`,
+            prettier.format(ts, PrettierParser.prettierConfig),
+        );
     }
 
     /**
@@ -169,8 +178,16 @@ export namespace RequestGenerator {
 
         const bodyMap: ByContentType = {
             json: `JSON.stringify(${jsonBody?.name})`,
-            formData: `RequestCommon.createFormData({${queryParamList ? queryParamList.map(({ name }) => name).join() : ''}})`,
+            formData: `RequestCommon.createFormData({${queryParamList?.map(({ name }) => name).join()}})`,
         };
+
+        const hasFormDataBody = contentType === 'formData' && queryParamList;
+        const hasJsonBody = contentType === 'json' && jsonBody;
+        const hasBody = hasFormDataBody || hasJsonBody;
+
+        if (hasFormDataBody) {
+            useRequestCommon = true;
+        }
 
         switch (requestApi) {
             case 'fetch':
@@ -178,7 +195,7 @@ export namespace RequestGenerator {
                     return await (await fetch(\'${path}\', {
                         method: \'${methodType.toUpperCase()}\',
                         headers: { 'Content-Type': \'${contentTypeMap[contentType]}\' },
-                        body: ${bodyMap[contentType]}
+                        ${hasBody ? `body: ${bodyMap[contentType]}` : ''}
                     })).json();`;
             case 'axios':
                 return '';

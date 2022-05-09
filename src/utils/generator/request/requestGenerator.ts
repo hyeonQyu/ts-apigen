@@ -154,12 +154,14 @@ export namespace RequestGenerator {
         const hasJsonBody = contentType === 'json' && jsonBody;
         const hasBody = hasFormDataBody || hasJsonBody;
 
+        const configHeader = `headers: { 'Content-Type': \'${contentTypeMap[contentType]}\' }`;
+
         switch (requestApi) {
             case 'fetch':
                 return `
                     return await (await fetch(\'${path}\', {
                         method: \'${methodType.toUpperCase()}\',
-                        headers: { 'Content-Type': \'${contentTypeMap[contentType]}\' },
+                        ${configHeader},
                         ${hasBody ? `body: ${fetchBodyMap[contentType]}` : ''}
                     })).json();`;
 
@@ -167,19 +169,19 @@ export namespace RequestGenerator {
                 return `${(() => {
                     switch (methodType) {
                         case 'get':
-                            return getAxiosGetCode(path, hasBody ? axiosDataMap[contentType] : '{}', responseType);
+                            return getAxiosGetCode(path, hasBody ? axiosDataMap[contentType] : '{}', `{${configHeader}}`, responseType);
                         case 'post':
-                            return getAxiosPostCode(path, hasBody ? axiosDataMap[contentType] : '{}', responseType);
+                            return getAxiosPostCode(path, hasBody ? axiosDataMap[contentType] : '{}', `{${configHeader}}`, responseType);
                     }
                 })()}`;
         }
     }
 
-    function getAxiosGetCode(path: string, params: string, responseType: string): string {
-        return `return (await RequestCommon.axiosGet<${responseType}>(\'${path}\', ${params})).data;`;
+    function getAxiosGetCode(path: string, param: string, config: string, responseType: string): string {
+        return `return (await RequestCommon.axiosGet<${responseType}>(\'${path}\', ${param}, ${config})).data;`;
     }
 
-    function getAxiosPostCode(path: string, data: string, responseType: string): string {
-        return `return (await RequestCommon.axiosPost<${responseType}>(\'${path}\', ${data})).data`;
+    function getAxiosPostCode(path: string, param: string, config: string, responseType: string): string {
+        return `return (await RequestCommon.axiosPost<${responseType}>(\'${path}\', ${param}, ${config})).data`;
     }
 }

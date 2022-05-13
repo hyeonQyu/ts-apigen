@@ -1,15 +1,20 @@
 import React, { useRef } from 'react';
 import useInputFile from './useInputFile';
 
-export interface InputFileProps {
+export interface InputFileProps<T> {
     acceptableExtensionList: string[];
+    isFileJson?: boolean;
+    onChangeFileContent?(fileContent: T | null): void;
 }
 
-const InputFile = (props: InputFileProps) => {
+function InputFile<T>(props: InputFileProps<T>) {
     const { acceptableExtensionList } = props;
     const ref = useRef(null);
 
-    const { handleSelectFile, text } = useInputFile({ inputRef: ref, acceptableExtensionList });
+    const { handleSelectFile, text } = useInputFile<T>({
+        inputRef: ref,
+        ...props,
+    });
 
     return (
         <>
@@ -44,6 +49,6 @@ const InputFile = (props: InputFileProps) => {
             `}</style>
         </>
     );
-};
+}
 
 export default InputFile;

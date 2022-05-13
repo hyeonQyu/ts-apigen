@@ -1,17 +1,17 @@
 import { MutableRefObject, useEffect, useState } from 'react';
+import { InputFileProps } from '@components/input-file/inputFile';
 
-export interface IUseInputFileParams {
+export interface IUseInputFileParams<T> extends InputFileProps<T> {
     inputRef: MutableRefObject<HTMLInputElement | null>;
-    acceptableExtensionList: string[];
 }
 
-export interface IUseInputFile {
+export interface IUseInputFile<T> {
     handleSelectFile(): void;
     text: string;
 }
 
-export default function useInputFile(params: IUseInputFileParams): IUseInputFile {
-    const { inputRef, acceptableExtensionList } = params;
+export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInputFile<T> {
+    const { inputRef, acceptableExtensionList, isFileJson = false, onChangeFileContent = () => {} } = params;
     const initialText = '파일을 선택하세요.';
     const [text, setText] = useState(initialText);
 
@@ -21,10 +21,9 @@ export default function useInputFile(params: IUseInputFileParams): IUseInputFile
             return;
         }
 
-        const handleChangeFile = () => {
+        const handleChangeFile = async () => {
             const { files } = current;
             if (!files || !files[0]) {
-                setText(initialText);
                 return;
             }
 
@@ -37,7 +36,9 @@ export default function useInputFile(params: IUseInputFileParams): IUseInputFile
                 return;
             }
 
+            const content = await files[0].text();
             setText(name);
+            onChangeFileContent(isFileJson ? JSON.parse(content) : content);
         };
 
         current.addEventListener('change', handleChangeFile);
@@ -49,7 +50,6 @@ export default function useInputFile(params: IUseInputFileParams): IUseInputFile
         if (!current) {
             return;
         }
-        current.files;
 
         current.click();
     };

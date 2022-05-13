@@ -1,12 +1,16 @@
-import type { NextPage } from 'next';
-import InputFile from '@components/input-file/InputFile';
+import InputFile from '@components/input-file/inputFile';
+import { PrettierConfig } from '../defines/prettierConfig';
 
-const Home: NextPage = () => {
+function Home() {
     return (
         <div>
-            <InputFile acceptableExtensionList={['.prettierrc']} />
+            <InputFile<PrettierConfig>
+                acceptableExtensionList={['.prettierrc']}
+                isFileJson
+                onChangeFileContent={(fileContent) => console.log(fileContent)}
+            />
         </div>
     );
-};
+}
 
 export default Home;

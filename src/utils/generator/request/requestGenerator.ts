@@ -11,6 +11,15 @@ const fs = require('fs');
 export namespace RequestGenerator {
     const { requestApi } = ApigenConfig.config;
 
+    const contentTypeCount = {
+        json: 0,
+        formData: 0,
+        init() {
+            this.json = 0;
+            this.formData = 0;
+        },
+    };
+
     /**
      * 요청 코드 생성
      * @param controllerInfoByController
@@ -37,6 +46,8 @@ export namespace RequestGenerator {
                 `${ApigenConfig.config.generatedCodePath}/requests/${name}.ts`,
                 prettier.format(ts, PrettierParser.prettierConfig),
             );
+
+            contentTypeCount.init();
         });
     }
 
@@ -166,12 +177,24 @@ export namespace RequestGenerator {
                     })).json();`;
 
             case 'axios':
+                contentTypeCount[contentType]++;
+
                 return `${(() => {
                     switch (methodType) {
                         case 'get':
-                            return getAxiosGetCode(path, hasBody ? axiosDataMap[contentType] : '{}', `{${configHeader}}`, responseType);
+                            return getAxiosGetCode(
+                                path,
+                                hasBody ? axiosDataMap[contentType] : '{}',
+                                `RequestCommon.${contentType}Config`,
+                                responseType,
+                            );
                         case 'post':
-                            return getAxiosPostCode(path, hasBody ? axiosDataMap[contentType] : '{}', `{${configHeader}}`, responseType);
+                            return getAxiosPostCode(
+                                path,
+                                hasBody ? axiosDataMap[contentType] : '{}',
+                                `RequestCommon.${contentType}Config`,
+                                responseType,
+                            );
                     }
                 })()}`;
         }

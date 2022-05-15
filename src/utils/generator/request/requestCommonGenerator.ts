@@ -8,9 +8,11 @@ export namespace RequestCommonGenerator {
     export function generateCommonCode() {
         const ts = `
             ${getImportAxiosCode()}
-            
+
             export namespace RequestCommon {
                 ${getCreateFormDataCode()}
+                
+                ${getConfigCode()}
                 
                 ${getAxiosCode()}
             }
@@ -44,6 +46,34 @@ export namespace RequestCommonGenerator {
                 });
                 
                 return formData;
+            }
+        `;
+    }
+
+    function getConfigCode(): string {
+        return `
+            ${getJsonConfigCode()}
+            
+            ${getFormDataConfigCode()}
+        `;
+    }
+
+    function getJsonConfigCode(): string {
+        return `export const jsonConfig = {
+            ${getConfigHeaderCode('application/json')}
+        }`;
+    }
+
+    function getFormDataConfigCode(): string {
+        return `export const formDataConfig = {
+            ${getConfigHeaderCode('application/x-www-form-urlencoded')}
+        }`;
+    }
+
+    function getConfigHeaderCode(contentType: string): string {
+        return `
+            headers: {
+                'Content-Type': '${contentType}'
             }
         `;
     }

@@ -20,16 +20,16 @@ function Checkbox(props: CheckboxProps) {
 
     return (
         <>
-            <div className={classNames(className, 'wrapper')} onClick={handleChange}>
-                <div className={classNames('checkbox', checked && 'checked', disabled && 'disabled')}>
-                    {children && <div>{children}</div>}
-                </div>
+            <div className={classNames(className, 'checkbox-wrapper')} onClick={handleChange}>
+                <div className={classNames('checkbox', checked && 'checked', disabled && 'disabled')} />
+                {children}
             </div>
 
             <style jsx>{`
-                .wrapper {
+                .checkbox-wrapper {
                     display: flex;
                     cursor: pointer;
+                    align-items: center;
                 }
 
                 .checkbox {

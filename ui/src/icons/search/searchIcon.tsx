@@ -1,18 +1,29 @@
 import { IconCommonProps } from '@defines/iconCommonProps';
 
-export interface SearchIconProps extends Pick<IconCommonProps, 'width' | 'height' | 'opacity'> {}
+export interface SearchIconProps extends Pick<IconCommonProps, 'opacity' | 'color'> {}
 
-function ArrowIcon(props: SearchIconProps) {
-    const { width = 16, height = 10, opacity = 0 } = props;
+function SearchIcon(props: SearchIconProps) {
+    const { opacity = 0.5, color = '#6a7684' } = props;
 
     return (
         <>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                {/*<defs>*/}
-                {/*    <style>.a{opacity:0.3;}.b{fill:#fff;opacity:0;}.c{fill:#6a7684;}</style>*/}
-                {/*</defs>*/}
+            <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox={'0 0 20 20'}>
+                <defs>
+                    <style>{`
+                        .a {
+                            opacity: ${opacity};
+                        }
+                        .b {
+                            fill: #fff;
+                            opacity: 0;
+                        }.
+                        c {
+                            fill: ${color};
+                        }
+                    `}</style>
+                </defs>
                 <g className="a">
-                    <rect className="b" width="20" height="20" transform="translate(20 20) rotate(180)" />
+                    <rect className="b" width="20" height="20" transform={'translate(20 20) rotate(180)'} />
                     <path
                         className="c"
                         d="M10.791,11.878,11.54,12.9a3.019,3.019,0,0,0,.3.354l3.071,3.015a.5.5,0,0,0,.71,0l.7-.7a.5.5,0,0,0,0-.71L13.3,11.868a2.981,2.981,0,0,0-.429-.356l-1.011-.69"
@@ -25,21 +36,8 @@ function ArrowIcon(props: SearchIconProps) {
                     />
                 </g>
             </svg>
-
-            <style jsx>{`
-                a {
-                    opacity: 0.3;
-                }
-                b {
-                    fill: #fff;
-                    opacity: 0;
-                }
-                c {
-                    fill: #6a7684;
-                }
-            `}</style>
         </>
     );
 }
 
-export default ArrowIcon;
+export default SearchIcon;

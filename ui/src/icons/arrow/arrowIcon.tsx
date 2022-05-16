@@ -1,8 +1,8 @@
 import { IconCommonProps } from '@defines/iconCommonProps';
 
-export interface ArrowProps extends Pick<IconCommonProps, 'width' | 'height'> {}
+export interface ArrowIconProps extends Pick<IconCommonProps, 'width' | 'height'> {}
 
-function ArrowIcon(props: ArrowProps) {
+function ArrowIcon(props: ArrowIconProps) {
     const { width = 16, height = 10 } = props;
 
     return (

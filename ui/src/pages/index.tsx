@@ -1,5 +1,6 @@
 import InputFile from '@components/input-file/inputFile';
-import { PrettierConfig } from '../defines/prettierConfig';
+import SelectBox from '@components/select-box/selectBox';
+import { PrettierConfig } from '@defines/prettierConfig';
 
 function Home() {
     return (
@@ -8,16 +9,40 @@ function Home() {
                 <form>
                     <div className={'row'}>
                         <span>API docs URI</span>
-                        <input placeholder={'https://my-application.net/api-docs'} />
+                        <input className={'uri'} placeholder={'https://my-application.net/api-docs'} />
                     </div>
 
                     <div className={'row'}>
                         <span>prettier 설정 파일(.prettierrc)</span>
-                        <div className={'input-file'}>
+                        <div className={'value'}>
                             <InputFile<PrettierConfig>
                                 acceptableExtensionList={['.prettierrc']}
                                 isFileJson
                                 onChangeFileContent={(fileContent) => console.log(fileContent)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={'row'}>
+                        <span>셀렉트박스 테스트</span>
+                        <div className={'value'}>
+                            <SelectBox
+                                value={[1]}
+                                placeholder={'번호 입력'}
+                                options={(() => {
+                                    let arr = [];
+                                    for (let i = 1; i <= 24; i++) {
+                                        arr.push({
+                                            value: i,
+                                            name: `${i}번`,
+                                        });
+                                    }
+                                    return arr;
+                                })()}
+                                onChange={(value, selected) => {
+                                    console.log(value, selected);
+                                }}
+                                optionSize={10}
                             />
                         </div>
                     </div>
@@ -48,11 +73,11 @@ function Home() {
                     width: 30%;
                 }
 
-                .row .input-file {
+                .row .value {
                     width: 70%;
                 }
 
-                input {
+                .uri {
                     width: 70%;
                     height: 32px;
                     outline: none;
@@ -60,7 +85,7 @@ function Home() {
                     border-radius: 5px;
                     padding: 0 10px;
                 }
-                input:focus {
+                .uri:focus {
                     border: 1px solid cornflowerblue;
                 }
             `}</style>

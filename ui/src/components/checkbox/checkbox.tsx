@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import { assetCheckbox } from '../../../public/assets/checkbox';
+import { assetCheckbox } from '@public/assets/checkbox';
 
 export interface CheckboxProps {
     checked?: boolean;
@@ -35,7 +35,6 @@ function Checkbox(props: CheckboxProps) {
                 .checkbox {
                     border-radius: 5px;
                     border: 2px solid #615d6c;
-                    transition: all 0.2s ease;
                     margin-right: 0.3rem;
                     background-color: white;
                     opacity: 0.7;

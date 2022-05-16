@@ -18,6 +18,15 @@
     "paths": {
       "@components/*": [
         "./components/*"
+      ],
+      "@defines/*": [
+        "./defines/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ],
+      "@public/*": [
+        "../public/*"
       ]
     }
   },

@@ -30,12 +30,7 @@ function SelectBoxOptions() {
                 {placeholder && <SelectBoxSearchBar keyword={keyword} onChange={onChange} searchBarRef={searchBarRef} />}
 
                 <div className={'options-wrapper'}>
-                    <Scrollbars
-                        renderTrackHorizontal={() => <div />}
-                        renderThumbHorizontal={() => <div />}
-                        hideTracksWhenNotNeeded
-                        autoHide
-                    >
+                    <Scrollbars renderTrackHorizontal={() => <div />} renderThumbHorizontal={() => <div />} hideTracksWhenNotNeeded>
                         {filteredOptions.map((option) => (
                             <SelectBoxOption key={option.value} option={option} />
                         ))}

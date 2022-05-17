@@ -9,7 +9,8 @@ export interface SelectBoxSearchBarProps {
 }
 
 function SelectBoxSearchBar(props: SelectBoxSearchBarProps) {
-    const { placeholder } = useSelectBoxContext();
+    const { props: contextProps } = useSelectBoxContext();
+    const { placeholder } = contextProps;
     const { onChange, keyword, searchBarRef } = props;
 
     return (

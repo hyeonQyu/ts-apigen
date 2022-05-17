@@ -4,7 +4,12 @@ import Shortening from '@components/shortening/Shortening';
 import ArrowIcon from '@icons/arrow/arrowIcon';
 
 function SelectBoxHead<T extends number | string>() {
-    const { message = '', isOpened, toggleOpen, disabled } = useSelectBoxContext();
+    const { props, useHook } = useSelectBoxContext();
+    const {
+        values: { message, isOpened },
+        handlers: { toggleOpen },
+    } = useHook;
+    const { disabled } = props;
 
     return (
         <>

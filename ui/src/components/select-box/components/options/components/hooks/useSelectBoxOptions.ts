@@ -1,10 +1,10 @@
 import { MutableRefObject, useEffect, useState } from 'react';
-import { IUseSelectBox } from '@components/select-box/hooks/useSelectBox';
+import { IUseSelectBoxValues } from '@components/select-box/hooks/useSelectBox';
 import { SelectBoxProps } from '@components/select-box/selectBox';
 import { SelectBoxOption } from '@defines/SelectBoxOption';
 
 export interface IUseSelectBoxOptionsParams<T extends number | string>
-    extends Pick<IUseSelectBox<T>, 'isOpened'>,
+    extends Pick<IUseSelectBoxValues<T>, 'isOpened'>,
         Pick<SelectBoxProps<T>, 'options' | 'optionSize' | 'placeholder'> {
     keyword: string;
     setKeyword(keyword: string): void;
@@ -12,10 +12,16 @@ export interface IUseSelectBoxOptionsParams<T extends number | string>
 }
 
 export interface IUseSelectBoxOptions<T extends number | string> {
+    values: IUseSelectBoxOptionsValues<T>;
+}
+
+export interface IUseSelectBoxOptionsValues<T extends number | string> {
     filteredOptions: SelectBoxOption<T>[];
     dropdownHeight: string;
     optionsWrapperHeight: string;
 }
+
+export interface IUseSelectBoxOptionsHandlers {}
 
 export default function useSelectBoxOptions<T extends number | string>(params: IUseSelectBoxOptionsParams<T>): IUseSelectBoxOptions<T> {
     const { keyword, setKeyword, isOpened, options = [], searchBarRef, optionSize = 20, placeholder } = params;
@@ -56,8 +62,10 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
     }, [optionSize, filteredOptions, placeholder]);
 
     return {
-        filteredOptions,
-        dropdownHeight,
-        optionsWrapperHeight,
+        values: {
+            filteredOptions,
+            dropdownHeight,
+            optionsWrapperHeight,
+        },
     };
 }

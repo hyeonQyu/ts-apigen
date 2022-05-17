@@ -7,10 +7,16 @@ import { useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 
 function SelectBoxOptions() {
-    const { options = [], isOpened = false, placeholder, optionSize } = useSelectBoxContext();
+    const { props, useHook } = useSelectBoxContext();
+    const {
+        values: { isOpened },
+    } = useHook;
+    const { options = [], placeholder, optionSize } = props;
     const { value: keyword, setValue: setKeyword, onChange } = useInput();
     const searchBarRef = useRef<HTMLInputElement>(null);
-    const { filteredOptions, dropdownHeight, optionsWrapperHeight } = useSelectBoxOptions({
+    const {
+        values: { filteredOptions, dropdownHeight, optionsWrapperHeight },
+    } = useSelectBoxOptions({
         keyword,
         setKeyword,
         isOpened,
@@ -20,7 +26,7 @@ function SelectBoxOptions() {
         placeholder,
     });
 
-    if (!isOpened) {
+    if (!isOpened || options.length === 0) {
         return null;
     }
 
@@ -47,6 +53,7 @@ function SelectBoxOptions() {
                     height: ${dropdownHeight};
                     top: calc(100% + 10px);
                     border: 1px solid #0070f3;
+                    z-index: 10;
                 }
 
                 .options-wrapper {

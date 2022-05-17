@@ -24,7 +24,7 @@ function Home() {
                     </div>
 
                     <div className={'row'}>
-                        <span>셀렉트박스 테스트</span>
+                        <span>Controller 선택</span>
                         <div className={'value'}>
                             <SelectBox
                                 value={[1]}
@@ -44,6 +44,13 @@ function Home() {
                                 }}
                                 optionSize={10}
                             />
+                        </div>
+                    </div>
+
+                    <div className={'row'}>
+                        <span>HTTP 통신 방식</span>
+                        <div className={'value'}>
+                            <SelectBox value={''} />
                         </div>
                     </div>
                 </form>

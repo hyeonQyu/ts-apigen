@@ -1,5 +1,5 @@
 import { SelectBoxProps } from '@components/select-box/selectBox';
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useState } from 'react';
 
 export interface IUseSelectBoxParams<T extends number | string>
     extends Pick<SelectBoxProps<T>, 'options' | 'value' | 'boxTitle' | 'disabled' | 'onChange'> {
@@ -7,10 +7,18 @@ export interface IUseSelectBoxParams<T extends number | string>
 }
 
 export interface IUseSelectBox<T extends number | string> {
+    values: IUseSelectBoxValues<T>;
+    handlers: IUseSelectBoxHandlers<T>;
+}
+
+export interface IUseSelectBoxValues<T extends number | string> {
     message: string;
     isMultiSelect: boolean;
     selectedValueSet: Set<T>;
     isOpened: boolean;
+}
+
+export interface IUseSelectBoxHandlers<T extends number | string> {
     toggleOpen(): void;
     select(value: T): void;
 }
@@ -114,11 +122,16 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
     };
 
     return {
-        message,
-        isMultiSelect,
-        selectedValueSet,
-        isOpened,
-        toggleOpen,
-        select,
+        values: {
+            message,
+            isMultiSelect,
+            selectedValueSet,
+            isOpened,
+        },
+
+        handlers: {
+            toggleOpen,
+            select,
+        },
     };
 }

@@ -11,8 +11,15 @@ export interface SelectBoxOptionProps<T extends number | string> {
 function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<T>) {
     const { option } = props;
     const { value, name } = option;
-    const { selectedValueSet = new Set<T>(), isMultiSelect, select = () => {} } = useSelectBoxContext();
-    const { handleSelect, selected } = useSelectBoxOption<T>({ select, value, selectedValueSet });
+    const { useHook } = useSelectBoxContext();
+    const {
+        values: { selectedValueSet, isMultiSelect },
+        handlers: { select },
+    } = useHook;
+    const {
+        values: { selected },
+        handlers: { handleSelect },
+    } = useSelectBoxOption<T>({ select, value, selectedValueSet });
 
     return (
         <>

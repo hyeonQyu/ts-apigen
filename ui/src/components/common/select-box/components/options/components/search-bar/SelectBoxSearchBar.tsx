@@ -1,4 +1,4 @@
-import { useSelectBoxContext } from '@components/select-box/context/selectBoxContext';
+import { useSelectBoxContext } from '@components/common/select-box/context/selectBoxContext';
 import { ChangeEventHandler, MutableRefObject } from 'react';
 import SearchIcon from '@icons/search/searchIcon';
 

@@ -1,4 +1,4 @@
-import { SelectBoxProps } from '@components/select-box/selectBox';
+import { SelectBoxProps } from '@components/common/select-box/selectBox';
 import { MutableRefObject, useEffect, useState } from 'react';
 
 export interface IUseSelectBoxParams<T extends number | string>

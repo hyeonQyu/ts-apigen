@@ -1,6 +1,6 @@
-import InputFile from '@components/input-file/inputFile';
-import SelectBox from '@components/select-box/selectBox';
+import SelectBox from '@components/common/select-box/selectBox';
 import { PrettierConfig } from '@defines/prettierConfig';
+import InputFile from '@components/common/input-file/inputFile';
 
 function Home() {
     return (
@@ -50,7 +50,13 @@ function Home() {
                     <div className={'row'}>
                         <span>HTTP 통신 방식</span>
                         <div className={'value'}>
-                            <SelectBox value={''} />
+                            <SelectBox
+                                value={''}
+                                options={[
+                                    { value: 'axios', name: 'axios' },
+                                    { value: 'fetch', name: 'fetch' },
+                                ]}
+                            />
                         </div>
                     </div>
                 </form>

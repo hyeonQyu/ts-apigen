@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { SelectBoxContext } from './context/selectBoxContext';
-import SelectBoxHead from '@components/select-box/components/head/SelectBoxHead';
+import SelectBoxHead from '@components/common/select-box/components/head/SelectBoxHead';
 import { SelectBoxOption } from '@defines/SelectBoxOption';
-import useSelectBox from '@components/select-box/hooks/useSelectBox';
-import SelectBoxOptions from '@components/select-box/components/options/SelectBoxOptions';
+import useSelectBox from '@components/common/select-box/hooks/useSelectBox';
+import SelectBoxOptions from '@components/common/select-box/components/options/SelectBoxOptions';
 
 export interface SelectBoxProps<T extends number | string> {
     /** 선택할 수 있는 항목 목록 */

@@ -1,6 +1,6 @@
 import React from 'react';
-import { SelectBoxProps } from '@components/select-box/selectBox';
-import { IUseSelectBox } from '@components/select-box/hooks/useSelectBox';
+import { SelectBoxProps } from '@components/common/select-box/selectBox';
+import { IUseSelectBox } from '@components/common/select-box/hooks/useSelectBox';
 
 export interface ISelectBoxContext<T extends string | number> {
     props: Omit<SelectBoxProps<T>, 'width'>;

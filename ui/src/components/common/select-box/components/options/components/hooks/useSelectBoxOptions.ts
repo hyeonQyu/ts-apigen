@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useState } from 'react';
-import { IUseSelectBoxValues } from '@components/select-box/hooks/useSelectBox';
-import { SelectBoxProps } from '@components/select-box/selectBox';
+import { IUseSelectBoxValues } from '@components/common/select-box/hooks/useSelectBox';
+import { SelectBoxProps } from '@components/common/select-box/selectBox';
 import { SelectBoxOption } from '@defines/SelectBoxOption';
 
 export interface IUseSelectBoxOptionsParams<T extends number | string>
@@ -28,6 +28,8 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [dropdownHeight, setDropdownHeight] = useState('100%');
     const [optionsWrapperHeight, setOptionsWrapperHeight] = useState('100%');
+
+    useEffect(() => {});
 
     // 필터링 검색어 제거
     useEffect(() => {

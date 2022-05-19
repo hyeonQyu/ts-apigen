@@ -1,5 +1,5 @@
 import { MutableRefObject, useEffect, useState } from 'react';
-import { InputFileProps } from '@components/input-file/inputFile';
+import { InputFileProps } from '@components/common/input-file/inputFile';
 
 export interface IUseInputFileParams<T> extends InputFileProps<T> {
     inputRef: MutableRefObject<HTMLInputElement | null>;

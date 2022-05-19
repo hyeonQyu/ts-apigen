@@ -1,7 +1,7 @@
 import { SelectBoxOption } from '@defines/SelectBoxOption';
-import { useSelectBoxContext } from '@components/select-box/context/selectBoxContext';
-import Checkbox from '@components/checkbox/checkbox';
-import useSelectBoxOption from '@components/select-box/components/options/components/option/hooks/useSelectBoxOption';
+import { useSelectBoxContext } from '@components/common/select-box/context/selectBoxContext';
+import Checkbox from '@components/common/checkbox/checkbox';
+import useSelectBoxOption from '@components/common/select-box/components/options/components/option/hooks/useSelectBoxOption';
 import classNames from 'classnames';
 
 export interface SelectBoxOptionProps<T extends number | string> {

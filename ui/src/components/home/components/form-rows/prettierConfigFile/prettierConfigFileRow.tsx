@@ -1,10 +1,11 @@
 import InputFile from '@components/common/input-file/inputFile';
 import { PrettierConfig } from '@defines/prettierConfig';
+import { IUseHomeHandlers, IUseHomeValues } from '@components/home/hooks/useHome';
 
-export interface PrettierConfigFileRowProps {}
+export interface PrettierConfigFileRowProps extends Pick<IUseHomeValues, 'prettierConfig'>, Pick<IUseHomeHandlers, 'setPrettierConfig'> {}
 
 function PrettierConfigFileRow(props: PrettierConfigFileRowProps) {
-    const {} = props;
+    const { prettierConfig, setPrettierConfig } = props;
 
     return (
         <>
@@ -14,7 +15,7 @@ function PrettierConfigFileRow(props: PrettierConfigFileRowProps) {
                     <InputFile<PrettierConfig>
                         acceptableExtensionList={['.prettierrc']}
                         isFileJson
-                        onChangeFileContent={(fileContent) => console.log(fileContent)}
+                        onChangeFileContent={setPrettierConfig}
                     />
                 </div>
             </div>

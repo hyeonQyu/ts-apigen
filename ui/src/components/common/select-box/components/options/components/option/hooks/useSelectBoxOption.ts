@@ -1,8 +1,10 @@
 import { IUseSelectBoxHandlers, IUseSelectBoxValues } from '@components/common/select-box/hooks/useSelectBox';
+import { SelectBoxOptionProps } from '@components/common/select-box/components/options/components/option/SelectBoxOption';
 
 export interface IUseSelectBoxOptionParams<T extends number | string>
     extends Pick<IUseSelectBoxHandlers<T>, 'select'>,
-        Pick<IUseSelectBoxValues<T>, 'selectedValueSet'> {
+        Pick<IUseSelectBoxValues<T>, 'selectedValueSet'>,
+        Pick<SelectBoxOptionProps<T>, 'index'> {
     value: T;
 }
 
@@ -20,10 +22,10 @@ export interface IUseSelectBoxOptionHandlers {
 }
 
 export default function useSelectBoxOption<T extends number | string>(params: IUseSelectBoxOptionParams<T>): IUseSelectBoxOption {
-    const { select, value, selectedValueSet } = params;
+    const { select, value, selectedValueSet, index } = params;
 
     const handleSelect = () => {
-        select(value);
+        select(value, index);
     };
 
     const selected = selectedValueSet.has(value);

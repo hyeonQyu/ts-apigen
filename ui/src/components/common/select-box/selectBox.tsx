@@ -25,7 +25,7 @@ export interface SelectBoxProps<T extends number | string> {
     disabled?: boolean;
 
     /** 특정 옵션 선택 시 실행되는 콜백 */
-    onChange?(value: T, selected?: boolean): void;
+    onChange?: (value: T, selected?: boolean, index?: number) => void;
 
     /** 한번에 보이는 option 최대 갯수 */
     optionSize?: number;

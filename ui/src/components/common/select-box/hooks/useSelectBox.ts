@@ -20,7 +20,7 @@ export interface IUseSelectBoxValues<T extends number | string> {
 
 export interface IUseSelectBoxHandlers<T extends number | string> {
     toggleOpen(): void;
-    select(value: T): void;
+    select(value: T, index: number): void;
 }
 
 export default function useSelectBox<T extends number | string>(params: IUseSelectBoxParams<T>): IUseSelectBox<T> {
@@ -113,12 +113,12 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
         setIsOpened((prev) => !prev);
     };
 
-    const select = (value: T) => {
+    const select = (value: T, index: number) => {
         if (disabled) {
             return;
         }
 
-        onChange(value, !selectedValueSet.has(value));
+        onChange(value, !selectedValueSet.has(value), index);
     };
 
     return {

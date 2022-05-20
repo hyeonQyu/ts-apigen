@@ -37,8 +37,8 @@ function SelectBoxOptions() {
 
                 <div className={'options-wrapper'}>
                     <Scrollbars renderTrackHorizontal={() => <div />} renderThumbHorizontal={() => <div />} hideTracksWhenNotNeeded>
-                        {filteredOptions.map((option) => (
-                            <SelectBoxOption key={option.value} option={option} />
+                        {filteredOptions.map((option, i) => (
+                            <SelectBoxOption key={option.value} option={option} index={i} />
                         ))}
                     </Scrollbars>
                 </div>

@@ -6,10 +6,11 @@ import classNames from 'classnames';
 
 export interface SelectBoxOptionProps<T extends number | string> {
     option: SelectBoxOption<T>;
+    index: number;
 }
 
 function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<T>) {
-    const { option } = props;
+    const { option, index } = props;
     const { value, name } = option;
     const { useHook } = useSelectBoxContext();
     const {
@@ -19,7 +20,7 @@ function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<
     const {
         values: { selected },
         handlers: { handleSelect },
-    } = useSelectBoxOption<T>({ select, value, selectedValueSet });
+    } = useSelectBoxOption<T>({ select, value, selectedValueSet, index });
 
     return (
         <>

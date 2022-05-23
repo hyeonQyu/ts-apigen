@@ -33,13 +33,15 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
 
     const { data } = useQuery(
-        'controllers',
+        ['controllers', uri],
         () => {
             setIsLoadController(false);
             return Api.getControllers({ docsUri: uri });
         },
         {
-            enabled: isLoadController,
+            enabled: !!uri && isLoadController,
+            staleTime: 300000,
+            refetchOnWindowFocus: false,
         },
     );
     const controllerNames = data?.controllerNames ?? [];

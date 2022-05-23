@@ -11,6 +11,7 @@ export interface IUseApiDocsUriValues {}
 
 export interface IUseApiDocsUriHandlers {
     handleBlur: () => void;
+    handleFocus: () => void;
 }
 
 export default function useApiDocsUri(params: IUseApiDocsUriParams): IUseApiDocsUri {
@@ -20,10 +21,15 @@ export default function useApiDocsUri(params: IUseApiDocsUriParams): IUseApiDocs
         setIsLoadController(true);
     };
 
+    const handleFocus = () => {
+        setIsLoadController(false);
+    };
+
     return {
         values: {},
         handlers: {
             handleBlur,
+            handleFocus,
         },
     };
 }

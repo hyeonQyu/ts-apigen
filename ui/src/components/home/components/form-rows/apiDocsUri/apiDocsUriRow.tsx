@@ -8,7 +8,7 @@ function ApiDocsUriRow(props: ApiDocsUriRowProps) {
     const { uri, setUri, setIsLoadController } = props;
     const { onChange } = useInput({ value: uri, setValue: setUri });
     const {
-        handlers: { handleBlur },
+        handlers: { handleBlur, handleFocus },
     } = useApiDocsUri({ setIsLoadController });
 
     return (
@@ -21,6 +21,7 @@ function ApiDocsUriRow(props: ApiDocsUriRowProps) {
                     value={uri}
                     onChange={onChange}
                     onBlur={handleBlur}
+                    onFocus={handleFocus}
                 />
             </div>
 

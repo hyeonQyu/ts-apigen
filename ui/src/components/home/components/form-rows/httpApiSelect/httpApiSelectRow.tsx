@@ -1,6 +1,6 @@
 import SelectBox from '@components/common/select-box/selectBox';
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/hooks/useHome';
-import useHttpApiSelectRow from '@components/home/components/form-rows/httpApiSelect/hooks/useHttpApiSelectRow';
+import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
+import useHttpApiSelectRow from '@components/home/components/form-rows/httpApiSelect/useHttpApiSelectRow';
 
 export interface HttpApiSelectRowProps extends Pick<IUseHomeValues, 'httpApiType'>, Pick<IUseHomeHandlers, 'setHttpApiType'> {}
 

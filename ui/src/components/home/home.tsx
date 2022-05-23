@@ -2,7 +2,7 @@ import ApiDocsUriRow from '@components/home/components/form-rows/apiDocsUri/apiD
 import PrettierConfigFileRow from '@components/home/components/form-rows/prettierConfigFile/prettierConfigFileRow';
 import ControllerSelectRow from '@components/home/components/form-rows/controllerSelect/controllerSelectRow';
 import HttpApiSelectRow from '@components/home/components/form-rows/httpApiSelect/httpApiSelectRow';
-import useHome from '@components/home/hooks/useHome';
+import useHome from '@components/home/useHome';
 
 function Home() {
     const {

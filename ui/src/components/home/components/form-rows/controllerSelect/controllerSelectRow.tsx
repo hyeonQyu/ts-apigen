@@ -1,6 +1,6 @@
 import SelectBox from '@components/common/select-box/selectBox';
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/hooks/useHome';
-import useControllerSelectRow from '@components/home/components/form-rows/controllerSelect/hooks/useControllerSelectRow';
+import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
+import useControllerSelectRow from '@components/home/components/form-rows/controllerSelect/useControllerSelectRow';
 
 export interface ControllerSelectRowProps extends Pick<IUseHomeValues, 'controllers'>, Pick<IUseHomeHandlers, 'setControllers'> {}
 

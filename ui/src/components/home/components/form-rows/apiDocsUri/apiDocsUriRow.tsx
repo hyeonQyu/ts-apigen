@@ -1,4 +1,4 @@
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/hooks/useHome';
+import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
 import useInput from '@hooks/useInput';
 
 export interface ApiDocsUriRowProps extends Pick<IUseHomeValues, 'uri'>, Pick<IUseHomeHandlers, 'setUri'> {}

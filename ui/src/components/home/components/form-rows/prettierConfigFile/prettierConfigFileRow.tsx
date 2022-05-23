@@ -1,6 +1,6 @@
 import InputFile from '@components/common/input-file/inputFile';
 import { PrettierConfig } from '@defines/prettierConfig';
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/hooks/useHome';
+import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
 
 export interface PrettierConfigFileRowProps extends Pick<IUseHomeValues, 'prettierConfig'>, Pick<IUseHomeHandlers, 'setPrettierConfig'> {}
 

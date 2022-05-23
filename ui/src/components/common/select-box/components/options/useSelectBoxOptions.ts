@@ -1,5 +1,5 @@
 import { MutableRefObject, useEffect, useState } from 'react';
-import { IUseSelectBoxValues } from '@components/common/select-box/hooks/useSelectBox';
+import { IUseSelectBoxValues } from '@components/common/select-box/useSelectBox';
 import { SelectBoxProps } from '@components/common/select-box/selectBox';
 import { SelectBoxOption } from '@defines/SelectBoxOption';
 

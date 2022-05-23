@@ -1,4 +1,4 @@
-import { IUseSelectBoxHandlers, IUseSelectBoxValues } from '@components/common/select-box/hooks/useSelectBox';
+import { IUseSelectBoxHandlers, IUseSelectBoxValues } from '@components/common/select-box/useSelectBox';
 import { SelectBoxOptionProps } from '@components/common/select-box/components/options/components/option/SelectBoxOption';
 
 export interface IUseSelectBoxOptionParams<T extends number | string>

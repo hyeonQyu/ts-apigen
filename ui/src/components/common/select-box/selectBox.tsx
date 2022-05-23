@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { SelectBoxContext } from './context/selectBoxContext';
 import SelectBoxHead from '@components/common/select-box/components/head/SelectBoxHead';
 import { SelectBoxOption } from '@defines/SelectBoxOption';
-import useSelectBox from '@components/common/select-box/hooks/useSelectBox';
+import useSelectBox from '@components/common/select-box/useSelectBox';
 import SelectBoxOptions from '@components/common/select-box/components/options/SelectBoxOptions';
 
 export interface SelectBoxProps<T extends number | string> {

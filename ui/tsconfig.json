@@ -28,6 +28,9 @@
       "@icons/*": [
         "./icons/*"
       ],
+      "@requests/*": [
+        "./requests/*"
+      ],
       "@public/*": [
         "../public/*"
       ]

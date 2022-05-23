@@ -13,6 +13,7 @@ export interface IUseSelectBoxOptionsParams<T extends number | string>
 
 export interface IUseSelectBoxOptions<T extends number | string> {
     values: IUseSelectBoxOptionsValues<T>;
+    handlers: IUseSelectBoxOptionsHandlers;
 }
 
 export interface IUseSelectBoxOptionsValues<T extends number | string> {
@@ -45,7 +46,7 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
             return;
         }
         setFilteredOptions(options.filter(({ name }) => name.indexOf(keyword) > -1));
-    }, [keyword]);
+    }, [keyword, options]);
 
     // 필터링 검색바 focus
     useEffect(() => {
@@ -69,5 +70,6 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
             dropdownHeight,
             optionsWrapperHeight,
         },
+        handlers: {},
     };
 }

@@ -20,7 +20,9 @@ export namespace Api {
     }
 
     export async function response(app: any) {
-        /** 컨트롤러 목록 반환 */
+        /**
+         * 컨트롤러 목록 반환
+         */
         doCommonResponse<ControllersReq, ControllersRes>(app, 'controllers', 'get', async (req, res) => {
             const { docsUri } = req.query;
 
@@ -32,7 +34,9 @@ export namespace Api {
             res.send({ controllerNames: ApigenConfig.tagsToControllerNames(tags) });
         });
 
-        /** 코드 생성 */
+        /**
+         * 코드 생성
+         */
         doCommonResponse(app, 'generate', 'post', async (req, res) => {});
     }
 

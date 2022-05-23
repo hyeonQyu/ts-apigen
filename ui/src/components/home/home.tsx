@@ -6,17 +6,17 @@ import useHome from '@components/home/useHome';
 
 function Home() {
     const {
-        values: { uri, prettierConfig, controllers, httpApiType },
-        handlers: { setUri, setPrettierConfig, setControllers, setHttpApiType },
+        values: { uri, prettierConfig, controllerNames, httpApiType },
+        handlers: { setUri, setIsLoadController, setPrettierConfig, setHttpApiType },
     } = useHome();
 
     return (
         <>
             <div className={'wrapper'}>
                 <form>
-                    <ApiDocsUriRow uri={uri} setUri={setUri} />
+                    <ApiDocsUriRow uri={uri} setUri={setUri} setIsLoadController={setIsLoadController} />
                     <PrettierConfigFileRow prettierConfig={prettierConfig} setPrettierConfig={setPrettierConfig} />
-                    <ControllerSelectRow controllers={controllers} setControllers={setControllers} />
+                    <ControllerSelectRow controllerNames={controllerNames} />
                     <HttpApiSelectRow httpApiType={httpApiType} setHttpApiType={setHttpApiType} />
                 </form>
             </div>

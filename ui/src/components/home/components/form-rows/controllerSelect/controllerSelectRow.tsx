@@ -1,14 +1,16 @@
 import SelectBox from '@components/common/select-box/selectBox';
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
+import { IUseHomeValues } from '@components/home/useHome';
 import useControllerSelectRow from '@components/home/components/form-rows/controllerSelect/useControllerSelectRow';
 
-export interface ControllerSelectRowProps extends Pick<IUseHomeValues, 'controllers'>, Pick<IUseHomeHandlers, 'setControllers'> {}
+export interface ControllerSelectRowProps extends Pick<IUseHomeValues, 'controllerNames'> {}
 
 function ControllerSelectRow(props: ControllerSelectRowProps) {
     const {
         values: { controllerOptions, selectedControllerNames },
         handlers: { handleChangeSelectedOptions },
     } = useControllerSelectRow(props);
+
+    console.log(controllerOptions);
 
     return (
         <>

@@ -1,6 +1,7 @@
 import { SelectBoxOption } from '@defines/SelectBoxOption';
 import { ControllerSelectRowProps } from '@components/home/components/form-rows/controllerSelect/controllerSelectRow';
 import { useEffect, useState } from 'react';
+import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
 
 export interface IUseControllerSelectRowParams extends ControllerSelectRowProps {}
 
@@ -19,13 +20,23 @@ export interface IUseControllerSelectRowHandlers {
 }
 
 export default function useControllerSelectRow(params: IUseControllerSelectRowParams): IUseControllerSelectRow {
-    const { controllers, setControllers } = params;
-    const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>([]);
-    const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>([]);
+    const { controllerNames } = params;
+
+    const controllerNamesToControllers: () => ControllerOptionInfo[] = () => controllerNames.map((name) => ({ name, checked: false }));
+    const controllersToControllerOptions: () => SelectBoxOption<string>[] = () => controllers.map(({ name }) => ({ name, value: name }));
+    const controllersToSelectedControllerNames: () => string[] = () => controllers.filter(({ checked }) => checked).map(({ name }) => name);
+
+    const [controllers, setControllers] = useState<ControllerOptionInfo[]>(controllerNamesToControllers);
+    const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>(controllersToControllerOptions());
+    const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>(controllersToSelectedControllerNames());
 
     useEffect(() => {
-        setControllerOptions(controllers.map(({ name }) => ({ name, value: name })));
-        setSelectedControllerNames(controllers.filter(({ checked }) => checked).map(({ name }) => name));
+        setControllers(controllerNamesToControllers());
+    }, [controllerNames]);
+
+    useEffect(() => {
+        setControllerOptions(controllersToControllerOptions());
+        setSelectedControllerNames(controllersToSelectedControllerNames());
     }, [controllers]);
 
     const handleChangeSelectedOptions = (value: string, selected: boolean = true) => {

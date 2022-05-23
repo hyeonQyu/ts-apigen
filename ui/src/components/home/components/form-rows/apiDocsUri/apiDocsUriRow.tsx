@@ -1,17 +1,27 @@
 import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
 import useInput from '@hooks/useInput';
+import useApiDocsUri from '@components/home/components/form-rows/apiDocsUri/useApiDocsUri';
 
-export interface ApiDocsUriRowProps extends Pick<IUseHomeValues, 'uri'>, Pick<IUseHomeHandlers, 'setUri'> {}
+export interface ApiDocsUriRowProps extends Pick<IUseHomeValues, 'uri'>, Pick<IUseHomeHandlers, 'setUri' | 'setIsLoadController'> {}
 
 function ApiDocsUriRow(props: ApiDocsUriRowProps) {
-    const { uri, setUri } = props;
+    const { uri, setUri, setIsLoadController } = props;
     const { onChange } = useInput({ value: uri, setValue: setUri });
+    const {
+        handlers: { handleBlur },
+    } = useApiDocsUri({ setIsLoadController });
 
     return (
         <>
             <div className={'row'}>
                 <span>API docs URI</span>
-                <input className={'uri'} placeholder={'https://my-application.net/api-docs'} value={uri} onChange={onChange} />
+                <input
+                    className={'uri'}
+                    placeholder={'https://my-application.net/api-docs'}
+                    value={uri}
+                    onChange={onChange}
+                    onBlur={handleBlur}
+                />
             </div>
 
             <style jsx>{`

@@ -1,4 +1,4 @@
-import { IDefinitions } from '../../defines/swaggerJson';
+import { IDefinitions } from '../../defines/openApi';
 import { ModelInfo, TypeInfo } from '../../defines/modelInfo';
 import { TypeNameParser } from './typeNameParser';
 

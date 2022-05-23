@@ -2,7 +2,7 @@ import { ApiInfo, ByContentType, ControllerInfo, RequestInfo, ResponseInfo } fro
 import { ApigenConfig } from '../../../config/apigenConfig';
 import { ImportGenerator } from '../import/importGenerator';
 import { PrettierParser } from '../../parser/prettierParser';
-import { MethodType } from '../../../defines/swaggerJson';
+import { MethodType } from '../../../defines/openApi';
 import { RequestCommonGenerator } from './requestCommonGenerator';
 
 const prettier = require('prettier');

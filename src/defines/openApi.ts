@@ -1,4 +1,4 @@
-export interface SwaggerJson {
+export interface OpenApi {
     tags: ITag[];
     paths: IPaths;
     definitions: IDefinitions;

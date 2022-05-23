@@ -1,4 +1,4 @@
-import { SwaggerJson } from '../defines/swaggerJson';
+import { OpenApi } from '../defines/openApi';
 import { ModelParser } from './parser/modelParser';
 import { ControllerParser } from './parser/controllerParser';
 import { ModelGenerator } from './generator/model/modelGenerator';
@@ -6,9 +6,9 @@ import { RequestGenerator } from './generator/request/requestGenerator';
 import { ApigenConfig } from '../config/apigenConfig';
 
 export namespace SwaggerProcessor {
-    export function generateCode(swaggerJson: SwaggerJson) {
+    export function generateCode(swaggerJson: OpenApi) {
         const { paths, definitions, tags } = swaggerJson;
-        ApigenConfig.setControllerList(tags);
+        ApigenConfig.setControllerNames(tags);
 
         console.log('----------------------------------Swagger row 데이터----------------------------------');
         console.log('definitions', definitions);

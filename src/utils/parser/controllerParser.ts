@@ -1,5 +1,5 @@
 import { ApigenConfig } from '../../config/apigenConfig';
-import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '../../defines/swaggerJson';
+import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '../../defines/openApi';
 import { ApiInfo, ControllerInfo, JsonBody, MethodInfo, QueryParam, ResponseInfo, RequestInfo } from '../../defines/controllerInfo';
 import { TypeNameParser } from './typeNameParser';
 import { CaseStyleFormatter } from '../string/caseStyleFormatter';
@@ -8,7 +8,7 @@ export namespace ControllerParser {
     // 컨트롤러마다 API 정보 리스트를 가짐
     export function getControllerInfoByController(paths: IPaths): Map<string, ControllerInfo> {
         const controllerInfoByController = new Map<string, ControllerInfo>();
-        const controllerSet = new Set<string>(ApigenConfig.config.controllerList ?? []);
+        const controllerSet = new Set<string>(ApigenConfig.config.controllerNames ?? []);
 
         Object.entries(paths).forEach(([path, restApi]) => {
             const controller: string = getController(restApi);

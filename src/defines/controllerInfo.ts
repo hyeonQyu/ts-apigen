@@ -1,4 +1,4 @@
-import { MethodType, PrimitiveTypes } from './swaggerJson';
+import { MethodType, PrimitiveTypes } from './openApi';
 
 export interface ControllerInfo {
     refSet: Set<string>;

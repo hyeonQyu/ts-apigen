@@ -10,8 +10,6 @@ function ControllerSelectRow(props: ControllerSelectRowProps) {
         handlers: { handleChangeSelectedOptions },
     } = useControllerSelectRow(props);
 
-    console.log(controllerOptions);
-
     return (
         <>
             <div className={'row'}>

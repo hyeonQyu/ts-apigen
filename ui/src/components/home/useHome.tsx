@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { PrettierConfig } from '@defines/prettierConfig';
 import { HttpApiType } from '@defines/httpApiType';
 import { Api } from '@requests/apis/api';
@@ -43,13 +43,6 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         },
     );
     const controllerNames = data?.controllerNames ?? [];
-
-    useEffect(() => {
-        (async () => {
-            const { controllerNames } = await Api.getControllers({ docsUri: 'http://localhost:8080/v2/api-docs' });
-            console.log('controllerNames', controllerNames);
-        })();
-    }, []);
 
     return {
         values: {

@@ -119,7 +119,9 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
         }
 
         onChange(value, !selectedValueSet.has(value), index);
-        setIsOpened(false);
+        if (!isMultiSelect) {
+            setIsOpened(false);
+        }
     };
 
     return {

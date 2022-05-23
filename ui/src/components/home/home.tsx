@@ -6,8 +6,8 @@ import useHome from '@components/home/useHome';
 
 function Home() {
     const {
-        values: { uri, prettierConfig, controllerNames, httpApiType },
-        handlers: { setUri, setIsLoadController, setPrettierConfig, setHttpApiType },
+        values: { uri, prettierConfig, controllers, selectedControllerNames, httpApiType },
+        handlers: { setUri, setIsLoadController, setPrettierConfig, setControllers, setHttpApiType },
     } = useHome();
 
     return (
@@ -16,7 +16,11 @@ function Home() {
                 <form>
                     <ApiDocsUriRow uri={uri} setUri={setUri} setIsLoadController={setIsLoadController} />
                     <PrettierConfigFileRow prettierConfig={prettierConfig} setPrettierConfig={setPrettierConfig} />
-                    <ControllerSelectRow controllerNames={controllerNames} />
+                    <ControllerSelectRow
+                        controllers={controllers}
+                        setControllers={setControllers}
+                        selectedControllerNames={selectedControllerNames}
+                    />
                     <HttpApiSelectRow httpApiType={httpApiType} setHttpApiType={setHttpApiType} />
                 </form>
             </div>

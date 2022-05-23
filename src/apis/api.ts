@@ -28,10 +28,14 @@ export namespace Api {
 
             ApigenConfig.setApiDocsUri(docsUri);
 
-            openApiData = await getOpenApiData();
-            const { tags } = openApiData;
-
-            res.send({ controllerNames: ApigenConfig.tagsToControllerNames(tags) });
+            try {
+                openApiData = await getOpenApiData();
+                const { tags } = openApiData;
+                res.send({ controllerNames: ApigenConfig.tagsToControllerNames(tags) });
+            } catch (e) {
+                console.error('/controllers', e);
+                res.status(500).send({ controllerNames: [] });
+            }
         });
 
         /**
@@ -51,13 +55,8 @@ export namespace Api {
         callback: (req: Request<ParamsDictionary, any, any, Req>, res: Response<Res>) => void,
     ) {
         app[method](`/api/${path}`, async (req: Request<ParamsDictionary, any, any, Req>, res: Response<Res>) => {
-            console.log(`\nrequest: ${path}`);
-            try {
-                await callback(req, res);
-                console.log('response 성공\n');
-            } catch (e) {
-                console.error(`${path} 응답 중 에러 발생`, e);
-            }
+            console.log(`\nrequest: /${path}`);
+            await callback(req, res);
         });
     }
 }

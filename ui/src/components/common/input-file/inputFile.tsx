@@ -19,7 +19,9 @@ function InputFile<T>(props: InputFileProps<T>) {
     return (
         <>
             <div>
-                <button onClick={handleSelectFile}>파일 선택</button>
+                <button onClick={handleSelectFile} type={'button'}>
+                    파일 선택
+                </button>
                 <span>{text}</span>
                 <input type={'file'} ref={ref} accept={acceptableExtensionList.join()} />
             </div>

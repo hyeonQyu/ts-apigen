@@ -3,16 +3,17 @@ export interface LabelProps {
     onClickDelete?: () => void;
     backgroundColor?: string;
     fontColor?: string;
+    className?: string;
 }
 
 function Label(props: LabelProps) {
-    const { children, onClickDelete, backgroundColor = '#5192f1', fontColor = '#fff' } = props;
+    const { children, onClickDelete, backgroundColor = '#5192f1', fontColor = '#fff', className } = props;
 
     return (
         <>
-            <label>
+            <label className={className}>
                 <span>{children}</span>
-                {onClickDelete && <button className={'close'} onClick={onClickDelete} />}
+                {onClickDelete && <button className={'delete'} onClick={onClickDelete} />}
             </label>
 
             <style jsx>{`
@@ -26,7 +27,7 @@ function Label(props: LabelProps) {
                     align-items: center;
                 }
 
-                .close {
+                .delete {
                     background: none;
                     border: none;
                     margin-left: 4px;
@@ -35,8 +36,8 @@ function Label(props: LabelProps) {
                     height: 14px;
                     cursor: pointer;
                 }
-                .close:before,
-                .close:after {
+                .delete:before,
+                .delete:after {
                     position: absolute;
                     content: '';
                     height: 100%;
@@ -44,10 +45,10 @@ function Label(props: LabelProps) {
                     background: ${fontColor};
                     top: 0;
                 }
-                .close:before {
+                .delete:before {
                     transform: rotate(45deg);
                 }
-                .close:after {
+                .delete:after {
                     transform: rotate(-45deg);
                 }
             `}</style>

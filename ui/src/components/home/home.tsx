@@ -3,6 +3,7 @@ import PrettierConfigFileRow from '@components/home/components/form-rows/prettie
 import ControllerSelectRow from '@components/home/components/form-rows/controllerSelect/controllerSelectRow';
 import HttpApiSelectRow from '@components/home/components/form-rows/httpApiSelect/httpApiSelectRow';
 import useHome from '@components/home/useHome';
+import ControllerLabelContainer from '@components/home/components/controller-label-container/controllerLabelContainer';
 
 function Home() {
     const {
@@ -13,16 +14,22 @@ function Home() {
     return (
         <>
             <div className={'wrapper'}>
-                <form>
-                    <ApiDocsUriRow uri={uri} setUri={setUri} setIsLoadController={setIsLoadController} />
-                    <PrettierConfigFileRow prettierConfig={prettierConfig} setPrettierConfig={setPrettierConfig} />
-                    <ControllerSelectRow
-                        controllers={controllers}
-                        setControllers={setControllers}
-                        selectedControllerNames={selectedControllerNames}
-                    />
-                    <HttpApiSelectRow httpApiType={httpApiType} setHttpApiType={setHttpApiType} />
-                </form>
+                <div>
+                    <form>
+                        <ApiDocsUriRow uri={uri} setUri={setUri} setIsLoadController={setIsLoadController} />
+                        <PrettierConfigFileRow prettierConfig={prettierConfig} setPrettierConfig={setPrettierConfig} />
+                        <ControllerSelectRow
+                            controllers={controllers}
+                            setControllers={setControllers}
+                            selectedControllerNames={selectedControllerNames}
+                        />
+                        <HttpApiSelectRow httpApiType={httpApiType} setHttpApiType={setHttpApiType} />
+                    </form>
+
+                    <div className={'label-wrapper'}>
+                        <ControllerLabelContainer selectedControllerNames={selectedControllerNames} setControllers={setControllers} />
+                    </div>
+                </div>
             </div>
 
             <style jsx global>{`
@@ -32,7 +39,8 @@ function Home() {
                     padding: 20px;
                 }
 
-                form {
+                form,
+                .label-wrapper {
                     width: 500px;
                 }
                 form > * {
@@ -51,6 +59,10 @@ function Home() {
 
                 .row .value {
                     width: 70%;
+                }
+
+                .label-wrapper {
+                    margin-top: 40px;
                 }
             `}</style>
         </>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { PrettierConfig } from '@defines/prettierConfig';
 import { HttpApiType } from '@defines/httpApiType';
 import { Api } from '@requests/apis/api';
@@ -22,10 +22,10 @@ export interface IUseHomeValues {
 
 export interface IUseHomeHandlers {
     setUri: (uri: string) => void;
-    setIsLoadController: (isLoad: boolean) => void;
-    setPrettierConfig: (prettierConfig: PrettierConfig | null) => void;
-    setControllers: (controllers: ControllerOptionInfo[]) => void;
-    setHttpApiType: (httpApiType: HttpApiType) => void;
+    setIsLoadController: Dispatch<SetStateAction<boolean>>;
+    setPrettierConfig: Dispatch<SetStateAction<PrettierConfig | null>>;
+    setControllers: Dispatch<SetStateAction<ControllerOptionInfo[]>>;
+    setHttpApiType: Dispatch<SetStateAction<HttpApiType>>;
 }
 
 export default function useHome(/*params: IUseHomeParams*/): IUseHome {

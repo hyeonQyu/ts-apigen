@@ -7,30 +7,23 @@ import ControllerLabelContainer from '@components/home/components/controller-lab
 import Header from '@components/home/components/header/header';
 
 function Home() {
-    const {
-        values: { uri, prettierConfig, controllers, selectedControllerNames, httpApiType },
-        handlers: { setUri, setIsLoadController, setPrettierConfig, setControllers, setHttpApiType },
-    } = useHome();
+    const { values, handlers } = useHome();
 
     return (
         <>
-            <Header />
+            <Header {...values} {...handlers} />
 
             <div className={'wrapper'}>
                 <div>
                     <form>
-                        <ApiDocsUriRow uri={uri} setUri={setUri} setIsLoadController={setIsLoadController} />
-                        <PrettierConfigFileRow prettierConfig={prettierConfig} setPrettierConfig={setPrettierConfig} />
-                        <ControllerSelectRow
-                            controllers={controllers}
-                            setControllers={setControllers}
-                            selectedControllerNames={selectedControllerNames}
-                        />
-                        <HttpApiSelectRow httpApiType={httpApiType} setHttpApiType={setHttpApiType} />
+                        <ApiDocsUriRow {...values} {...handlers} />
+                        <PrettierConfigFileRow {...values} {...handlers} />
+                        <ControllerSelectRow {...values} {...handlers} />
+                        <HttpApiSelectRow {...values} {...handlers} />
                     </form>
 
                     <div className={'label-wrapper'}>
-                        <ControllerLabelContainer selectedControllerNames={selectedControllerNames} setControllers={setControllers} />
+                        <ControllerLabelContainer {...values} {...handlers} />
                     </div>
                 </div>
             </div>

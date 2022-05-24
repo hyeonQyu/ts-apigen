@@ -1,15 +1,19 @@
-export interface HeaderProps {}
+import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
+import useHeader from '@components/home/components/header/useHeader';
+
+export interface HeaderProps extends IUseHomeValues, Pick<IUseHomeHandlers, 'setControllers'> {}
 
 function Header(props: HeaderProps) {
-    const {} = props;
+    const {
+        handlers: { handleClickInitSelectedController, handleClickGenerateCode },
+    } = useHeader(props);
 
     return (
         <>
             <nav>
                 <ul>
-                    <li>전체 초기화</li>
-                    <li>컨트롤러 선택 초기화</li>
-                    <li>코드 생성</li>
+                    <li onClick={handleClickInitSelectedController}>Controller 선택 초기화</li>
+                    <li onClick={handleClickGenerateCode}>코드 생성</li>
                 </ul>
             </nav>
 

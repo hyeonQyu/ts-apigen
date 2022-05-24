@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+
 export interface LabelProps {
     children: string;
     onClickDelete?: () => void;
@@ -11,14 +13,14 @@ function Label(props: LabelProps) {
 
     return (
         <>
-            <label className={className}>
+            <label className={classNames(className, 'label')}>
                 <span>{children}</span>
                 {onClickDelete && <button className={'delete'} onClick={onClickDelete} />}
             </label>
 
             <style jsx>{`
-                label {
-                    padding: 4px 10px;
+                .label {
+                    padding: 8px 12px;
                     background: ${backgroundColor};
                     border-radius: 5px;
                     color: ${fontColor};

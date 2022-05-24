@@ -4,6 +4,7 @@ import ControllerSelectRow from '@components/home/components/form-rows/controlle
 import HttpApiSelectRow from '@components/home/components/form-rows/httpApiSelect/httpApiSelectRow';
 import useHome from '@components/home/useHome';
 import ControllerLabelContainer from '@components/home/components/controller-label-container/controllerLabelContainer';
+import Header from '@components/home/components/header/header';
 
 function Home() {
     const {
@@ -13,6 +14,8 @@ function Home() {
 
     return (
         <>
+            <Header />
+
             <div className={'wrapper'}>
                 <div>
                     <form>

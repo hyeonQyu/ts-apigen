@@ -43,20 +43,6 @@ function Home() {
                     margin-top: 15px;
                 }
 
-                .row {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                }
-
-                .row span {
-                    width: 30%;
-                }
-
-                .row .value {
-                    width: 70%;
-                }
-
                 .label-wrapper {
                     margin-top: 40px;
                 }

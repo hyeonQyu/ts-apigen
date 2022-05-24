@@ -45,7 +45,7 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
             setFilteredOptions(options);
             return;
         }
-        setFilteredOptions(options.filter(({ name }) => name.indexOf(keyword) > -1));
+        setFilteredOptions(options.filter(({ name }) => name.toLowerCase().indexOf(keyword.toLowerCase()) > -1));
     }, [keyword, options]);
 
     // 필터링 검색바 focus

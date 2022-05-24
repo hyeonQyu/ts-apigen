@@ -1,5 +1,6 @@
 import { Config } from '../defines/config';
 import { ITag } from '../defines/openApi';
+import { ReqConfig } from '../defines/models';
 
 export namespace ApigenConfig {
     export const config: Config = {
@@ -8,6 +9,14 @@ export namespace ApigenConfig {
         requestApi: 'axios',
         // controllerList: ['ApigenController'],
     };
+
+    export function setConfig(newConfig: ReqConfig) {
+        const { apiDocsUri, prettierConfig, requestApi, controllerNames } = newConfig;
+        config.apiDocsUri = apiDocsUri;
+        config.prettierConfig = prettierConfig;
+        config.requestApi = requestApi;
+        config.controllerNames = controllerNames;
+    }
 
     export function setApiDocsUri(apiDocsUri: string) {
         config.apiDocsUri = apiDocsUri;

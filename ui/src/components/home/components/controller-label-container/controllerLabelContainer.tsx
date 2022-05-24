@@ -15,7 +15,7 @@ function ControllerLabelContainer(props: ControllerLabelContainerProps) {
             )}
             <div className={'container'}>
                 {selectedControllerNames.map((name) => (
-                    <ControllerLabel name={name} setControllers={setControllers} />
+                    <ControllerLabel key={name} name={name} setControllers={setControllers} />
                 ))}
             </div>
 

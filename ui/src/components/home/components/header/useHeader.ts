@@ -32,7 +32,7 @@ export default function useHeader(params: IUseHeaderParams): IUseHeader {
     };
 
     const generateCode = useMutation(() => {
-        return Api.postGenerateCode({
+        return Api.postGenerate({
             config: {
                 apiDocsUri: uri,
                 requestApi: httpApiType,

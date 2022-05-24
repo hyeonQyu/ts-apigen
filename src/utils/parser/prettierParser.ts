@@ -1,7 +1,5 @@
 import { ApigenConfig } from '../../config/apigenConfig';
 
-const fs = require('fs');
-
 export namespace PrettierParser {
     export const prettierConfig = getPrettierConfig();
 
@@ -15,10 +13,10 @@ export namespace PrettierParser {
             parser: 'babel-ts',
         };
 
-        if (ApigenConfig.config?.prettierrcPath) {
+        if (ApigenConfig.config?.prettierConfig) {
             try {
                 return {
-                    ...JSON.parse(fs.readFileSync(ApigenConfig.config.prettierrcPath, 'utf-8')),
+                    ...ApigenConfig.config.prettierConfig,
                     parser: 'babel-ts',
                 };
             } catch (e) {

@@ -1,4 +1,5 @@
 import { ParsedQs } from 'qs';
+import { Config } from './config';
 
 export interface ControllersReq extends ParsedQs {
     docsUri: string;
@@ -7,3 +8,9 @@ export interface ControllersReq extends ParsedQs {
 export interface ControllersRes {
     controllerNames: string[];
 }
+
+export interface GenerateReq {
+    config: ReqConfig;
+}
+
+export interface ReqConfig extends Omit<Config, 'generatedCodePath'> {}

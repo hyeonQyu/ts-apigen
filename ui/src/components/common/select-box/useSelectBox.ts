@@ -83,7 +83,7 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
             }
 
             if (!nameByValue.has(value)) {
-                console.warn('SelectBox:', `options 중 value가 ${value}인 값을 가지고 있는 option이 없습니다.`);
+                // console.warn('SelectBox:', `options 중 value가 ${value}인 값을 가지고 있는 option이 없습니다.`);
                 setMessage(boxTitle);
                 return;
             }

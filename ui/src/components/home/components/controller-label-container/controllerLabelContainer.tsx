@@ -1,5 +1,4 @@
 import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
-import Label from '@components/common/label/label';
 import ControllerLabel from '@components/home/components/controller-label-container/components/ControllerLabel';
 
 export interface ControllerLabelContainerProps
@@ -18,30 +17,6 @@ function ControllerLabelContainer(props: ControllerLabelContainerProps) {
                 {selectedControllerNames.map((name) => (
                     <ControllerLabel name={name} setControllers={setControllers} />
                 ))}
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcController
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcColler
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcContller
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    oller
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcController
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcC
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcColler
-                </Label>
-                <Label onClickDelete={() => {}} className={'label'}>
-                    AbcConroller
-                </Label>
             </div>
 
             <style jsx global>{`

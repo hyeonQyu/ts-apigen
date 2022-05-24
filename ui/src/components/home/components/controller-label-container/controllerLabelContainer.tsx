@@ -11,7 +11,7 @@ function ControllerLabelContainer(props: ControllerLabelContainerProps) {
     return (
         <>
             {selectedControllerNames.length === 0 && (
-                <p>💡 선택된 Controller가 없으면 모든 Controller에 대한 API 요청 코드가 생성됩니다.</p>
+                <p className={'controller-message'}>💡 선택된 Controller가 없으면 모든 Controller에 대한 API 요청 코드가 생성됩니다.</p>
             )}
             <div className={'container'}>
                 {selectedControllerNames.map((name) => (
@@ -20,6 +20,9 @@ function ControllerLabelContainer(props: ControllerLabelContainerProps) {
             </div>
 
             <style jsx global>{`
+                .controller-message {
+                    line-height: 1.5;
+                }
                 .container {
                     display: flex;
                     flex-wrap: wrap;

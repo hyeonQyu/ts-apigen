@@ -1,6 +1,7 @@
 import { HeaderProps } from '@components/home/components/header/header';
 import { useMutation } from 'react-query';
 import { Api } from '@requests/apis/api';
+import { AxiosError } from 'axios';
 
 export interface IUseHeaderParams extends HeaderProps {}
 
@@ -31,23 +32,43 @@ export default function useHeader(params: IUseHeaderParams): IUseHeader {
         }
     };
 
-    const generateCode = useMutation(() => {
-        return Api.postGenerate({
-            config: {
-                apiDocsUri: uri,
-                requestApi: httpApiType,
-                prettierConfig,
-                controllerNames: selectedControllerNames,
+    const generateCode = useMutation(
+        () => {
+            return Api.postGenerate({
+                config: {
+                    apiDocsUri: uri,
+                    requestApi: httpApiType,
+                    prettierConfig,
+                    controllerNames: selectedControllerNames,
+                },
+            });
+        },
+        {
+            onSuccess: (data) => {
+                if (data) {
+                    alert('코드 생성이 완료되었습니다.');
+                }
             },
-        });
-    });
+            onError: (error: AxiosError) => {
+                switch (error.response?.status) {
+                    case 500:
+                        alert('코드 생성 중 문제가 발생했습니다. 에러 로그를 확인하세요.');
+                        break;
+
+                    case 0:
+                        alert('코드 생성에 실패했습니다. 프로그램을 다시 실행하세요.');
+                        break;
+                }
+            },
+        },
+    );
 
     const handleClickGenerateCode = () => {
-        const { data, mutate, isSuccess } = generateCode;
-        mutate();
-        if (isSuccess && data) {
-            alert('코드 생성이 완료되었습니다.');
+        if (!uri) {
+            alert('API docs URI를 입력하세요.');
+            return;
         }
+        generateCode.mutate();
     };
 
     return {

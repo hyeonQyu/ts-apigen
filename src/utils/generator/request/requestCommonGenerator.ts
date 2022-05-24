@@ -6,6 +6,12 @@ const fs = require('fs');
 
 export namespace RequestCommonGenerator {
     export function generateCommonCode() {
+        const directoryPath = `${ApigenConfig.config.generatedCodePath}/requests`;
+
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath);
+        }
+
         const ts = `
             ${getImportAxiosCode()}
 
@@ -18,10 +24,7 @@ export namespace RequestCommonGenerator {
             }
         `;
 
-        fs.writeFileSync(
-            `${ApigenConfig.config.generatedCodePath}/requests/RequestCommon.ts`,
-            prettier.format(ts, PrettierParser.prettierConfig),
-        );
+        fs.writeFileSync(`${directoryPath}/RequestCommon.ts`, prettier.format(ts, PrettierParser.prettierConfig));
     }
 
     function getImportAxiosCode(): string {

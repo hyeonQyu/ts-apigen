@@ -4,6 +4,7 @@ import { ControllerParser } from './parser/controllerParser';
 import { ModelGenerator } from './generator/model/modelGenerator';
 import { RequestGenerator } from './generator/request/requestGenerator';
 import { ApigenConfig } from '../config/apigenConfig';
+const fs = require('fs');
 
 export namespace SwaggerProcessor {
     export function generateCode(swaggerJson: OpenApi) {
@@ -21,6 +22,11 @@ export namespace SwaggerProcessor {
         console.log('-------------------------------------가공 후 데이터------------------------------------');
         console.log(fileInfoByName);
         console.log(controllerInfoByController);
+
+        const { generatedCodePath } = ApigenConfig.config;
+        if (!fs.existsSync(generatedCodePath)) {
+            fs.mkdirSync(generatedCodePath);
+        }
 
         ModelGenerator.generateModels(fileInfoByName);
         RequestGenerator.generateRequests(controllerInfoByController);

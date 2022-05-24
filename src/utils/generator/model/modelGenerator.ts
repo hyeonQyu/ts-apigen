@@ -8,6 +8,12 @@ const fs = require('fs');
 
 export namespace ModelGenerator {
     export function generateModels(modelInfoByName: Map<string, ModelInfo>) {
+        const directoryPath = `${ApigenConfig.config.generatedCodePath}/models`;
+
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath);
+        }
+
         modelInfoByName.forEach((fileInfo, name) => {
             const { refSet, typeInfo } = fileInfo;
 
@@ -20,10 +26,7 @@ export namespace ModelGenerator {
                 }
             `;
 
-            fs.writeFileSync(
-                `${ApigenConfig.config.generatedCodePath}/models/${name}.ts`,
-                prettier.format(ts, PrettierParser.prettierConfig),
-            );
+            fs.writeFileSync(`${directoryPath}/${name}.ts`, prettier.format(ts, PrettierParser.prettierConfig));
         });
     }
 }

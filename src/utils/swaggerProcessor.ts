@@ -13,7 +13,7 @@ export namespace SwaggerProcessor {
 
         console.log('----------------------------------Swagger row 데이터----------------------------------');
         console.log('definitions', definitions);
-        console.log('paths', paths['/cus/agreement/copyAgreementLetter']);
+        console.log('paths', paths);
         console.log('tags', tags);
 
         const fileInfoByName = ModelParser.getByModelInfoByName(definitions);

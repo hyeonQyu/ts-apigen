@@ -49,8 +49,9 @@ export namespace RequestGenerator {
                 );
             } catch (e) {
                 console.error('generate request', e);
-                console.log(ts);
-                throw new Error('Prettier 전환 중 에러 발생');
+                const errorFilePath = `${ApigenConfig.config.generatedCodePath}/requests/error.ts`;
+                fs.writeFileSync(errorFilePath, ts);
+                throw new Error(`Prettier 전환 중 에러가 발생했습니다. ${errorFilePath} 를 확인하세요.`);
             }
 
             contentTypeCount.init();

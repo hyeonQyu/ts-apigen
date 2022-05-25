@@ -18,14 +18,16 @@ export interface IUseHomeValues {
     controllers: ControllerOptionInfo[];
     selectedControllerNames: string[];
     httpApiType: HttpApiType;
+    baseRootSet: Set<string>;
 }
 
 export interface IUseHomeHandlers {
-    setUri: (uri: string) => void;
+    setUri: Dispatch<SetStateAction<string>>;
     setIsLoadController: Dispatch<SetStateAction<boolean>>;
     setPrettierConfig: Dispatch<SetStateAction<PrettierConfig | null>>;
     setControllers: Dispatch<SetStateAction<ControllerOptionInfo[]>>;
     setHttpApiType: Dispatch<SetStateAction<HttpApiType>>;
+    setBaseRootSet: Dispatch<SetStateAction<Set<string>>>;
 }
 
 export default function useHome(/*params: IUseHomeParams*/): IUseHome {
@@ -36,6 +38,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [controllers, setControllers] = useState<ControllerOptionInfo[]>([]);
     const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>([]);
     const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
+    const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set());
 
     const controllerNamesToControllers: () => ControllerOptionInfo[] = () => controllerNames.map((name) => ({ name, checked: false }));
     const controllersToSelectedControllerNames: () => string[] = () => controllers.filter(({ checked }) => checked).map(({ name }) => name);
@@ -72,6 +75,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             controllers,
             selectedControllerNames,
             httpApiType,
+            baseRootSet,
         },
         handlers: {
             setUri,
@@ -79,6 +83,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             setPrettierConfig,
             setControllers,
             setHttpApiType,
+            setBaseRootSet,
         },
     };
 }

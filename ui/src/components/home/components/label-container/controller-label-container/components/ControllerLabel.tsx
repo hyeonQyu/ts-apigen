@@ -1,6 +1,6 @@
 import Label from '@components/common/label/label';
-import { ControllerLabelContainerProps } from '@components/home/components/controller-label-container/controllerLabelContainer';
-import useControllerLabel from '@components/home/components/controller-label-container/components/useControllerLabel';
+import { ControllerLabelContainerProps } from '@components/home/components/label-container/controller-label-container/controllerLabelContainer';
+import useControllerLabel from '@components/home/components/label-container/controller-label-container/components/useControllerLabel';
 
 export interface ControllerLabelProps extends Pick<ControllerLabelContainerProps, 'setControllers'> {
     name: string;

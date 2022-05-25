@@ -1,13 +1,13 @@
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, Dispatch, SetStateAction, useState } from 'react';
 
 export interface IUseInputParams {
     value: string;
-    setValue: (value: string) => void;
+    setValue: Dispatch<SetStateAction<string>>;
 }
 
 export interface IUseInput {
     value: string;
-    setValue(value: string): void;
+    setValue: Dispatch<SetStateAction<string>>;
     onChange: ChangeEventHandler<HTMLInputElement>;
 }
 

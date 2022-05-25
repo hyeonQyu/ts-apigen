@@ -1,4 +1,4 @@
-import { ControllerLabelProps } from '@components/home/components/controller-label-container/components/ControllerLabel';
+import { ControllerLabelProps } from '@components/home/components/label-container/controller-label-container/components/ControllerLabel';
 
 export interface IUseControllerLabelParams extends ControllerLabelProps {}
 

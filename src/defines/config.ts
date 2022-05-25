@@ -14,4 +14,7 @@ export interface Config {
     generatedCodePath: string;
 
     requestApi: 'axios' | 'fetch';
+
+    /** root url 목록 */
+    baseRootList?: string[];
 }

@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/account")
+@RequestMapping(value={"/a/account", "/b/account"})
 public class AccountController {
 
     @Autowired

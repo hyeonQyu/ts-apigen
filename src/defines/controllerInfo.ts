@@ -3,6 +3,7 @@ import { MethodType, PrimitiveTypes } from './openApi';
 export interface ControllerInfo {
     refSet: Set<string>;
     apiInfoList: ApiInfo[];
+    hasMultiRootUrl: boolean;
 }
 
 export interface ApiInfo {

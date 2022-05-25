@@ -13,6 +13,7 @@ export namespace ControllerParser {
 
         const controllerInfoByController = new Map<string, ControllerInfo>();
         const controllerSet = new Set<string>(ApigenConfig.config.controllerNames ?? []);
+        let hasMultiRootUrl = false;
 
         Object.entries(paths).forEach(([path, restApi]) => {
             const controller: string = getController(restApi);
@@ -24,13 +25,17 @@ export namespace ControllerParser {
             const refSet: Set<string> = controllerInfo?.refSet ?? new Set();
 
             const methodInfoList: MethodInfo[] = Object.entries(restApi).map(([methodType, api]) => {
+                const { responses, operationId, summary } = api;
+
                 const request: RequestInfo | null = getRequestInfo(api, path, refSet);
-                const response: ResponseInfo | null = getResponseInfo(api.responses, refSet);
+                const response: ResponseInfo | null = getResponseInfo(responses, refSet);
+
+                hasMultiRootUrl = getHasMultiRootUrl(operationId);
 
                 return {
-                    methodName: getMethodNameFromOperationId(api.operationId),
+                    methodName: getMethodNameFromOperationId(operationId),
                     methodType: methodType as MethodType,
-                    methodSummary: api.summary,
+                    methodSummary: summary,
                     request,
                     response,
                 };
@@ -46,12 +51,14 @@ export namespace ControllerParser {
                 controllerInfoByController.set(controller, {
                     refSet,
                     apiInfoList: [...apiInfoList, apiInfo],
+                    hasMultiRootUrl,
                 });
                 return;
             }
             controllerInfoByController.set(controller, {
                 refSet,
                 apiInfoList: [apiInfo],
+                hasMultiRootUrl,
             });
         });
 
@@ -123,6 +130,10 @@ export namespace ControllerParser {
 
     function getMethodNameFromOperationId(operationId: string) {
         return operationId.substring(0, operationId.indexOf('Using'));
+    }
+
+    function getHasMultiRootUrl(operationId: string) {
+        return /_[0-9]/.test(operationId);
     }
 
     function getResponseInfo(responses: IResponse, refSet: Set<string>): ResponseInfo | null {

@@ -70,6 +70,13 @@ export namespace ControllerParser {
     }
 
     function getQueryParamList(parameterList: IParameter[]): QueryParam[] {
+        parameterList.sort((param1, param2) => {
+            const getValue = (required: boolean) => {
+                return required ? 0 : 1;
+            };
+            return getValue(param1.required) - getValue(param2.required);
+        });
+
         return parameterList.map((param) => {
             const { name, required, type, items } = param;
 

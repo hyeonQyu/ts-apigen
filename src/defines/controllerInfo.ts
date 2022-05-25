@@ -13,6 +13,7 @@ export interface ApiInfo {
 export interface MethodInfo {
     methodName: string;
     methodType: MethodType;
+    methodSummary: string;
     request: RequestInfo | null;
     response: ResponseInfo | null;
 }

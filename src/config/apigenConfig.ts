@@ -7,7 +7,6 @@ export namespace ApigenConfig {
         apiDocsUri: 'http://localhost:8080/v2/api-docs',
         generatedCodePath: './apis',
         requestApi: 'axios',
-        // controllerList: ['ApigenController'],
     };
 
     export function setConfig(newConfig: ReqConfig) {

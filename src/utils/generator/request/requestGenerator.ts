@@ -42,10 +42,16 @@ export namespace RequestGenerator {
                 }
             `;
 
-            fs.writeFileSync(
-                `${ApigenConfig.config.generatedCodePath}/requests/${name}.ts`,
-                prettier.format(ts, PrettierParser.prettierConfig),
-            );
+            try {
+                fs.writeFileSync(
+                    `${ApigenConfig.config.generatedCodePath}/requests/${name}.ts`,
+                    prettier.format(ts, PrettierParser.prettierConfig),
+                );
+            } catch (e) {
+                console.error('generate request', e);
+                console.log(ts);
+                throw new Error('Prettier 전환 중 에러 발생');
+            }
 
             contentTypeCount.init();
         });

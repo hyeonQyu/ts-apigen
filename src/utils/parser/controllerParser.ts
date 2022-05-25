@@ -1,18 +1,22 @@
 import { ApigenConfig } from '../../config/apigenConfig';
-import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, MethodType, PrimitiveTypes } from '../../defines/openApi';
+import { IApi, IParameter, IPaths, IResponse, IRestApi, IStatus, ITag, MethodType, PrimitiveTypes } from '../../defines/openApi';
 import { ApiInfo, ControllerInfo, JsonBody, MethodInfo, QueryParam, ResponseInfo, RequestInfo } from '../../defines/controllerInfo';
 import { TypeNameParser } from './typeNameParser';
 import { CaseStyleFormatter } from '../string/caseStyleFormatter';
 
 export namespace ControllerParser {
+    const controllerDescriptionByName = new Map<string, string>();
+
     // 컨트롤러마다 API 정보 리스트를 가짐
-    export function getControllerInfoByController(paths: IPaths): Map<string, ControllerInfo> {
+    export function getControllerInfoByController(tags: ITag[], paths: IPaths): Map<string, ControllerInfo> {
+        setControllerDescriptionByName(tags);
+
         const controllerInfoByController = new Map<string, ControllerInfo>();
         const controllerSet = new Set<string>(ApigenConfig.config.controllerNames ?? []);
 
         Object.entries(paths).forEach(([path, restApi]) => {
             const controller: string = getController(restApi);
-            if (!controllerSet.has(controller)) {
+            if (controllerSet.size > 0 && !controllerSet.has(controller)) {
                 return;
             }
 
@@ -24,8 +28,9 @@ export namespace ControllerParser {
                 const response: ResponseInfo | null = getResponseInfo(api.responses, refSet);
 
                 return {
-                    methodName: api.summary,
+                    methodName: getMethodNameFromOperationId(api.operationId),
                     methodType: methodType as MethodType,
+                    methodSummary: api.summary,
                     request,
                     response,
                 };
@@ -53,17 +58,24 @@ export namespace ControllerParser {
         return controllerInfoByController;
     }
 
+    function setControllerDescriptionByName(tags: ITag[]) {
+        tags.forEach(({ name, description }) => {
+            controllerDescriptionByName.set(CaseStyleFormatter.snakeCaseToPascalCase(name), description.replace(/\s/g, ''));
+        });
+    }
+
     function getController(restApi: Omit<IRestApi, 'path'>): string {
-        return CaseStyleFormatter.snakeCaseToPascalCase(Object.values(restApi)[0].tags[0]);
+        const name = CaseStyleFormatter.snakeCaseToPascalCase(Object.values(restApi)[0].tags[0]);
+        return controllerDescriptionByName.get(name) ?? '';
     }
 
     function getQueryParamList(parameterList: IParameter[]): QueryParam[] {
         return parameterList.map((param) => {
-            const { name, required, type } = param;
+            const { name, required, type, items } = param;
 
             return {
                 name,
-                type: (type === 'integer' ? 'number' : type) as PrimitiveTypes,
+                type: TypeNameParser.getTypeNameFromSchema({ type, items }) as PrimitiveTypes,
                 required,
             };
         });
@@ -100,6 +112,10 @@ export namespace ControllerParser {
             console.error(path, 'request parameter 이상');
             return null;
         }
+    }
+
+    function getMethodNameFromOperationId(operationId: string) {
+        return operationId.substring(0, operationId.indexOf('Using'));
     }
 
     function getResponseInfo(responses: IResponse, refSet: Set<string>): ResponseInfo | null {

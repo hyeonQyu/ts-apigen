@@ -24,6 +24,7 @@ export type IRestApi = {
 export interface IApi {
     tags: string[];
     summary: string;
+    operationId: string;
     parameters?: IParameter[];
     responses: IResponse;
 }
@@ -35,6 +36,7 @@ export interface IParameter {
     required: boolean;
     schema: ISchema;
     type?: PrimitiveTypes;
+    items?: ISchema;
 }
 
 export type IResponse = {

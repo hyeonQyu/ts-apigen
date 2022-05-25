@@ -7,14 +7,9 @@ import ControllerLabelContainer from '@components/home/components/label-containe
 import Header from '@components/home/components/header/header';
 import BaseRootAddRow from '@components/home/components/form-rows/baseRootAdd/baseRootAddRow';
 import BaseRootLabelContainer from '@components/home/components/label-container/base-root-label-container/baseRootLabelContainer';
-import { FormEvent } from 'react';
 
 function Home() {
     const { values, handlers } = useHome();
-
-    const onsubmit: FormEvent<HTMLFormElement> = (e) => {
-        e.preventDefault();
-    };
 
     return (
         <>
@@ -22,7 +17,7 @@ function Home() {
 
             <div className={'wrapper'}>
                 <div>
-                    <form onSubmit={onsubmit}>
+                    <form>
                         <ApiDocsUriRow {...values} {...handlers} />
                         <PrettierConfigFileRow {...values} {...handlers} />
                         <ControllerSelectRow {...values} {...handlers} />

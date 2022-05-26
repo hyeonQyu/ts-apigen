@@ -4,6 +4,7 @@ import { ImportGenerator } from '../import/importGenerator';
 import { PrettierParser } from '../../parser/prettierParser';
 import { MethodType } from '../../../defines/openApi';
 import { RequestCommonGenerator } from './requestCommonGenerator';
+import { CaseStyleFormatter } from '../../string/caseStyleFormatter';
 
 const prettier = require('prettier');
 const fs = require('fs');
@@ -35,6 +36,7 @@ export namespace RequestGenerator {
             const name = controllerName.replace('Controller', 'Request');
 
             let ts = `
+                import { AxiosRequestConfig } from 'axios';
                 import { RequestCommon } from './RequestCommon';
                 ${ImportGenerator.getImportCode(refSet, '../models')}
                 export namespace ${name} {
@@ -81,7 +83,8 @@ export namespace RequestGenerator {
                 const functionName = hasVariousMethodByPath ? `${methodName}_${methodType}` : methodName;
                 const responseType = getResponseCode(response);
                 return `
-                    export async function ${functionName}(${getRequestCode(request)}): Promise<${responseType}> {
+                    export async function ${functionName}(${getRequestCode(request)} config?: AxiosRequestConfig)
+                    : Promise<${responseType}> {
                         ${getFunctionBodyCode(path, methodType, responseType, request ?? undefined)}
                     }
                 `;
@@ -125,7 +128,7 @@ export namespace RequestGenerator {
     }
 
     function getRequestCommonCode(name: string, type: string, required: boolean): string {
-        return `${name}${required ? '' : '?'}: ${type}`;
+        return `${name}${required ? '' : '?'}: ${type},`;
     }
 
     /**
@@ -186,22 +189,15 @@ export namespace RequestGenerator {
             case 'axios':
                 contentTypeCount[contentType]++;
 
+                const param: string = hasBody ? axiosDataMap[contentType] : '{}';
+                const config: string = `RequestCommon.get${CaseStyleFormatter.camelCaseToPascalCase(contentType)}Config(config)`;
+
                 return `${(() => {
                     switch (methodType) {
                         case 'get':
-                            return getAxiosGetCode(
-                                path,
-                                hasBody ? axiosDataMap[contentType] : '{}',
-                                `RequestCommon.${contentType}Config`,
-                                responseType,
-                            );
+                            return getAxiosGetCode(path, param, config, responseType);
                         case 'post':
-                            return getAxiosPostCode(
-                                path,
-                                hasBody ? axiosDataMap[contentType] : '{}',
-                                `RequestCommon.${contentType}Config`,
-                                responseType,
-                            );
+                            return getAxiosPostCode(path, hasBody ? axiosDataMap[contentType] : '{}', config, responseType);
                     }
                 })()}`;
         }

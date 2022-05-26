@@ -21,7 +21,7 @@ export namespace ApigenConfig {
     }
 
     export function setControllerNames(tags: ITag[]) {
-        if (!config.controllerNames) {
+        if (!config.controllerNames || config.controllerNames.length === 0) {
             config.controllerNames = tagsToControllerNames(tags);
         }
     }

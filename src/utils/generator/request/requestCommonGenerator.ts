@@ -16,9 +16,9 @@ export namespace RequestCommonGenerator {
             ${getImportAxiosCode()}
 
             export namespace RequestCommon {
-                ${getCreateFormDataCode()}
-                
                 ${getConfigCode()}
+                
+                ${getCreateFormDataCode()}
                 
                 ${getAxiosCode()}
             }
@@ -58,18 +58,40 @@ export namespace RequestCommonGenerator {
             ${getJsonConfigCode()}
             
             ${getFormDataConfigCode()}
+            
+            ${getJsonConfigFunctionCode()}
+            
+            ${getFormDataConfigFunctionCode()}
         `;
     }
 
     function getJsonConfigCode(): string {
-        return `export const jsonConfig = {
+        return `const jsonConfig = {
             ${getConfigHeaderCode('application/json')}
         }`;
     }
 
     function getFormDataConfigCode(): string {
-        return `export const formDataConfig = {
+        return `const formDataConfig = {
             ${getConfigHeaderCode('application/x-www-form-urlencoded')}
+        }`;
+    }
+
+    function getJsonConfigFunctionCode(): string {
+        return `export function getJsonConfig(config?: AxiosRequestConfig): AxiosRequestConfig {
+            return {
+                ...jsonConfig,
+                ...config
+            }
+        }`;
+    }
+
+    function getFormDataConfigFunctionCode(): string {
+        return `export function getFormDataConfig(config?: AxiosRequestConfig): AxiosRequestConfig {
+            return {
+                ...formDataConfig,
+                ...config
+            }
         }`;
     }
 

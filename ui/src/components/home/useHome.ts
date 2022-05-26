@@ -55,7 +55,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>([]);
     const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>([]);
 
-    const httpApiTypes: HttpApiType[] = ['fetch', 'axios'];
+    const httpApiTypes: Omit<SelectBoxOption<HttpApiType>, 'name'>[] = [{ value: 'fetch', disabled: true }, { value: 'axios' }];
     const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
 
     const [baseRoot, setBaseRoot] = useState('');
@@ -129,7 +129,11 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     // HTTP 통신 방식 선택
     const handleSelectHttpApiType = (type: HttpApiType) => setHttpApiType(type);
 
-    const httpApiTypeOptions: SelectBoxOption<HttpApiType>[] = httpApiTypes.map((type) => ({ name: type, value: type }));
+    const httpApiTypeOptions: SelectBoxOption<HttpApiType>[] = httpApiTypes.map(({ value, disabled }) => ({
+        name: value,
+        value,
+        disabled,
+    }));
 
     // Base Root 입력
     const handleBaseRootAddInputKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {

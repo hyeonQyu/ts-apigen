@@ -11,7 +11,7 @@ export interface SelectBoxOptionProps<T extends number | string> {
 
 function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<T>) {
     const { option, index } = props;
-    const { value, name } = option;
+    const { value, name, disabled = false } = option;
     const { useHook } = useSelectBoxContext();
     const {
         values: { selectedValueSet, isMultiSelect },
@@ -20,11 +20,11 @@ function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<
     const {
         values: { selected },
         handlers: { handleSelect },
-    } = useSelectBoxOption<T>({ select, value, selectedValueSet, index });
+    } = useSelectBoxOption<T>({ select, value, selectedValueSet, index, disabled });
 
     return (
         <>
-            <div className={classNames('option', !isMultiSelect && selected && 'selected')} onClick={handleSelect}>
+            <div className={classNames('option', !isMultiSelect && selected && 'selected', disabled && 'disabled')} onClick={handleSelect}>
                 {isMultiSelect ? (
                     <Checkbox checked={selected}>
                         <p>{name}</p>
@@ -42,11 +42,18 @@ function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<
                     align-items: center;
                     cursor: pointer;
                     border-radius: 5px;
+                    background: white;
                 }
 
                 .option:hover,
                 .option.selected {
                     background: aliceblue;
+                }
+
+                .option.disabled {
+                    cursor: not-allowed;
+                    background: white;
+                    opacity: 0.5;
                 }
             `}</style>
         </>

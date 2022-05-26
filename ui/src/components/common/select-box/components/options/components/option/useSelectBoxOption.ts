@@ -6,6 +6,7 @@ export interface IUseSelectBoxOptionParams<T extends number | string>
         Pick<IUseSelectBoxValues<T>, 'selectedValueSet'>,
         Pick<SelectBoxOptionProps<T>, 'index'> {
     value: T;
+    disabled: boolean;
 }
 
 export interface IUseSelectBoxOption {
@@ -22,10 +23,10 @@ export interface IUseSelectBoxOptionHandlers {
 }
 
 export default function useSelectBoxOption<T extends number | string>(params: IUseSelectBoxOptionParams<T>): IUseSelectBoxOption {
-    const { select, value, selectedValueSet, index } = params;
+    const { select, value, selectedValueSet, index, disabled } = params;
 
     const handleSelect = () => {
-        select(value, index);
+        !disabled && select(value, index);
     };
 
     const selected = selectedValueSet.has(value);

@@ -3,18 +3,17 @@ import { ITag } from '../defines/openApi';
 import { ReqConfig } from '../defines/models';
 
 export namespace ApigenConfig {
-    export const config: Config = {
+    export let config: Config = {
         apiDocsUri: 'http://localhost:8080/v2/api-docs',
         generatedCodePath: './apis',
         requestApi: 'axios',
     };
 
     export function setConfig(newConfig: ReqConfig) {
-        const { apiDocsUri, prettierConfig, requestApi, controllerNames } = newConfig;
-        config.apiDocsUri = apiDocsUri;
-        config.prettierConfig = prettierConfig;
-        config.requestApi = requestApi;
-        config.controllerNames = controllerNames;
+        config = {
+            ...config,
+            ...newConfig,
+        };
     }
 
     export function setApiDocsUri(apiDocsUri: string) {

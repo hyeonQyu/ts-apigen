@@ -69,6 +69,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         requestApi: httpApiType,
         prettierConfig,
         controllerNames: selectedControllerNames,
+        baseRootList: Array.from(baseRootSet),
     });
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];

@@ -138,7 +138,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             }
 
             setBaseRootSet((prev) => {
-                prev.add(baseRoot);
+                prev.add(baseRoot.charAt(baseRoot.length - 1) === '/' ? baseRoot : `${baseRoot}/`);
                 return new Set(prev);
             });
 

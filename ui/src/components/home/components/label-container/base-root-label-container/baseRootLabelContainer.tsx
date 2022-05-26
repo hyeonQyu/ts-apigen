@@ -21,7 +21,7 @@ function BaseRootLabelContainer() {
                 })}
             </LabelContainer>
 
-            <style jsx>{`
+            <style jsx global>{`
                 .base-root-label {
                     margin-right: 10px;
                     margin-bottom: 10px;

@@ -13,10 +13,10 @@ function Label(props: LabelProps) {
 
     return (
         <>
-            <label className={classNames(className, 'label')}>
+            <div className={classNames(className, 'label')}>
                 <span>{children}</span>
-                {onClickDelete && <button className={'delete'} onClick={onClickDelete} />}
-            </label>
+                {onClickDelete && <button type={'button'} className={'delete'} onClick={onClickDelete} />}
+            </div>
 
             <style jsx>{`
                 .label {

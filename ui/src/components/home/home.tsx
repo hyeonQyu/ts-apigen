@@ -19,7 +19,12 @@ function Home() {
 
                 <div className={'wrapper'}>
                     <div>
-                        <form onSubmit={(e) => e.preventDefault()}>
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }}
+                        >
                             <ApiDocsUriRow />
                             <PrettierConfigFileRow />
                             <ControllerSelectRow />

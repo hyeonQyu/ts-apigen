@@ -1,12 +1,13 @@
 import InputFile from '@components/common/input-file/inputFile';
 import { PrettierConfig } from '@defines/prettierConfig';
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
 import FormRow from '@components/home/components/form-rows/common/formRow';
+import { useHomeContext } from '@components/home/context/homeContext';
 
-export interface PrettierConfigFileRowProps extends Pick<IUseHomeValues, 'prettierConfig'>, Pick<IUseHomeHandlers, 'setPrettierConfig'> {}
-
-function PrettierConfigFileRow(props: PrettierConfigFileRowProps) {
-    const { prettierConfig, setPrettierConfig } = props;
+function PrettierConfigFileRow() {
+    const {
+        values: { prettierConfig },
+        handlers: { setPrettierConfig },
+    } = useHomeContext();
 
     return (
         <>

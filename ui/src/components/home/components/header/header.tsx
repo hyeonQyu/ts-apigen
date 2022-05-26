@@ -1,12 +1,9 @@
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
-import useHeader from '@components/home/components/header/useHeader';
+import { useHomeContext } from '@components/home/context/homeContext';
 
-export interface HeaderProps extends IUseHomeValues, Pick<IUseHomeHandlers, 'setControllers'> {}
-
-function Header(props: HeaderProps) {
+function Header() {
     const {
         handlers: { handleClickInitSelectedController, handleClickGenerateCode },
-    } = useHeader(props);
+    } = useHomeContext();
 
     return (
         <>

@@ -7,31 +7,34 @@ import ControllerLabelContainer from '@components/home/components/label-containe
 import Header from '@components/home/components/header/header';
 import BaseRootAddRow from '@components/home/components/form-rows/baseRootAdd/baseRootAddRow';
 import BaseRootLabelContainer from '@components/home/components/label-container/base-root-label-container/baseRootLabelContainer';
+import { HomeContext } from '@components/home/context/homeContext';
 
 function Home() {
-    const { values, handlers } = useHome();
+    // const { values, handlers } = useHome();
 
     return (
         <>
-            <Header {...values} {...handlers} />
+            <HomeContext.Provider value={useHome()}>
+                <Header />
 
-            <div className={'wrapper'}>
-                <div>
-                    <form>
-                        <ApiDocsUriRow {...values} {...handlers} />
-                        <PrettierConfigFileRow {...values} {...handlers} />
-                        <ControllerSelectRow {...values} {...handlers} />
-                        <div className={'label-wrapper'}>
-                            <ControllerLabelContainer {...values} {...handlers} />
-                        </div>
-                        <HttpApiSelectRow {...values} {...handlers} />
-                        <BaseRootAddRow {...values} {...handlers} />
-                        <div className={'label-wrapper'}>
-                            <BaseRootLabelContainer {...values} {...handlers} />
-                        </div>
-                    </form>
+                <div className={'wrapper'}>
+                    <div>
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            <ApiDocsUriRow />
+                            <PrettierConfigFileRow />
+                            <ControllerSelectRow />
+                            <div className={'label-wrapper'}>
+                                <ControllerLabelContainer />
+                            </div>
+                            <HttpApiSelectRow />
+                            <BaseRootAddRow />
+                            <div className={'label-wrapper'}>
+                                <BaseRootLabelContainer />
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            </HomeContext.Provider>
 
             <style jsx global>{`
                 .wrapper {

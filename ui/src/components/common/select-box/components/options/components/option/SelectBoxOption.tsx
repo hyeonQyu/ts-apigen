@@ -1,4 +1,4 @@
-import { SelectBoxOption } from '@defines/SelectBoxOption';
+import { SelectBoxOption } from '@defines/selectBoxOption';
 import { useSelectBoxContext } from '@components/common/select-box/context/selectBoxContext';
 import Checkbox from '@components/common/checkbox/checkbox';
 import useSelectBoxOption from '@components/common/select-box/components/options/components/option/useSelectBoxOption';

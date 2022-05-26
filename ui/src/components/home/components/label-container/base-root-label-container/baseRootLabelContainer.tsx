@@ -1,21 +1,32 @@
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
-import LabelContainer from '@components/home/components/form-rows/baseRootAdd/labelContainer';
-import BaseRootLabel from '@components/home/components/label-container/base-root-label-container/components/BaseRootLabel';
+import LabelContainer from '@components/home/components/label-container/common/labelContainer';
+import { useHomeContext } from '@components/home/context/homeContext';
+import Label from '@components/common/label/label';
 
-export interface BaseRootLabelContainerProps extends Pick<IUseHomeValues, 'baseRootSet'>, Pick<IUseHomeHandlers, 'setBaseRootSet'> {}
-
-function BaseRootLabelContainer(props: BaseRootLabelContainerProps) {
-    const { baseRootSet, setBaseRootSet } = props;
+function BaseRootLabelContainer() {
+    const {
+        values: { baseRootSet },
+        handlers: { handleClickDeleteBaseRootLabel },
+    } = useHomeContext();
 
     return (
         <>
             <LabelContainer message={''} isShowMessage>
-                {Array.from(baseRootSet).map((baseRoot) => (
-                    <BaseRootLabel key={baseRoot} baseRoot={baseRoot} setBaseRootSet={setBaseRootSet} />
-                ))}
+                {Array.from(baseRootSet).map((baseRoot) => {
+                    const handleClickDelete = () => handleClickDeleteBaseRootLabel(baseRoot);
+                    return (
+                        <Label key={baseRoot} onClickDelete={handleClickDelete} className={'base-root-label'} backgroundColor={'green'}>
+                            {baseRoot}
+                        </Label>
+                    );
+                })}
             </LabelContainer>
 
-            <style jsx>{``}</style>
+            <style jsx>{`
+                .base-root-label {
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                }
+            `}</style>
         </>
     );
 }

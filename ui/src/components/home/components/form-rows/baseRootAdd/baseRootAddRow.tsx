@@ -1,21 +1,18 @@
 import FormRow from '@components/home/components/form-rows/common/formRow';
-import { IUseHomeHandlers } from '@components/home/useHome';
-import useBaseRootAddRow from '@components/home/components/form-rows/baseRootAdd/useBaseRootAddRow';
 import useInput from '@hooks/useInput';
+import { useHomeContext } from '@components/home/context/homeContext';
 
-export interface BaseRootAddRowProps extends Pick<IUseHomeHandlers, 'setBaseRootSet'> {}
-
-function BaseRootAddRow(props: BaseRootAddRowProps) {
-    const {} = props;
-    const { onChange, value: baseRoot, setValue: setBaseRoot } = useInput();
+function BaseRootAddRow() {
     const {
-        handlers: { handleInputKeyPress },
-    } = useBaseRootAddRow({ ...props, baseRoot, setBaseRoot });
+        values: { baseRoot },
+        handlers: { handleBaseRootAddInputKeyPress, setBaseRoot },
+    } = useHomeContext();
+    const { onChange } = useInput({ value: baseRoot, setValue: setBaseRoot });
 
     return (
         <>
             <FormRow title={'Base Root 추가'}>
-                <input placeholder={'root/'} onKeyPress={handleInputKeyPress} onChange={onChange} value={baseRoot} />
+                <input placeholder={'root/'} onKeyPress={handleBaseRootAddInputKeyPress} onChange={onChange} value={baseRoot} />
             </FormRow>
 
             <style jsx>{`

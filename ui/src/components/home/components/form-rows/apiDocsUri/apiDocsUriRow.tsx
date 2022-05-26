@@ -1,16 +1,13 @@
-import { IUseHomeHandlers, IUseHomeValues } from '@components/home/useHome';
 import useInput from '@hooks/useInput';
-import useApiDocsUri from '@components/home/components/form-rows/apiDocsUri/useApiDocsUri';
 import FormRow from '@components/home/components/form-rows/common/formRow';
+import { useHomeContext } from '@components/home/context/homeContext';
 
-export interface ApiDocsUriRowProps extends Pick<IUseHomeValues, 'uri'>, Pick<IUseHomeHandlers, 'setUri' | 'setIsLoadController'> {}
-
-function ApiDocsUriRow(props: ApiDocsUriRowProps) {
-    const { uri, setUri, setIsLoadController } = props;
-    const { onChange } = useInput({ value: uri, setValue: setUri });
+function ApiDocsUriRow() {
     const {
-        handlers: { handleBlur, handleFocus },
-    } = useApiDocsUri({ setIsLoadController });
+        values: { uri },
+        handlers: { setUri, handleUseApiDocsUriBlur, handleUseAPiDocsUriFocus },
+    } = useHomeContext();
+    const { onChange } = useInput({ value: uri, setValue: setUri });
 
     return (
         <>
@@ -20,8 +17,8 @@ function ApiDocsUriRow(props: ApiDocsUriRowProps) {
                     placeholder={'https://my-application.net/api-docs'}
                     value={uri}
                     onChange={onChange}
-                    onBlur={handleBlur}
-                    onFocus={handleFocus}
+                    onBlur={handleUseApiDocsUriBlur}
+                    onFocus={handleUseAPiDocsUriFocus}
                 />
             </FormRow>
 

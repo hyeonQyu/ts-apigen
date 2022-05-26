@@ -1,11 +1,9 @@
 import { Dispatch, FocusEventHandler, KeyboardEventHandler, SetStateAction, useEffect, useState } from 'react';
 import { PrettierConfig } from '@defines/prettierConfig';
 import { HttpApiType } from '@defines/httpApiType';
-import { Api } from '@requests/apis/api';
-import { useMutation, useQuery } from 'react-query';
 import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
-import { AxiosError } from 'axios';
 import { SelectBoxOption } from '@defines/selectBoxOption';
+import useHomeQuery from '@requests/queries/useHomeQuery';
 
 export interface IUseHomeParams {}
 
@@ -63,23 +61,21 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [baseRoot, setBaseRoot] = useState('');
     const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set());
 
+    const { useControllersQuery, useGenerateCodeMutation } = useHomeQuery();
+
+    const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
+    const generateCodeMutation = useGenerateCodeMutation({
+        apiDocsUri: uri,
+        requestApi: httpApiType,
+        prettierConfig,
+        controllerNames: selectedControllerNames,
+    });
+
+    const controllerNames = controllersQuery.data?.controllerNames ?? [];
+
     const controllerNamesToControllers: () => ControllerOptionInfo[] = () => controllerNames.map((name) => ({ name, checked: false }));
     const controllersToSelectedControllerNames: () => string[] = () => controllers.filter(({ checked }) => checked).map(({ name }) => name);
     const controllersToControllerOptions: () => SelectBoxOption<string>[] = () => controllers.map(({ name }) => ({ name, value: name }));
-
-    const { data } = useQuery(
-        ['controllers', uri],
-        () => {
-            setIsLoadController(false);
-            return Api.getControllers({ docsUri: uri });
-        },
-        {
-            enabled: !!uri && isLoadController,
-            staleTime: 300000,
-            refetchOnWindowFocus: false,
-        },
-    );
-    const controllerNames = data?.controllerNames ?? [];
 
     useEffect(() => {
         if (controllerNames.length === 0) {
@@ -105,43 +101,12 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         }
     };
 
-    const generateCode = useMutation(
-        () => {
-            return Api.postGenerate({
-                config: {
-                    apiDocsUri: uri,
-                    requestApi: httpApiType,
-                    prettierConfig,
-                    controllerNames: selectedControllerNames,
-                },
-            });
-        },
-        {
-            onSuccess: (data) => {
-                if (data) {
-                    alert('코드 생성이 완료되었습니다.');
-                }
-            },
-            onError: (error: AxiosError) => {
-                switch (error.response?.status) {
-                    case 500:
-                        alert('코드 생성 중 문제가 발생했습니다. 에러 로그를 확인하세요.');
-                        break;
-
-                    case 0:
-                        alert('코드 생성에 실패했습니다. 프로그램을 다시 실행하세요.');
-                        break;
-                }
-            },
-        },
-    );
-
     const handleClickGenerateCode = () => {
         if (!uri) {
             alert('API docs URI를 입력하세요.');
             return;
         }
-        generateCode.mutate();
+        generateCodeMutation.mutate();
     };
 
     // API docs URI Focus 및 Blur 이벤트 핸들러

@@ -10,8 +10,6 @@ import BaseRootLabelContainer from '@components/home/components/label-container/
 import { HomeContext } from '@components/home/context/homeContext';
 
 function Home() {
-    // const { values, handlers } = useHome();
-
     return (
         <>
             <HomeContext.Provider value={useHome()}>

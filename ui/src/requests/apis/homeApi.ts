@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ControllersReq, ControllersRes, GenerateReq } from '@defines/models';
 
-export namespace Api {
+export namespace HomeApi {
     const client = axios.create({ baseURL: 'http://localhost:6200/api' });
 
     /**

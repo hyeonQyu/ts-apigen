@@ -10,7 +10,7 @@ function BaseRootLabelContainer() {
 
     return (
         <>
-            <LabelContainer message={''} isShowMessage>
+            <LabelContainer message={'💡 Base Root 입력 후 Enter 키를 누르면 추가됩니다.'} isShowMessage={baseRootSet.size === 0}>
                 {Array.from(baseRootSet).map((baseRoot) => {
                     const handleClickDelete = () => handleClickDeleteBaseRootLabel(baseRoot);
                     return (

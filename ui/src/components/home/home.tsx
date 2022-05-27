@@ -9,6 +9,7 @@ import BaseRootAddRow from '@components/home/components/form-rows/baseRootAdd/ba
 import BaseRootLabelContainer from '@components/home/components/label-container/base-root-label-container/baseRootLabelContainer';
 import { HomeContext } from '@components/home/context/homeContext';
 import SelectedControllerRow from '@components/home/components/form-rows/selectedControllerType/selectedControllerRow';
+import GeneratedCodePathRow from '@components/home/components/form-rows/generatedCodePath/generatedCodePathRow';
 
 function Home() {
     return (
@@ -32,6 +33,7 @@ function Home() {
                             </div>
                             <SelectedControllerRow />
                             <HttpApiSelectRow />
+                            <GeneratedCodePathRow />
                             <BaseRootAddRow />
                             <div className={'label-wrapper'}>
                                 <BaseRootLabelContainer />

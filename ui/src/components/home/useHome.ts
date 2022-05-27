@@ -22,6 +22,7 @@ export interface IUseHomeValues {
     selectedControllerType: SelectedControllerType;
     httpApiType: HttpApiType;
     httpApiTypeOptions: SelectBoxOption<HttpApiType>[];
+    generatedCodePath: string;
     baseRoot: string;
     baseRootSet: Set<string>;
 }
@@ -42,6 +43,8 @@ export interface IUseHomeHandlers {
     handleClickDeleteControllerLabel: (name: string) => void;
 
     handleSelectHttpApiType: (type: HttpApiType) => void;
+
+    setGeneratedCodePath: Dispatch<SetStateAction<string>>;
 
     setBaseRoot: Dispatch<SetStateAction<string>>;
     handleBaseRootAddInputKeyPress: KeyboardEventHandler<HTMLInputElement>;
@@ -247,6 +250,7 @@ export default function useHome(): IUseHome {
             selectedControllerType,
             httpApiType,
             httpApiTypeOptions,
+            generatedCodePath,
             baseRoot,
             baseRootSet,
         },
@@ -261,6 +265,7 @@ export default function useHome(): IUseHome {
             handleChangeSelectedControllerType,
             handleClickDeleteControllerLabel,
             handleSelectHttpApiType,
+            setGeneratedCodePath,
             setBaseRoot,
             handleBaseRootAddInputKeyPress,
             handleClickDeleteBaseRootLabel,

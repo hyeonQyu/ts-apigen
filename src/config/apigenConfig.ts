@@ -1,10 +1,11 @@
 import { Config } from '../defines/config';
 import { ITag } from '../defines/openApi';
+import { StringFormatter } from '../utils/string/stringFormatter';
 
 export namespace ApigenConfig {
     export let config: Config = {
         apiDocsUri: '',
-        generatedCodePath: `${process.cwd()}/apis`,
+        generatedCodePath: `${StringFormatter.getNormalizedPath(process.cwd())}/apis`,
         requestApi: 'axios',
         controllerNames: [],
         baseRootList: [],

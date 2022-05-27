@@ -68,6 +68,9 @@ export default function useHome(): IUseHome {
     const [baseRoot, setBaseRoot] = useState('');
     const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set());
 
+    // TODO: 불러온 Config로 교체 예정
+    const [savedConfig, setSavedConfig] = useState<Config>();
+
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
 
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
@@ -92,10 +95,46 @@ export default function useHome(): IUseHome {
         };
     };
 
+    // 저장된 설정과 현재 설정이 같은지 확인
+    const isSameAsSavedConfig = (config: Config): boolean => {
+        // TODO: 불러온 Config 교체 시 제거 예정
+        if (!savedConfig) {
+            return false;
+        }
+
+        for (const key in config) {
+            const property = key as keyof Config;
+            const configValue = config[property];
+            const savedConfigValue = savedConfig[property];
+
+            if (Array.isArray(configValue) && Array.isArray(savedConfigValue)) {
+                if (configValue.length !== savedConfigValue.length) {
+                    return false;
+                }
+                for (let i = 0; i < configValue.length; i++) {
+                    if (configValue[i] !== savedConfigValue[i]) {
+                        return false;
+                    }
+                }
+            } else if (config[property] !== savedConfig[property]) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
     // 15초마다 자동저장
     const { intervalId } = useInterval(() => {
         const { mutate, isError } = saveConfigMutation;
-        mutate(getConfig());
+        const config = getConfig();
+
+        if (isSameAsSavedConfig(config)) {
+            return;
+        }
+
+        mutate(config);
+        setSavedConfig(config);
         if (isError && intervalId) {
             clearInterval(intervalId);
         }

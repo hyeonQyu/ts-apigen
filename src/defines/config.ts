@@ -17,4 +17,9 @@ export interface Config {
 
     /** root url 목록 */
     baseRootList: string[];
+
+    /** 선택된 Controller 포함 / 제외 여부 */
+    selectedControllerType: SelectedControllerType;
 }
+
+export type SelectedControllerType = 'INCLUDE' | 'EXCLUDE';

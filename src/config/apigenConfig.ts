@@ -10,6 +10,7 @@ export namespace ApigenConfig {
         controllerNames: [],
         baseRootList: [],
         prettierConfig: null,
+        selectedControllerType: 'INCLUDE',
     };
 
     export function setConfig(newConfig: ReqConfig) {
@@ -25,7 +26,9 @@ export namespace ApigenConfig {
     }
 
     export function setControllerNames(tags: ITag[]) {
-        if (config.controllerNames.length === 0) {
+        const { controllerNames, selectedControllerType } = config;
+
+        if (selectedControllerType === 'INCLUDE' && controllerNames.length === 0) {
             config.controllerNames = tagsToControllerNames(tags);
         }
     }

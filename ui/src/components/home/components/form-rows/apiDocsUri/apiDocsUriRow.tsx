@@ -5,7 +5,7 @@ import { useHomeContext } from '@components/home/context/homeContext';
 function ApiDocsUriRow() {
     const {
         values: { uri },
-        handlers: { setUri, handleUseApiDocsUriBlur, handleUseAPiDocsUriFocus },
+        handlers: { setUri, handleUseApiDocsUriBlur, handleUseApiDocsUriFocus },
     } = useHomeContext();
     const { onChange } = useInput({ value: uri, setValue: setUri });
 
@@ -18,7 +18,7 @@ function ApiDocsUriRow() {
                     value={uri}
                     onChange={onChange}
                     onBlur={handleUseApiDocsUriBlur}
-                    onFocus={handleUseAPiDocsUriFocus}
+                    onFocus={handleUseApiDocsUriFocus}
                 />
             </FormRow>
 

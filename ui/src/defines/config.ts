@@ -1,4 +1,5 @@
 import { PrettierConfig } from '@defines/prettierConfig';
+import { SelectedControllerType } from '@defines/selectedControllerType';
 
 export interface Config {
     /** Swagger Api Docs URI **/
@@ -17,4 +18,7 @@ export interface Config {
 
     /** root url 목록 */
     baseRootList?: string[];
+
+    /** 선택된 Controller 포함 / 제외 여부 */
+    selectedControllerType: SelectedControllerType;
 }

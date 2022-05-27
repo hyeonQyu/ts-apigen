@@ -17,6 +17,7 @@ function LabelContainer(props: LabelContainerProps) {
             <style jsx>{`
                 .message {
                     line-height: 1.5;
+                    font-size: 13px;
                 }
 
                 .container {

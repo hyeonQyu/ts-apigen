@@ -8,6 +8,7 @@ import Header from '@components/home/components/header/header';
 import BaseRootAddRow from '@components/home/components/form-rows/baseRootAdd/baseRootAddRow';
 import BaseRootLabelContainer from '@components/home/components/label-container/base-root-label-container/baseRootLabelContainer';
 import { HomeContext } from '@components/home/context/homeContext';
+import SelectedControllerRow from '@components/home/components/form-rows/selectedControllerType/selectedControllerRow';
 
 function Home() {
     return (
@@ -29,6 +30,7 @@ function Home() {
                             <div className={'label-wrapper'}>
                                 <ControllerLabelContainer />
                             </div>
+                            <SelectedControllerRow />
                             <HttpApiSelectRow />
                             <BaseRootAddRow />
                             <div className={'label-wrapper'}>
@@ -48,10 +50,10 @@ function Home() {
 
                 form,
                 .label-wrapper {
-                    width: 500px;
+                    width: 600px;
                 }
                 form > * {
-                    margin-top: 15px;
+                    margin-top: 30px;
                 }
 
                 .label-wrapper {

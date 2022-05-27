@@ -1,11 +1,10 @@
-import { Dispatch, FocusEventHandler, KeyboardEventHandler, SetStateAction, useEffect, useState } from 'react';
+import { ChangeEventHandler, Dispatch, FocusEventHandler, KeyboardEventHandler, SetStateAction, useEffect, useState } from 'react';
 import { PrettierConfig } from '@defines/prettierConfig';
 import { HttpApiType } from '@defines/httpApiType';
 import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
 import { SelectBoxOption } from '@defines/selectBoxOption';
 import useHomeQuery from '@requests/queries/useHomeQuery';
-
-export interface IUseHomeParams {}
+import { SelectedControllerType } from '@defines/selectedControllerType';
 
 export interface IUseHome {
     values: IUseHomeValues;
@@ -18,6 +17,7 @@ export interface IUseHomeValues {
     controllers: ControllerOptionInfo[];
     selectedControllerNames: string[];
     controllerOptions: SelectBoxOption<string>[];
+    selectedControllerType: SelectedControllerType;
     httpApiType: HttpApiType;
     httpApiTypeOptions: SelectBoxOption<HttpApiType>[];
     baseRoot: string;
@@ -30,7 +30,9 @@ export interface IUseHomeHandlers {
 
     setUri: Dispatch<SetStateAction<string>>;
     handleUseApiDocsUriBlur: FocusEventHandler<HTMLInputElement>;
-    handleUseAPiDocsUriFocus: FocusEventHandler<HTMLInputElement>;
+    handleUseApiDocsUriFocus: FocusEventHandler<HTMLInputElement>;
+
+    handleChangeSelectedControllerType: ChangeEventHandler<HTMLInputElement>;
 
     setPrettierConfig: Dispatch<SetStateAction<PrettierConfig | null>>;
 
@@ -44,8 +46,7 @@ export interface IUseHomeHandlers {
     handleClickDeleteBaseRootLabel: (baseRoot: string) => void;
 }
 
-export default function useHome(/*params: IUseHomeParams*/): IUseHome {
-    // const {} = params;
+export default function useHome(): IUseHome {
     const [uri, setUri] = useState('');
     const [isLoadController, setIsLoadController] = useState(false);
 
@@ -54,6 +55,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [controllers, setControllers] = useState<ControllerOptionInfo[]>([]);
     const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>([]);
     const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>([]);
+
+    const [selectedControllerType, setSelectedControllerType] = useState<SelectedControllerType>('INCLUDE');
 
     const httpApiTypes: Omit<SelectBoxOption<HttpApiType>, 'name'>[] = [{ value: 'fetch', disabled: true }, { value: 'axios' }];
     const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
@@ -70,6 +73,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         prettierConfig,
         controllerNames: selectedControllerNames,
         baseRootList: Array.from(baseRootSet),
+        selectedControllerType,
     });
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];
@@ -112,7 +116,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     // API docs URI Focus 및 Blur 이벤트 핸들러
     const handleUseApiDocsUriBlur = () => setIsLoadController(true);
-    const handleUseAPiDocsUriFocus = () => setIsLoadController(false);
+    const handleUseApiDocsUriFocus = () => setIsLoadController(false);
 
     // 컨트롤러 선택
     const handleSelectController = (value: string, selected: boolean = true) => {
@@ -124,6 +128,11 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
                 };
             }),
         );
+    };
+
+    // 선택한 Controller 에 대한 코드 생성 옵션 선택
+    const handleChangeSelectedControllerType: ChangeEventHandler<HTMLInputElement> = (e) => {
+        setSelectedControllerType(e.target.value as SelectedControllerType);
     };
 
     // HTTP 통신 방식 선택
@@ -175,6 +184,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             controllers,
             selectedControllerNames,
             controllerOptions,
+            selectedControllerType,
             httpApiType,
             httpApiTypeOptions,
             baseRoot,
@@ -185,9 +195,10 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             handleClickGenerateCode,
             setUri,
             handleUseApiDocsUriBlur,
-            handleUseAPiDocsUriFocus,
+            handleUseApiDocsUriFocus,
             setPrettierConfig,
             handleSelectController,
+            handleChangeSelectedControllerType,
             handleClickDeleteControllerLabel,
             handleSelectHttpApiType,
             setBaseRoot,

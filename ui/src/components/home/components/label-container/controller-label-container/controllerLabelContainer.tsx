@@ -4,7 +4,7 @@ import { useHomeContext } from '@components/home/context/homeContext';
 
 function ControllerLabelContainer() {
     const {
-        values: { selectedControllerNames },
+        values: { selectedControllerNames, selectedControllerType },
         handlers: { handleClickDeleteControllerLabel },
     } = useHomeContext();
 
@@ -17,7 +17,12 @@ function ControllerLabelContainer() {
                 {selectedControllerNames.map((name) => {
                     const handleClickDelete = () => handleClickDeleteControllerLabel(name);
                     return (
-                        <Label key={name} onClickDelete={handleClickDelete} className={'controller-label'}>
+                        <Label
+                            key={name}
+                            onClickDelete={handleClickDelete}
+                            className={'controller-label'}
+                            backgroundColor={selectedControllerType === 'EXCLUDE' ? '#ff7373' : '#5192f1'}
+                        >
                             {name}
                         </Label>
                     );

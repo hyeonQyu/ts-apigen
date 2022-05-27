@@ -21,7 +21,7 @@ export const HomeContext = React.createContext<IHomeContext>({
 
         setUri: () => {},
         handleUseApiDocsUriBlur: () => {},
-        handleUseAPiDocsUriFocus: () => {},
+        handleUseApiDocsUriFocus: () => {},
 
         setPrettierConfig: () => {},
 

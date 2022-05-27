@@ -17,8 +17,14 @@ export namespace ControllerParser {
 
         Object.entries(paths).forEach(([path, restApi]) => {
             const controller: string = getController(restApi);
-            if (controllerSet.size > 0 && !controllerSet.has(controller)) {
-                return;
+            if (ApigenConfig.config.selectedControllerType === 'INCLUDE') {
+                if (controllerSet.size > 0 && !controllerSet.has(controller)) {
+                    return;
+                }
+            } else if (ApigenConfig.config.selectedControllerType === 'EXCLUDE') {
+                if (controllerSet.has(controller)) {
+                    return;
+                }
             }
 
             const controllerInfo = controllerInfoByController.get(controller);
@@ -123,7 +129,7 @@ export namespace ControllerParser {
                 jsonBody: getJson(parameterList, refSet),
             };
         } else {
-            console.error(path, 'request parameter 이상');
+            console.error(path, 'request parameter 이상', parameterList);
             return null;
         }
     }

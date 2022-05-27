@@ -3,7 +3,7 @@ import { ITag } from '../defines/openApi';
 
 export namespace ApigenConfig {
     export let config: Config = {
-        apiDocsUri: 'http://localhost:8080/v2/api-docs',
+        apiDocsUri: '',
         generatedCodePath: `${process.cwd()}/apis`,
         requestApi: 'axios',
         controllerNames: [],

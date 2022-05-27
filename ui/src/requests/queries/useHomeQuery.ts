@@ -47,35 +47,32 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
     };
 
     const useGenerateCodeMutation = () => {
-        return useMutation(
-            (config: Config) => {
-                return HomeApi.postGenerate({ config });
+        return useMutation((config: Config) => HomeApi.postGenerate({ config }), {
+            onSuccess: (data) => {
+                if (data) {
+                    alert('코드 생성이 완료되었습니다.');
+                }
             },
-            {
-                onSuccess: (data) => {
-                    if (data) {
-                        alert('코드 생성이 완료되었습니다.');
-                    }
-                },
-                onError: (error: AxiosError) => {
-                    switch (error.response?.status) {
-                        case 500:
-                            alert('코드 생성 중 문제가 발생했습니다. 에러 로그를 확인하세요.');
-                            break;
+            onError: (error: AxiosError) => {
+                switch (error.response?.status) {
+                    case 500:
+                        alert('코드 생성 중 문제가 발생했습니다. 에러 로그를 확인하세요.');
+                        break;
 
-                        case 0:
-                            alert('코드 생성에 실패했습니다. 프로그램을 다시 실행하세요.');
-                            break;
-                    }
-                },
+                    case 0:
+                        alert('코드 생성에 실패했습니다. 프로그램을 다시 실행하세요.');
+                        break;
+                }
             },
-        );
+        });
     };
 
     const useSaveConfigMutation = () => {
-        return useMutation((config: Config) => {
-            return HomeApi.postSave({ config });
-        });
+        return useMutation((config: Config) => HomeApi.postSave({ config }));
+    };
+
+    const useLoadConfigQuery = () => {
+        return useQuery('config', () => HomeApi.getConfig());
     };
 
     return {

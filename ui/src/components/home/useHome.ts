@@ -7,6 +7,9 @@ import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/useInterval';
 import { Config } from '@defines/config';
+import { HomeProps } from '@components/home/home';
+
+export interface IUseHomeParams extends HomeProps {}
 
 export interface IUseHome {
     values: IUseHomeValues;
@@ -51,40 +54,15 @@ export interface IUseHomeHandlers {
     handleClickDeleteBaseRootLabel: (baseRoot: string) => void;
 }
 
-export default function useHome(): IUseHome {
-    const [uri, setUri] = useState('');
-    const [isLoadController, setIsLoadController] = useState(false);
+export default function useHome(params: IUseHomeParams): IUseHome {
+    const { config } = params;
 
-    const [prettierConfig, setPrettierConfig] = useState<PrettierConfig | null>(null);
-
-    const [controllers, setControllers] = useState<ControllerOptionInfo[]>([]);
-    const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>([]);
-    const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>([]);
-
-    const [selectedControllerType, setSelectedControllerType] = useState<SelectedControllerType>('INCLUDE');
-
-    const httpApiTypes: Omit<SelectBoxOption<HttpApiType>, 'name'>[] = [{ value: 'fetch', disabled: true }, { value: 'axios' }];
-    const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
-
-    const [generatedCodePath, setGeneratedCodePath] = useState('');
-
-    const [baseRoot, setBaseRoot] = useState('');
-    const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set());
-
-    // TODO: 불러온 Config로 교체 예정
-    const [savedConfig, setSavedConfig] = useState<Config>();
-
-    const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
-
-    const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
-    const generateCodeMutation = useGenerateCodeMutation();
-    const saveConfigMutation = useSaveConfigMutation();
-
-    const controllerNames = controllersQuery.data?.controllerNames ?? [];
-
-    const controllerNamesToControllers: () => ControllerOptionInfo[] = () => controllerNames.map((name) => ({ name, checked: false }));
-    const controllersToSelectedControllerNames: () => string[] = () => controllers.filter(({ checked }) => checked).map(({ name }) => name);
-    const controllersToControllerOptions: () => SelectBoxOption<string>[] = () => controllers.map(({ name }) => ({ name, value: name }));
+    const controllerNamesToControllers = (controllerNames: string[]): ControllerOptionInfo[] =>
+        controllerNames.map((name) => ({ name, checked: false }));
+    const controllersToSelectedControllerNames = (controllers: ControllerOptionInfo[]): string[] =>
+        controllers.filter(({ checked }) => checked).map(({ name }) => name);
+    const controllersToControllerOptions = (controllers: ControllerOptionInfo[]): SelectBoxOption<string>[] =>
+        controllers.map(({ name }) => ({ name, value: name }));
 
     const getConfig = (): Config => {
         return {
@@ -100,11 +78,6 @@ export default function useHome(): IUseHome {
 
     // 저장된 설정과 현재 설정이 같은지 확인
     const isSameAsSavedConfig = (config: Config): boolean => {
-        // TODO: 불러온 Config 교체 시 제거 예정
-        if (!savedConfig) {
-            return false;
-        }
-
         for (const key in config) {
             const property = key as keyof Config;
             const configValue = config[property];
@@ -127,6 +100,35 @@ export default function useHome(): IUseHome {
         return true;
     };
 
+    const [uri, setUri] = useState(config.apiDocsUri);
+    const [isLoadController, setIsLoadController] = useState(false);
+
+    const [prettierConfig, setPrettierConfig] = useState<PrettierConfig | null>(null);
+
+    const [controllers, setControllers] = useState<ControllerOptionInfo[]>(controllerNamesToControllers(config.controllerNames));
+    const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>(config.controllerNames);
+    const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>(controllersToControllerOptions(controllers));
+
+    const [selectedControllerType, setSelectedControllerType] = useState<SelectedControllerType>('INCLUDE');
+
+    const httpApiTypes: Omit<SelectBoxOption<HttpApiType>, 'name'>[] = [{ value: 'fetch', disabled: true }, { value: 'axios' }];
+    const [httpApiType, setHttpApiType] = useState<HttpApiType>(config.requestApi);
+
+    const [generatedCodePath, setGeneratedCodePath] = useState(config.generatedCodePath);
+
+    const [baseRoot, setBaseRoot] = useState('');
+    const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set(config.baseRootList));
+
+    const [savedConfig, setSavedConfig] = useState<Config>(config);
+
+    const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
+
+    const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
+    const generateCodeMutation = useGenerateCodeMutation();
+    const saveConfigMutation = useSaveConfigMutation();
+
+    const controllerNames = controllersQuery.data?.controllerNames ?? [];
+
     // 15초마다 자동저장
     const { intervalId } = useInterval(() => {
         const { mutate, isError } = saveConfigMutation;
@@ -148,13 +150,13 @@ export default function useHome(): IUseHome {
         if (controllerNames.length === 0) {
             return;
         }
-        setControllers(controllerNamesToControllers());
+        setControllers(controllerNamesToControllers(controllerNames));
     }, [controllerNames]);
 
     // Controller 목록 변경 시 데이터 가공
     useEffect(() => {
-        setSelectedControllerNames(controllersToSelectedControllerNames());
-        setControllerOptions(controllersToControllerOptions());
+        setSelectedControllerNames(controllersToSelectedControllerNames(controllers));
+        setControllerOptions(controllersToControllerOptions(controllers));
     }, [controllers]);
 
     const handleClickInitSelectedController = () => {

@@ -16,3 +16,7 @@ export interface GenerateReq {
 export interface SaveReq {
     config: Config;
 }
+
+export interface ConfigRes {
+    config: Config;
+}

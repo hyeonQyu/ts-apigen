@@ -3,9 +3,10 @@ import { SwaggerProcessor } from '../utils/swaggerProcessor';
 import { OpenApi } from '../defines/openApi';
 import axios from 'axios';
 import { ParamsDictionary, Request, Response } from 'express-serve-static-core';
-import { ControllersReq, ControllersRes, GenerateReq, SaveReq } from '../defines/models';
+import { ConfigRes, ControllersReq, ControllersRes, GenerateReq, SaveReq } from '../defines/models';
 import { ParsedQs } from 'qs';
 import { ConfigGenerator } from '../utils/generator/config/configGenerator';
+import { Config } from '../defines/config';
 
 export namespace Api {
     let openApiData: OpenApi;
@@ -47,6 +48,9 @@ export namespace Api {
             }
         });
 
+        /**
+         * 설정 저장
+         */
         doCommonResponse<SaveReq, any, boolean>(app, 'save', 'post', async (req, res) => {
             const { config } = req.body;
 
@@ -57,6 +61,11 @@ export namespace Api {
                 console.error('/save', e);
                 res.status(500).send(false);
             }
+        });
+
+        doCommonResponse<any, any, ConfigRes>(app, 'config', 'get', async (req, res) => {
+            const config: Config = ConfigGenerator.readConfig();
+            res.send({ config });
         });
     }
 

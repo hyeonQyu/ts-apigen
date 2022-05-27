@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ControllersReq, ControllersRes, GenerateReq, SaveReq } from '@defines/models';
+import { ControllersReq, ControllersRes, GenerateReq, ConfigRes, SaveReq } from '@defines/models';
 
 export namespace HomeApi {
     const client = axios.create({ baseURL: 'http://localhost:6200/api' });
@@ -26,5 +26,12 @@ export namespace HomeApi {
      */
     export async function postSave(req: SaveReq): Promise<boolean> {
         return (await client.post('/save', req)).data;
+    }
+
+    /**
+     * 설정 불러오기
+     */
+    export async function getConfig(): Promise<ConfigRes> {
+        return (await client.get('/config')).data;
     }
 }

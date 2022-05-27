@@ -10,11 +10,14 @@ import BaseRootLabelContainer from '@components/home/components/label-container/
 import { HomeContext } from '@components/home/context/homeContext';
 import SelectedControllerRow from '@components/home/components/form-rows/selectedControllerType/selectedControllerRow';
 import GeneratedCodePathRow from '@components/home/components/form-rows/generatedCodePath/generatedCodePathRow';
+import { IndexProps } from '../../pages';
 
-function Home() {
+export interface HomeProps extends IndexProps {}
+
+function Home(props: HomeProps) {
     return (
         <>
-            <HomeContext.Provider value={useHome()}>
+            <HomeContext.Provider value={useHome(props)}>
                 <Header />
 
                 <div className={'wrapper'}>

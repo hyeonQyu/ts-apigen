@@ -14,7 +14,7 @@ function BaseRootLabelContainer() {
                 {Array.from(baseRootSet).map((baseRoot) => {
                     const handleClickDelete = () => handleClickDeleteBaseRootLabel(baseRoot);
                     return (
-                        <Label key={baseRoot} onClickDelete={handleClickDelete} className={'base-root-label'} backgroundColor={'green'}>
+                        <Label key={baseRoot} onClickDelete={handleClickDelete} className={'base-root-label'} backgroundColor={'#19b719'}>
                             {baseRoot}
                         </Label>
                     );

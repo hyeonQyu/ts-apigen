@@ -32,32 +32,81 @@ export namespace RequestGenerator {
             console.log('controller 이름', controllerName);
             console.log('controller 정보', controllerInfo);
 
-            const { refSet, apiInfoList } = controllerInfo;
+            const { refSet, apiInfoList, hasMultiRootUrl } = controllerInfo;
             const name = controllerName.replace('Controller', 'Request');
 
-            let ts = `
+            const ts = `
                 import { AxiosRequestConfig } from 'axios';
                 import { RequestCommon } from './RequestCommon';
                 ${ImportGenerator.getImportCode(refSet, '../models')}
                 export namespace ${name} {
-                    ${getAllRequestFunctionCodeOfController(apiInfoList)}
+                    ${
+                        hasMultiRootUrl && ApigenConfig.config.baseRootList.length > 0
+                            ? getNamespaceCodeByBaseRoot(apiInfoList)
+                            : getAllRequestFunctionCodeOfController(apiInfoList)
+                    }
                 }
             `;
 
-            try {
-                fs.writeFileSync(
-                    `${ApigenConfig.config.generatedCodePath}/requests/${name}.ts`,
-                    prettier.format(ts, PrettierParser.prettierConfig),
-                );
-            } catch (e) {
-                console.error('generate request', e);
-                const errorFilePath = `${ApigenConfig.config.generatedCodePath}/requests/error.ts`;
-                fs.writeFileSync(errorFilePath, ts);
-                throw new Error(`Prettier 전환 중 에러가 발생했습니다. ${errorFilePath} 를 확인하세요.`);
-            }
+            writeFile(name, ts);
 
             contentTypeCount.init();
         });
+    }
+
+    /**
+     * base root 존재에 따른 namespace 별 코드 생성
+     * @param apiInfoList
+     * @private
+     */
+    function getNamespaceCodeByBaseRoot(apiInfoList: ApiInfo[]): string {
+        const namespaceCodes: string[] = [];
+
+        getApiInfoListByBaseRoot(apiInfoList).forEach((apiInfoList, baseRoot) => {
+            if (apiInfoList.length === 0) {
+                return;
+            }
+
+            namespaceCodes.push(`
+                export namespace ${CaseStyleFormatter.baseRootToPascalCase(baseRoot)} {
+                    ${getAllRequestFunctionCodeOfController(apiInfoList)}
+                }
+            `);
+        });
+
+        return namespaceCodes.join('\n');
+    }
+
+    /**
+     * baseRoot 별 API 정보 목록 Map 반환
+     * @param apiInfoList
+     * @private
+     */
+    function getApiInfoListByBaseRoot(apiInfoList: ApiInfo[]): Map<string, ApiInfo[]> {
+        const isBaseRootInPath = (path: string, baseRoot: string): boolean => path.indexOf(baseRoot) > -1;
+
+        const { baseRootList } = ApigenConfig.config;
+        const apiInfoListByBaseRoot = new Map<string, ApiInfo[]>(baseRootList.map((baseRoot) => [baseRoot, []]));
+        let baseRoot = baseRootList[0];
+        const { length } = baseRootList;
+
+        apiInfoList.forEach((apiInfo) => {
+            const { path } = apiInfo;
+
+            if (!isBaseRootInPath(path, baseRoot)) {
+                for (let i = 0; i < length; i++) {
+                    const tmpBaseRoot = baseRootList[i];
+                    if (isBaseRootInPath(path, baseRootList[i])) {
+                        baseRoot = tmpBaseRoot;
+                        break;
+                    }
+                }
+            }
+
+            apiInfoListByBaseRoot.get(baseRoot)?.push(apiInfo);
+        });
+
+        return apiInfoListByBaseRoot;
     }
 
     /**
@@ -210,5 +259,19 @@ export namespace RequestGenerator {
 
     function getAxiosPostCode(path: string, param: string, config: string, responseType: string): string {
         return `return (await RequestCommon.axiosPost<${responseType}>(\'${path}\', ${param}, ${config})).data`;
+    }
+
+    function writeFile(fileName: string, ts: string) {
+        try {
+            fs.writeFileSync(
+                `${ApigenConfig.config.generatedCodePath}/requests/${fileName}.ts`,
+                prettier.format(ts, PrettierParser.prettierConfig),
+            );
+        } catch (e) {
+            console.error('generate request', e);
+            const errorFilePath = `${ApigenConfig.config.generatedCodePath}/requests/${fileName}Error.ts`;
+            fs.writeFileSync(errorFilePath, ts);
+            throw new Error(`Prettier 전환 중 에러가 발생했습니다. ${errorFilePath} 를 확인하세요.`);
+        }
     }
 }

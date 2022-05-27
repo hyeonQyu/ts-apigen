@@ -7,6 +7,9 @@ export namespace ApigenConfig {
         apiDocsUri: 'http://localhost:8080/v2/api-docs',
         generatedCodePath: './apis',
         requestApi: 'axios',
+        controllerNames: [],
+        baseRootList: [],
+        prettierConfig: null,
     };
 
     export function setConfig(newConfig: ReqConfig) {
@@ -14,6 +17,7 @@ export namespace ApigenConfig {
             ...config,
             ...newConfig,
         };
+        config.baseRootList.sort((root1, root2) => root2.length - root1.length);
     }
 
     export function setApiDocsUri(apiDocsUri: string) {
@@ -21,7 +25,7 @@ export namespace ApigenConfig {
     }
 
     export function setControllerNames(tags: ITag[]) {
-        if (!config.controllerNames || config.controllerNames.length === 0) {
+        if (config.controllerNames.length === 0) {
             config.controllerNames = tagsToControllerNames(tags);
         }
     }

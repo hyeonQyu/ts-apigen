@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ControllersReq, ControllersRes, GenerateReq } from '@defines/models';
+import { ControllersReq, ControllersRes, GenerateReq, SaveReq } from '@defines/models';
 
 export namespace HomeApi {
     const client = axios.create({ baseURL: 'http://localhost:6200/api' });
@@ -18,5 +18,13 @@ export namespace HomeApi {
      */
     export async function postGenerate(req: GenerateReq): Promise<boolean> {
         return (await client.post('/generate', req)).data;
+    }
+
+    /**
+     * 저장
+     * @param req
+     */
+    export async function postSave(req: SaveReq): Promise<boolean> {
+        return (await client.post('/save', req)).data;
     }
 }

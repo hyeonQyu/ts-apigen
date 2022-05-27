@@ -10,7 +10,9 @@ export interface ControllersRes {
 }
 
 export interface GenerateReq {
-    config: ReqConfig;
+    config: Config;
 }
 
-export interface ReqConfig extends Omit<Config, 'generatedCodePath'> {}
+export interface SaveReq {
+    config: Config;
+}

@@ -5,7 +5,7 @@ import { ReqConfig } from '../defines/models';
 export namespace ApigenConfig {
     export let config: Config = {
         apiDocsUri: 'http://localhost:8080/v2/api-docs',
-        generatedCodePath: './apis',
+        generatedCodePath: `${process.cwd()}/apis`,
         requestApi: 'axios',
         controllerNames: [],
         baseRootList: [],

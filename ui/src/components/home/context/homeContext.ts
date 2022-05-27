@@ -10,6 +10,7 @@ export const HomeContext = React.createContext<IHomeContext>({
         controllers: [],
         selectedControllerNames: [],
         controllerOptions: [],
+        selectedControllerType: 'INCLUDE',
         httpApiType: 'axios',
         httpApiTypeOptions: [],
         baseRoot: '',
@@ -27,6 +28,8 @@ export const HomeContext = React.createContext<IHomeContext>({
 
         handleSelectController: () => {},
         handleClickDeleteControllerLabel: () => {},
+
+        handleChangeSelectedControllerType: () => {},
 
         handleSelectHttpApiType: () => {},
 

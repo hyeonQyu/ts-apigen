@@ -10,7 +10,8 @@ import {
 } from 'react-query';
 import { HomeApi } from '@requests/apis/homeApi';
 import { AxiosError } from 'axios';
-import { ControllersRes, ReqConfig } from '@defines/models';
+import { ControllersRes } from '@defines/models';
+import { Config } from '@defines/config';
 
 export interface IUseHomeQueryParams {}
 
@@ -25,7 +26,8 @@ export interface IUseHomeQuery {
         | QueryObserverLoadingResult<ControllersRes>
         | QueryObserverRefetchErrorResult<ControllersRes>
         | QueryObserverSuccessResult<ControllersRes>;
-    useGenerateCodeMutation: (config: ReqConfig) => UseMutationResult<boolean, AxiosError, void>;
+    useGenerateCodeMutation: () => UseMutationResult<boolean, AxiosError, Config>;
+    useSaveConfigMutation: () => UseMutationResult<boolean, unknown, Config>;
 }
 
 export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQuery {
@@ -44,12 +46,10 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
         );
     };
 
-    const useGenerateCodeMutation = (config: ReqConfig) => {
+    const useGenerateCodeMutation = () => {
         return useMutation(
-            () => {
-                return HomeApi.postGenerate({
-                    config,
-                });
+            (config: Config) => {
+                return HomeApi.postGenerate({ config });
             },
             {
                 onSuccess: (data) => {
@@ -72,8 +72,15 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
         );
     };
 
+    const useSaveConfigMutation = () => {
+        return useMutation((config: Config) => {
+            return HomeApi.postSave({ config });
+        });
+    };
+
     return {
         useControllersQuery,
         useGenerateCodeMutation,
+        useSaveConfigMutation,
     };
 }

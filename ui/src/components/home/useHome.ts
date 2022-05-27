@@ -5,6 +5,8 @@ import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
 import { SelectBoxOption } from '@defines/selectBoxOption';
 import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
+import useInterval from '@hooks/useInterval';
+import { Config } from '@defines/config';
 
 export interface IUseHome {
     values: IUseHomeValues;
@@ -61,20 +63,16 @@ export default function useHome(): IUseHome {
     const httpApiTypes: Omit<SelectBoxOption<HttpApiType>, 'name'>[] = [{ value: 'fetch', disabled: true }, { value: 'axios' }];
     const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
 
+    const [generatedCodePath, setGeneratedCodePath] = useState('');
+
     const [baseRoot, setBaseRoot] = useState('');
     const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set());
 
-    const { useControllersQuery, useGenerateCodeMutation } = useHomeQuery();
+    const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
 
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
-    const generateCodeMutation = useGenerateCodeMutation({
-        apiDocsUri: uri,
-        requestApi: httpApiType,
-        prettierConfig,
-        controllerNames: selectedControllerNames,
-        baseRootList: Array.from(baseRootSet),
-        selectedControllerType,
-    });
+    const generateCodeMutation = useGenerateCodeMutation();
+    const saveConfigMutation = useSaveConfigMutation();
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];
 
@@ -82,6 +80,28 @@ export default function useHome(): IUseHome {
     const controllersToSelectedControllerNames: () => string[] = () => controllers.filter(({ checked }) => checked).map(({ name }) => name);
     const controllersToControllerOptions: () => SelectBoxOption<string>[] = () => controllers.map(({ name }) => ({ name, value: name }));
 
+    const getConfig = (): Config => {
+        return {
+            apiDocsUri: uri,
+            requestApi: httpApiType,
+            prettierConfig,
+            controllerNames: selectedControllerNames,
+            baseRootList: Array.from(baseRootSet),
+            selectedControllerType,
+            generatedCodePath,
+        };
+    };
+
+    // 15초마다 자동저장
+    const { intervalId } = useInterval(() => {
+        const { mutate, isError } = saveConfigMutation;
+        mutate(getConfig());
+        if (isError && intervalId) {
+            clearInterval(intervalId);
+        }
+    }, 15000);
+
+    // Controller 목록 조회 API 호출 후
     useEffect(() => {
         if (controllerNames.length === 0) {
             return;
@@ -89,6 +109,7 @@ export default function useHome(): IUseHome {
         setControllers(controllerNamesToControllers());
     }, [controllerNames]);
 
+    // Controller 목록 변경 시 데이터 가공
     useEffect(() => {
         setSelectedControllerNames(controllersToSelectedControllerNames());
         setControllerOptions(controllersToControllerOptions());
@@ -111,7 +132,7 @@ export default function useHome(): IUseHome {
             alert('API docs URI를 입력하세요.');
             return;
         }
-        generateCodeMutation.mutate();
+        generateCodeMutation.mutate(getConfig());
     };
 
     // API docs URI Focus 및 Blur 이벤트 핸들러

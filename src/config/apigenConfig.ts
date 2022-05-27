@@ -1,6 +1,5 @@
 import { Config } from '../defines/config';
 import { ITag } from '../defines/openApi';
-import { ReqConfig } from '../defines/models';
 
 export namespace ApigenConfig {
     export let config: Config = {
@@ -13,7 +12,7 @@ export namespace ApigenConfig {
         selectedControllerType: 'INCLUDE',
     };
 
-    export function setConfig(newConfig: ReqConfig) {
+    export function setConfig(newConfig: Config) {
         config = {
             ...config,
             ...newConfig,

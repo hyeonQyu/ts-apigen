@@ -3,8 +3,9 @@ import { SwaggerProcessor } from '../utils/swaggerProcessor';
 import { OpenApi } from '../defines/openApi';
 import axios from 'axios';
 import { ParamsDictionary, Request, Response } from 'express-serve-static-core';
-import { ControllersReq, ControllersRes, GenerateReq } from '../defines/models';
+import { ControllersReq, ControllersRes, GenerateReq, SaveReq } from '../defines/models';
 import { ParsedQs } from 'qs';
+import { ConfigGenerator } from '../utils/generator/config/configGenerator';
 
 export namespace Api {
     let openApiData: OpenApi;
@@ -42,6 +43,18 @@ export namespace Api {
                 res.send(true);
             } catch (e) {
                 console.error('/generate', e);
+                res.status(500).send(false);
+            }
+        });
+
+        doCommonResponse<SaveReq, any, boolean>(app, 'save', 'post', async (req, res) => {
+            const { config } = req.body;
+
+            try {
+                ConfigGenerator.generateConfig(config);
+                res.send(true);
+            } catch (e) {
+                console.error('/save', e);
                 res.status(500).send(false);
             }
         });

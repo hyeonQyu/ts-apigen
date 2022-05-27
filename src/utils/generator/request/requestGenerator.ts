@@ -113,14 +113,15 @@ export namespace RequestGenerator {
                     .map(({ name, type, required }) => {
                         return getRequestCommonCode(name, type, required);
                     })
-                    .join();
+                    .join()
+                    .concat(',');
 
             case 'json':
                 if (!jsonBody) {
                     return '';
                 }
                 const { name, type, required } = jsonBody;
-                return getRequestCommonCode(name, type, required);
+                return getRequestCommonCode(name, type, required).concat(',');
 
             default:
                 return '';
@@ -128,7 +129,7 @@ export namespace RequestGenerator {
     }
 
     function getRequestCommonCode(name: string, type: string, required: boolean): string {
-        return `${name}${required ? '' : '?'}: ${type},`;
+        return `${name}${required ? '' : '?'}: ${type}`;
     }
 
     /**

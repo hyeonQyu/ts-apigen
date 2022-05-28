@@ -1,5 +1,5 @@
 import FormRow from '@components/home/components/form-rows/common/formRow';
-import useInput from '@hooks/useInput';
+import useInput from '@hooks/common/useInput';
 import { useHomeContext } from '@components/home/context/homeContext';
 
 function BaseRootAddRow() {

@@ -5,9 +5,9 @@ import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
 import { SelectBoxOption } from '@defines/selectBoxOption';
 import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
-import useInterval from '@hooks/useInterval';
+import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
-import { HomeProps } from '@components/home/home';
+import { HomeProps } from '@pages/index';
 
 export interface IUseHomeParams extends HomeProps {}
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IUseHome } from '@components/home/useHome';
+import { IUseHome } from '@hooks/pages/useHome';
 
 export interface IHomeContext extends IUseHome {}
 

@@ -1,7 +1,7 @@
 import { useSelectBoxContext } from '@components/common/select-box/context/selectBoxContext';
 import SelectBoxOption from '@components/common/select-box/components/options/components/option/SelectBoxOption';
 import SelectBoxSearchBar from '@components/common/select-box/components/options/components/search-bar/SelectBoxSearchBar';
-import useInput from '@hooks/useInput';
+import useInput from '@hooks/common/useInput';
 import useSelectBoxOptions from '@components/common/select-box/components/options/useSelectBoxOptions';
 import { useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars';

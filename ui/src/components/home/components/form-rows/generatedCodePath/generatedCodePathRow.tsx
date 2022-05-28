@@ -1,6 +1,6 @@
 import { useHomeContext } from '@components/home/context/homeContext';
 import FormRow from '@components/home/components/form-rows/common/formRow';
-import useInput from '@hooks/useInput';
+import useInput from '@hooks/common/useInput';
 
 function GeneratedCodePathRow() {
     const {

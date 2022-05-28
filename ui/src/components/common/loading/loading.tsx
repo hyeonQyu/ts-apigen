@@ -14,7 +14,6 @@ function Loading(props: LoadingProps) {
     return (
         <>
             <div className={'wrapper'}>
-                {/*    <div className={'loading'}>로딩중</div>*/}
                 <div className={'background'} />
                 <div className={'loading'}>
                     <div className={'loadingio-spinner-double-ring-0hjs6hp5lmk'}>

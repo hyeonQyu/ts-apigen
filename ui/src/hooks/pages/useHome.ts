@@ -8,8 +8,6 @@ import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
 import { HomeProps } from '@pages/index';
-import { useSetRecoilState } from 'recoil';
-import { loadingCountState } from 'stores/store';
 import useLoad from '@hooks/common/useLoad';
 
 export interface IUseHomeParams extends HomeProps {}

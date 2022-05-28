@@ -24,7 +24,7 @@ function Home(props: HomeProps) {
             <HomeContext.Provider value={useHome(props)}>
                 <Header />
 
-                <div className={'wrapper'}>
+                <div className={'home-wrapper'}>
                     <div>
                         <form
                             onSubmit={(e) => {
@@ -51,21 +51,21 @@ function Home(props: HomeProps) {
             </HomeContext.Provider>
 
             <style jsx global>{`
-                .wrapper {
+                .home-wrapper {
                     display: flex;
                     justify-content: center;
                     padding: 20px;
                 }
 
-                form,
-                .label-wrapper {
+                .home-wrapper form,
+                .home-wrapper .label-wrapper {
                     width: 600px;
                 }
-                form > * {
+                .home-wrapper form > * {
                     margin-top: 30px;
                 }
 
-                .label-wrapper {
+                .home-wrapper .label-wrapper {
                     margin-top: 15px;
                 }
             `}</style>

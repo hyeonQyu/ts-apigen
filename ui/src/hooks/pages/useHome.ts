@@ -8,6 +8,9 @@ import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
 import { HomeProps } from '@pages/index';
+import { useSetRecoilState } from 'recoil';
+import { loadingCountState } from 'stores/store';
+import useLoad from '@hooks/common/useLoad';
 
 export interface IUseHomeParams extends HomeProps {}
 
@@ -142,10 +145,13 @@ export default function useHome(params: IUseHomeParams): IUseHome {
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
 
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
-    const saveConfigMutation = useSaveConfigMutation();
     const generateCodeMutation = useGenerateCodeMutation(() => saveConfig());
+    const saveConfigMutation = useSaveConfigMutation();
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];
+
+    useLoad(controllersQuery);
+    useLoad(generateCodeMutation);
 
     // 15초마다 자동저장
     const { intervalId } = useInterval(() => {

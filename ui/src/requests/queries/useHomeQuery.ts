@@ -42,6 +42,7 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
                 enabled: !!uri && isLoadController,
                 staleTime: 300000,
                 refetchOnWindowFocus: false,
+                retry: 1,
             },
         );
     };
@@ -51,7 +52,7 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
             onMutate,
             onSuccess: (data) => {
                 if (data) {
-                    alert('코드 생성이 완료되었습니다.');
+                    return alert('코드 생성이 완료되었습니다.');
                 }
             },
             onError: (error: AxiosError) => {

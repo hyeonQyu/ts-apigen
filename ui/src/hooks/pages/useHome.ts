@@ -55,10 +55,12 @@ export interface IUseHomeHandlers {
 }
 
 export default function useHome(params: IUseHomeParams): IUseHome {
-    const { config } = params;
+    const { config, controllerNames: initialControllerNames } = params;
 
-    const controllerNamesToControllers = (controllerNames: string[]): ControllerOptionInfo[] =>
-        controllerNames.map((name) => ({ name, checked: false }));
+    const controllerNamesToControllers = (controllerNames: string[], selectedControllerNames: string[] = []): ControllerOptionInfo[] => {
+        const selectedControllerNameSet = new Set(selectedControllerNames);
+        return controllerNames.map((name) => ({ name, checked: selectedControllerNameSet.has(name) }));
+    };
     const controllersToSelectedControllerNames = (controllers: ControllerOptionInfo[]): string[] =>
         controllers.filter(({ checked }) => checked).map(({ name }) => name);
     const controllersToControllerOptions = (controllers: ControllerOptionInfo[]): SelectBoxOption<string>[] =>
@@ -100,12 +102,28 @@ export default function useHome(params: IUseHomeParams): IUseHome {
         return true;
     };
 
+    // 변경된 설정 사항 저장
+    const saveConfig = (): boolean => {
+        const { mutate, isError } = saveConfigMutation;
+        const config = getConfig();
+
+        if (isSameAsSavedConfig(config)) {
+            return isError;
+        }
+
+        mutate(config);
+        setSavedConfig(config);
+        return isError;
+    };
+
     const [uri, setUri] = useState(config.apiDocsUri);
     const [isLoadController, setIsLoadController] = useState(false);
 
     const [prettierConfig, setPrettierConfig] = useState<PrettierConfig | null>(null);
 
-    const [controllers, setControllers] = useState<ControllerOptionInfo[]>(controllerNamesToControllers(config.controllerNames));
+    const [controllers, setControllers] = useState<ControllerOptionInfo[]>(
+        controllerNamesToControllers(initialControllerNames, config.controllerNames),
+    );
     const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>(config.controllerNames);
     const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>(controllersToControllerOptions(controllers));
 
@@ -124,22 +142,14 @@ export default function useHome(params: IUseHomeParams): IUseHome {
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
 
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
-    const generateCodeMutation = useGenerateCodeMutation();
     const saveConfigMutation = useSaveConfigMutation();
+    const generateCodeMutation = useGenerateCodeMutation(() => saveConfig());
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];
 
     // 15초마다 자동저장
     const { intervalId } = useInterval(() => {
-        const { mutate, isError } = saveConfigMutation;
-        const config = getConfig();
-
-        if (isSameAsSavedConfig(config)) {
-            return;
-        }
-
-        mutate(config);
-        setSavedConfig(config);
+        const isError = saveConfig();
         if (isError && intervalId) {
             clearInterval(intervalId);
         }

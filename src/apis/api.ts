@@ -16,9 +16,9 @@ export namespace Api {
          * 컨트롤러 목록 반환
          */
         doCommonResponse<any, ControllersReq, ControllersRes>(app, 'controllers', 'get', async (req, res) => {
-            const { docsUri } = req.query;
+            const { apiDocsUri } = req.query;
 
-            ApigenConfig.setApiDocsUri(docsUri);
+            ApigenConfig.setApiDocsUri(apiDocsUri);
 
             try {
                 openApiData = await getOpenApiData();

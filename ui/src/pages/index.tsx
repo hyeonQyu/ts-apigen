@@ -15,6 +15,7 @@ import { Config } from '@defines/config';
 
 export interface HomeProps {
     config: Config;
+    controllerNames: string[];
 }
 
 function Home(props: HomeProps) {
@@ -76,7 +77,16 @@ export default Home;
 
 export async function getServerSideProps() {
     const { config } = await HomeApi.getConfig();
+    const { apiDocsUri } = config;
+    const controllerNames: string[] = await (async () => {
+        try {
+            return (await HomeApi.getControllers({ apiDocsUri })).controllerNames;
+        } catch (e) {
+            return [];
+        }
+    })();
+
     return {
-        props: { config },
+        props: { config, controllerNames },
     };
 }

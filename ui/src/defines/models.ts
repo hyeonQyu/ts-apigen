@@ -2,7 +2,7 @@ import { ParsedQs } from 'qs';
 import { Config } from '@defines/config';
 
 export interface ControllersReq extends ParsedQs {
-    docsUri: string;
+    apiDocsUri: string;
 }
 
 export interface ControllersRes {

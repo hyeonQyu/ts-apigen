@@ -26,7 +26,7 @@ export interface IUseHomeQuery {
         | QueryObserverLoadingResult<ControllersRes>
         | QueryObserverRefetchErrorResult<ControllersRes>
         | QueryObserverSuccessResult<ControllersRes>;
-    useGenerateCodeMutation: () => UseMutationResult<boolean, AxiosError, Config>;
+    useGenerateCodeMutation: (onMutate: () => void) => UseMutationResult<boolean, AxiosError, Config>;
     useSaveConfigMutation: () => UseMutationResult<boolean, unknown, Config>;
 }
 
@@ -36,7 +36,7 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
             ['controllers', uri],
             () => {
                 onBeforeExecute();
-                return HomeApi.getControllers({ docsUri: uri });
+                return HomeApi.getControllers({ apiDocsUri: uri });
             },
             {
                 enabled: !!uri && isLoadController,
@@ -46,8 +46,9 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
         );
     };
 
-    const useGenerateCodeMutation = () => {
+    const useGenerateCodeMutation = (onMutate: () => void) => {
         return useMutation((config: Config) => HomeApi.postGenerate({ config }), {
+            onMutate,
             onSuccess: (data) => {
                 if (data) {
                     alert('코드 생성이 완료되었습니다.');
@@ -69,10 +70,6 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
 
     const useSaveConfigMutation = () => {
         return useMutation((config: Config) => HomeApi.postSave({ config }));
-    };
-
-    const useLoadConfigQuery = () => {
-        return useQuery('config', () => HomeApi.getConfig());
     };
 
     return {

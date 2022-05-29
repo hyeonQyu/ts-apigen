@@ -1,4 +1,5 @@
-import { Api } from './apis/api';
+import { UiExecutor } from './utils/uiExecutor';
+import { Controller } from './apis/controller';
 
 const express = require('express');
 const app = express();
@@ -19,4 +20,5 @@ app.listen(6200, () => {
     console.log('express server started with port 6200');
 });
 
-Api.response(app);
+Controller.response(app);
+UiExecutor.runHtmlUi();

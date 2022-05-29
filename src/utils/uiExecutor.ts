@@ -2,7 +2,7 @@ const { exec } = require('child_process');
 
 export namespace UiExecutor {
     export function runHtmlUi() {
-        exec(`${getCommandLine()} ./ui/dist.html`);
+        exec(`${getCommandLine()} ${process.cwd()}/dist/ui/index.html`);
     }
 
     function getCommandLine(): string {

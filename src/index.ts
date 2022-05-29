@@ -21,4 +21,7 @@ app.listen(6200, () => {
 });
 
 Controller.response(app);
-UiExecutor.runHtmlUi();
+
+if (process.env.NODE_ENV !== 'development') {
+    UiExecutor.runHtmlUi();
+}

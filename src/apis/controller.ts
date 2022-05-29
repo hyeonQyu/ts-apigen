@@ -29,6 +29,9 @@ export namespace Controller {
             res.status(status).send();
         });
 
+        /**
+         * 설정 불러오기
+         */
         doCommonResponse<any, any, ConfigRes>(app, 'config', 'get', async (req, res) => {
             const config = Service.getConfig();
             const { apiDocsUri } = config;

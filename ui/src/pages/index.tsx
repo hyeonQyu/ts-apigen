@@ -10,7 +10,6 @@ import BaseRootLabelContainer from '@components/home/components/label-container/
 import { HomeContext } from '@components/home/context/homeContext';
 import SelectedControllerRow from '@components/home/components/form-rows/selectedControllerType/selectedControllerRow';
 import GeneratedCodePathRow from '@components/home/components/form-rows/generatedCodePath/generatedCodePathRow';
-import { HomeApi } from '@requests/apis/homeApi';
 import { Config } from '@defines/config';
 
 export interface HomeProps {
@@ -74,19 +73,3 @@ function Home(props: HomeProps) {
 }
 
 export default Home;
-
-export async function getServerSideProps() {
-    const { config } = await HomeApi.getConfig();
-    const { apiDocsUri } = config;
-    const controllerNames: string[] = await (async () => {
-        try {
-            return (await HomeApi.getControllers({ apiDocsUri })).controllerNames;
-        } catch (e) {
-            return [];
-        }
-    })();
-
-    return {
-        props: { config, controllerNames },
-    };
-}

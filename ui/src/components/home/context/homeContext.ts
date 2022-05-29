@@ -15,6 +15,7 @@ export const HomeContext = React.createContext<IHomeContext>({
         httpApiTypeOptions: [],
         baseRoot: '',
         baseRootSet: new Set(),
+        generatedCodePath: '',
     },
     handlers: {
         handleClickInitSelectedController: () => {},
@@ -32,6 +33,8 @@ export const HomeContext = React.createContext<IHomeContext>({
         handleChangeSelectedControllerType: () => {},
 
         handleSelectHttpApiType: () => {},
+
+        setGeneratedCodePath: () => {},
 
         setBaseRoot: () => {},
         handleBaseRootAddInputKeyPress: () => {},

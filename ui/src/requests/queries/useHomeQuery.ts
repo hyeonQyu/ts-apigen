@@ -10,7 +10,7 @@ import {
 } from 'react-query';
 import { HomeApi } from '@requests/apis/homeApi';
 import { AxiosError } from 'axios';
-import { ControllersRes } from '@defines/models';
+import { ConfigRes, ControllersRes } from '@defines/models';
 import { Config } from '@defines/config';
 
 export interface IUseHomeQueryParams {}
@@ -28,6 +28,15 @@ export interface IUseHomeQuery {
         | QueryObserverSuccessResult<ControllersRes>;
     useGenerateCodeMutation: (onMutate: () => void) => UseMutationResult<boolean, AxiosError, Config>;
     useSaveConfigMutation: () => UseMutationResult<boolean, unknown, Config>;
+    useLoadConfigQuery: (
+        isLoaded: boolean,
+        onSuccess: () => void,
+    ) =>
+        | QueryObserverIdleResult<ConfigRes>
+        | QueryObserverLoadingErrorResult<ConfigRes>
+        | QueryObserverLoadingResult<ConfigRes>
+        | QueryObserverRefetchErrorResult<ConfigRes>
+        | QueryObserverSuccessResult<ConfigRes>;
 }
 
 export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQuery {
@@ -50,10 +59,8 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
     const useGenerateCodeMutation = (onMutate: () => void) => {
         return useMutation((config: Config) => HomeApi.postGenerate({ config }), {
             onMutate,
-            onSuccess: (data) => {
-                if (data) {
-                    return alert('코드 생성이 완료되었습니다.');
-                }
+            onSuccess: () => {
+                return alert('코드 생성이 완료되었습니다.');
             },
             onError: (error: AxiosError) => {
                 switch (error.response?.status) {
@@ -73,9 +80,19 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
         return useMutation((config: Config) => HomeApi.postSave({ config }));
     };
 
+    const useLoadConfigQuery = (isLoaded: boolean, onSuccess: () => void) => {
+        return useQuery(['load'], () => HomeApi.getConfig(), {
+            enabled: !isLoaded,
+            onSuccess,
+            refetchOnWindowFocus: false,
+            retry: 1,
+        });
+    };
+
     return {
         useControllersQuery,
         useGenerateCodeMutation,
         useSaveConfigMutation,
+        useLoadConfigQuery,
     };
 }

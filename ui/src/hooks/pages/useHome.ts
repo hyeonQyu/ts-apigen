@@ -56,8 +56,6 @@ export interface IUseHomeHandlers {
 }
 
 export default function useHome(params: IUseHomeParams): IUseHome {
-    const { config, controllerNames: initialControllerNames } = params;
-
     const controllerNamesToControllers = (controllerNames: string[], selectedControllerNames: string[] = []): ControllerOptionInfo[] => {
         const selectedControllerNameSet = new Set(selectedControllerNames);
         return controllerNames.map((name) => ({ name, checked: selectedControllerNameSet.has(name) }));
@@ -117,39 +115,57 @@ export default function useHome(params: IUseHomeParams): IUseHome {
         return isError;
     };
 
-    const [uri, setUri] = useState(config.apiDocsUri);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const [uri, setUri] = useState('');
     const [isLoadController, setIsLoadController] = useState(false);
 
     const [prettierConfig, setPrettierConfig] = useState<PrettierConfig | null>(null);
 
-    const [controllers, setControllers] = useState<ControllerOptionInfo[]>(
-        controllerNamesToControllers(initialControllerNames, config.controllerNames),
-    );
-    const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>(config.controllerNames);
+    const [controllers, setControllers] = useState<ControllerOptionInfo[]>([]);
+    const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>(controllersToSelectedControllerNames(controllers));
     const [controllerOptions, setControllerOptions] = useState<SelectBoxOption<string>[]>(controllersToControllerOptions(controllers));
 
     const [selectedControllerType, setSelectedControllerType] = useState<SelectedControllerType>('INCLUDE');
 
     const httpApiTypes: Omit<SelectBoxOption<HttpApiType>, 'name'>[] = [{ value: 'fetch', disabled: true }, { value: 'axios' }];
-    const [httpApiType, setHttpApiType] = useState<HttpApiType>(config.requestApi);
+    const [httpApiType, setHttpApiType] = useState<HttpApiType>('axios');
 
-    const [generatedCodePath, setGeneratedCodePath] = useState(config.generatedCodePath);
+    const [generatedCodePath, setGeneratedCodePath] = useState('');
 
     const [baseRoot, setBaseRoot] = useState('');
-    const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set(config.baseRootList));
+    const [baseRootSet, setBaseRootSet] = useState<Set<string>>(new Set());
 
-    const [savedConfig, setSavedConfig] = useState<Config>(config);
+    const [savedConfig, setSavedConfig] = useState<Config>(getConfig());
 
-    const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation } = useHomeQuery();
+    const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation, useLoadConfigQuery } = useHomeQuery();
 
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
     const generateCodeMutation = useGenerateCodeMutation(() => saveConfig());
     const saveConfigMutation = useSaveConfigMutation();
+    const loadConfigQuery = useLoadConfigQuery(isLoaded, () => setIsLoaded(true));
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];
 
     useLoad(controllersQuery);
     useLoad(generateCodeMutation);
+
+    // 저장된 설정 최초 1회만 불러오기
+    useEffect(() => {
+        const { data } = loadConfigQuery;
+        const config = data?.config ?? getConfig();
+        const controllerNamesByUri = data?.controllerNamesByUri ?? [];
+
+        const { apiDocsUri, prettierConfig, controllerNames, selectedControllerType, requestApi, generatedCodePath, baseRootList } = config;
+
+        setUri(apiDocsUri);
+        setPrettierConfig(prettierConfig);
+        setControllers(controllerNamesToControllers(controllerNamesByUri, controllerNames));
+        setSelectedControllerType(selectedControllerType);
+        setHttpApiType(requestApi);
+        setGeneratedCodePath(generatedCodePath);
+        setBaseRootSet(new Set(baseRootList));
+    }, [loadConfigQuery.data]);
 
     // 15초마다 자동저장
     const { intervalId } = useInterval(() => {

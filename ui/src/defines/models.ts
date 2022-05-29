@@ -19,4 +19,5 @@ export interface SaveReq {
 
 export interface ConfigRes {
     config: Config;
+    controllerNamesByUri: string[];
 }

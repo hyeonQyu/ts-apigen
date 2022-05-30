@@ -1,6 +1,6 @@
 {
   "name": "ts-apigen",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "typescript API code generator",
   "main": "src/lib/index.ts",
   "bin": {
@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc -p . && SET \"NODE_ENV=development\" && node bin/ts-apigen.js",
-    "build": "tsc -p . && cd ui && npm run build",
+    "build": "tsc -p .",
+    "build-all": "tsc -p . && cd ui && npm run build",
     "dev": "SET \"NODE_ENV=development\" && nodemon --watch \"src/lib/**/*.ts\" --exec \"ts-node\" src/bin/ts-apigen.ts "
   },
   "repository": {
@@ -30,13 +31,13 @@
     "body-parser": "^1.20.0",
     "commander": "^9.3.0",
     "cors": "^2.8.5",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "prettier": "^2.6.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.31",
     "nodemon": "^2.0.16",
-    "prettier": "^2.6.2",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
   }

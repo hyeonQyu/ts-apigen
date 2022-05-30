@@ -2,7 +2,7 @@ import { ChangeEventHandler, Dispatch, FocusEventHandler, KeyboardEventHandler, 
 import { PrettierConfig } from '@defines/prettierConfig';
 import { HttpApiType } from '@defines/httpApiType';
 import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
-import { SelectBoxOption } from '@defines/selectBoxOption';
+import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
 import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';

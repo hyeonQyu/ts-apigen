@@ -1,7 +1,7 @@
 import { MutableRefObject, useEffect, useState } from 'react';
 import { IUseSelectBoxValues } from '@components/common/select-box/useSelectBox';
 import { SelectBoxProps } from '@components/common/select-box/selectBox';
-import { SelectBoxOption } from '@defines/selectBoxOption';
+import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
 
 export interface IUseSelectBoxOptionsParams<T extends number | string>
     extends Pick<IUseSelectBoxValues<T>, 'isOpened'>,

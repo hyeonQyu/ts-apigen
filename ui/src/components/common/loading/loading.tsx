@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { loadingCountState } from 'stores/store';
+import { zIndex } from '@defines/zIndex';
 
 export interface LoadingProps {}
 
@@ -36,6 +37,7 @@ function Loading(props: LoadingProps) {
                     position: absolute;
                     width: 100%;
                     height: 100%;
+                    z-index: ${zIndex.loading};
                 }
 
                 .background {

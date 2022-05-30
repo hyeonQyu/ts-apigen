@@ -1,5 +1,5 @@
 import { ToastProps } from '@components/common/toast/toast';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 export interface IUseToastParams extends ToastProps {}
 
@@ -10,19 +10,38 @@ export interface IUseToast {
 
 export interface IUseToastValues {
     toastRef: MutableRefObject<HTMLDivElement | null>;
+    width: number;
+    height: number;
+    bottom: number;
+    initialBottom: number;
 }
 
 export interface IUseToastHandlers {}
 
-export default function useToast(params: IUseToastParams): IUseToast {
-    const { isShow } = params;
-    const toastRef = useRef<HTMLDivElement>(null);
+const toastConfig = {
+    width: 400,
+    height: 40,
+};
 
-    useEffect(() => {});
+export default function useToast(params: IUseToastParams): IUseToast {
+    const getBottom = (index: number, height: number) => index * (height + 14);
+
+    const { isShow, index } = params;
+    const toastRef = useRef<HTMLDivElement>(null);
+    const { width, height } = toastConfig;
+    const [bottom, setBottom] = useState(getBottom(index, height));
+
+    useEffect(() => {
+        setBottom(getBottom(index, height));
+    }, [index]);
 
     return {
         values: {
             toastRef,
+            width,
+            height,
+            bottom,
+            initialBottom: 0,
         },
         handlers: {},
     };

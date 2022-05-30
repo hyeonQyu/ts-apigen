@@ -1,4 +1,7 @@
 node_modules/
-dist/
-/apis/
+/apis
 tsapigen.config.json
+
+/lib
+/bin
+/release-ui

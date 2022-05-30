@@ -1,0 +1,8 @@
+/.idea
+/apis
+/src
+/test-backend
+/ui
+.git*
+.prettierrc
+tsconfig.json

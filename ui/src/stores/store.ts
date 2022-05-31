@@ -12,17 +12,23 @@ export const toastsState = atom<Omit<ToastProps, 'index'>[]>({
         {
             isShow: true,
             type: 'success',
-            message: 'ㅎㅇㅎㅇ',
+            message: '설정이 저장되었습니다.',
+            duration: 3000,
+            id: '1',
+        },
+        {
+            isShow: true,
+            type: 'info',
+            message: '2',
+            duration: 3000,
+            id: '2',
         },
         {
             isShow: true,
             type: 'success',
-            message: 'ㅎㅇㅎㅇ',
-        },
-        {
-            isShow: true,
-            type: 'success',
-            message: 'ㅎㅇㅎㅇ',
+            message: '3',
+            duration: 3000,
+            id: '3',
         },
     ],
 });

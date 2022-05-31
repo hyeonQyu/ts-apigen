@@ -9,6 +9,7 @@ export interface ToastWrapperProps {}
 function ToastWrapper(props: ToastWrapperProps) {
     const {} = props;
     const toasts = useRecoilValue(toastsState);
+    console.log(toasts);
 
     if (toasts.length === 0) {
         return <></>;
@@ -20,7 +21,7 @@ function ToastWrapper(props: ToastWrapperProps) {
                 <div className={'toast-wrapper'}>
                     <div className={'toasts'}>
                         {toasts.map((toast, index) => (
-                            <Toast key={index} {...toast} index={index} />
+                            <Toast key={toast.id} {...toast} index={index} />
                         ))}
                     </div>
                 </div>

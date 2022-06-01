@@ -16,8 +16,8 @@ export interface IUseToastValues {
     toastRef: MutableRefObject<HTMLDivElement | null>;
     width: number;
     height: number;
+    left: number;
     bottom: number;
-    initialBottom: number;
     iconPadding: number;
     backgroundColor: string;
 }
@@ -41,17 +41,24 @@ const backgroundColorMap: {
 export default function useToast(params: IUseToastParams): IUseToast {
     const [toasts, setToasts] = useRecoilState(toastsState);
 
-    const getBottom = (index: number, height: number) => (toasts.length - index - 1) * (height + 14);
+    const { width, height } = toastConfig;
+
+    const getBottom = (index: number, height: number) => 160 + (toasts.length - index - 1) * (height + 14);
+    const getLeft = (windowWidth: number) => (windowWidth - width) / 2;
 
     const { isShow, index, type, duration = 3000, id } = params;
 
     const toastRef = useRef<HTMLDivElement>(null);
 
-    const { width, height } = toastConfig;
+    const [left, setLeft] = useState(getLeft(window.innerWidth));
     const [bottom, setBottom] = useState(getBottom(index, height));
     const [element, setElement] = useState<HTMLDivElement | null>(null);
     const [isTimeoutStarted, setIsTimeoutStarted] = useState(false);
     const [timeoutId, setTimeoutId] = useState<unknown>(0);
+
+    useEffect(() => {
+        setLeft(getLeft(window.innerWidth));
+    }, [window.innerWidth]);
 
     useEffect(() => {
         setBottom(getBottom(index, height));
@@ -105,8 +112,8 @@ export default function useToast(params: IUseToastParams): IUseToast {
             toastRef,
             width,
             height,
+            left,
             bottom,
-            initialBottom: 0,
             iconPadding: 16,
             backgroundColor: backgroundColorMap[type],
         },

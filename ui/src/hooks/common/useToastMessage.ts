@@ -22,12 +22,6 @@ export default function useToastMessage(/*params: IUseToastMessageParams*/): IUs
     const [lastToastSn, setLastToastSn] = useRecoilState(lastToastSnState);
     const [addToastFlag, setAddToastFlag] = useState(false);
 
-    useEffect(() => {
-        const click = () => showToast('안녕하세요', 'warning');
-        window.addEventListener('click', click);
-        return () => window.removeEventListener('click', click);
-    }, [lastToastSn, toasts]);
-
     const showToast = useCallback(
         (message: string, type: ToastType, duration: number = 3000) => {
             setToasts((prev) => [

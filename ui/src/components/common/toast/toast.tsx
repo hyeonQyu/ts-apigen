@@ -2,6 +2,7 @@ import { ToastType } from '@components/common/toast/defines/toast';
 import useToast from '@components/common/toast/useToast';
 import { assetToast } from '@public/assets/toast';
 import classNames from 'classnames';
+import { zIndex } from '@defines/zIndex';
 
 export interface ToastProps {
     isShow: boolean;
@@ -15,7 +16,7 @@ export interface ToastProps {
 function Toast(props: ToastProps) {
     const { isShow, message, type } = props;
     const {
-        values: { toastRef, width, height, bottom, initialBottom, iconPadding, backgroundColor },
+        values: { toastRef, width, height, left, bottom, iconPadding, backgroundColor },
     } = useToast(props);
 
     return (
@@ -26,25 +27,25 @@ function Toast(props: ToastProps) {
             </div>
 
             <style jsx>{`
-                @keyframes rise {
+                @keyframes appear {
                     0% {
                         opacity: 0;
-                        /**bottom: ${initialBottom};**/
                     }
                 }
 
                 .toast {
                     position: absolute;
+                    left: ${left}px;
                     display: flex;
                     align-items: center;
                     width: ${width}px;
                     height: ${height}px;
-                    right: -${width / 2}px;
                     bottom: ${bottom}px;
                     transition: opacity 0.2s ease, bottom 0.2s ease;
-                    animation: rise 0.4s ease;
+                    animation: appear 0.4s ease;
                     background-color: ${backgroundColor};
                     border-radius: 8px;
+                    z-index: ${zIndex.toast};
                 }
 
                 .toast.close {

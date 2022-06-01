@@ -1,7 +1,7 @@
 import { ToastType } from '@components/common/toast/defines/toast';
 import { useRecoilState } from 'recoil';
-import { lastToastSnState, toastsState } from 'stores/store';
-import { useCallback, useEffect, useState } from 'react';
+import { toastInfoState } from 'stores/store';
+import { useCallback } from 'react';
 
 export interface IUseToastMessageParams {}
 
@@ -18,30 +18,19 @@ export interface IUseToastMessageHandlers {
 
 export default function useToastMessage(/*params: IUseToastMessageParams*/): IUseToastMessage {
     // const {} = params;
-    const [toasts, setToasts] = useRecoilState(toastsState);
-    const [lastToastSn, setLastToastSn] = useRecoilState(lastToastSnState);
-    const [addToastFlag, setAddToastFlag] = useState(false);
+    const [toastInfo, setToastInfo] = useRecoilState(toastInfoState);
 
     const showToast = useCallback(
         (message: string, type: ToastType, duration: number = 3000) => {
-            setToasts((prev) => [
-                ...prev,
-                {
-                    message,
-                    type,
-                    duration,
-                    isShow: true,
-                    id: lastToastSn,
-                },
-            ]);
-            setAddToastFlag((prev) => !prev);
+            setToastInfo((prev) => {
+                return {
+                    lastSn: prev.lastSn + 1,
+                    toasts: [...prev.toasts, { message, type, duration, isShow: true, id: prev.lastSn }],
+                };
+            });
         },
-        [lastToastSn, toasts],
+        [toastInfo],
     );
-
-    useEffect(() => {
-        setLastToastSn((prev) => prev + 1);
-    }, [addToastFlag]);
 
     return {
         values: {},

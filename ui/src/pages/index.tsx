@@ -10,17 +10,18 @@ import BaseRootLabelContainer from '@components/home/components/label-container/
 import { HomeContext } from '@components/home/context/homeContext';
 import SelectedControllerRow from '@components/home/components/form-rows/selectedControllerType/selectedControllerRow';
 import GeneratedCodePathRow from '@components/home/components/form-rows/generatedCodePath/generatedCodePathRow';
-import { Config } from '@defines/config';
+import ControllerInitDialog from '@components/home/components/controller-init-dialog/controllerInitDialog';
+// import { Config } from '@defines/config';
 
-export interface HomeProps {
-    config: Config;
-    controllerNames: string[];
-}
+// export interface HomeProps {
+//     config: Config;
+//     controllerNames: string[];
+// }
 
-function Home(props: HomeProps) {
+function Home(/*props: HomeProps*/) {
     return (
         <>
-            <HomeContext.Provider value={useHome(props)}>
+            <HomeContext.Provider value={useHome()}>
                 <Header />
 
                 <div className={'home-wrapper'}>
@@ -47,6 +48,8 @@ function Home(props: HomeProps) {
                         </form>
                     </div>
                 </div>
+
+                <ControllerInitDialog />
             </HomeContext.Provider>
 
             <style jsx global>{`

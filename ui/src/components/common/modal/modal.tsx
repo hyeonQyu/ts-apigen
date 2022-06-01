@@ -4,8 +4,8 @@ import Mask from '@components/common/mask/mask';
 import { zIndex } from '@defines/zIndex';
 
 export interface ModalProps {
-    width: number;
-    height: number;
+    width?: number;
+    height?: number;
     children: ReactNode;
 }
 
@@ -22,8 +22,8 @@ function Modal(props: ModalProps) {
 
             <style jsx>{`
                 .modal {
-                    width: ${width}px;
-                    height: ${height}px;
+                    ${width ? `width: ${width}px;` : ''}
+                    ${height ? `height: ${height}px;` : ''}
                     z-index: ${zIndex.mask};
                     background-color: white;
                     border-radius: 20px;

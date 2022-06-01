@@ -57,23 +57,26 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
                 staleTime: 300000,
                 refetchOnWindowFocus: false,
                 retry: 1,
-                onSuccess: () => showToast('Controller를 불러왔습니다.', 'success'),
-                onError: () => showToast('Controller를 불러오는데 실패했습니다. URI를 확인하세요.', 'error'),
+                onSuccess: () => showToast('Controller를 불러왔어요.', 'success'),
+                onError: () => showToast('Controller를 불러오는데 실패했어요. URI를 확인하세요.', 'error'),
             },
         );
     };
 
     const useGenerateCodeMutation = () => {
         return useMutation((config: Config) => HomeApi.postGenerate({ config }), {
-            onSuccess: () => showToast('코드 생성이 완료되었습니다.', 'success'),
+            onSettled: () => {
+                setTimeout(() => showToast('설정이 자동 저장되었습니다.', 'info'), 100);
+            },
+            onSuccess: () => showToast('코드 생성을 완료했어요.', 'success'),
             onError: (error: AxiosError) => {
                 switch (error.response?.status) {
                     case 500:
-                        showToast('코드 생성 중 문제가 발생했습니다. 에러 로그를 확인하세요.', 'error');
+                        showToast('코드 생성 중 문제가 발생했어요. 에러 로그를 확인하세요.', 'error');
                         break;
 
                     case 0:
-                        showToast('코드 생성에 실패했습니다. 프로그램을 다시 실행하세요.', 'error');
+                        showToast('코드 생성이 실패했어요. 프로그램을 다시 실행하세요.', 'error');
                         break;
                 }
             },

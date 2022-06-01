@@ -32,10 +32,10 @@ const toastConfig = {
 const backgroundColorMap: {
     [key in ToastType]: string;
 } = {
-    success: 'rgb(87, 187, 156)',
-    info: 'rgb(107, 170, 191)',
-    warning: 'rgb(227, 184, 85)',
-    error: 'rgb(208, 71, 70)',
+    success: 'rgb(81,189,160)',
+    info: 'rgb(101,165,239)',
+    warning: 'rgb(220,172,68)',
+    error: 'rgb(224,85,84)',
 };
 
 export default function useToast(params: IUseToastParams): IUseToast {

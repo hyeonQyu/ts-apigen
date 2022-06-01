@@ -7,6 +7,7 @@ export default class MyDocument extends Document {
                 <Head>
                     <title>ts-apigen</title>
                     <meta charSet="utf-8" />
+                    <link href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" type="text/css" />
                     <body>
                         <div id={'portal'} />
                         <Main />

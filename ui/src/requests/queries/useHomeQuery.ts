@@ -26,7 +26,7 @@ export interface IUseHomeQuery {
         | QueryObserverLoadingResult<ControllersRes>
         | QueryObserverRefetchErrorResult<ControllersRes>
         | QueryObserverSuccessResult<ControllersRes>;
-    useGenerateCodeMutation: (onMutate: () => void) => UseMutationResult<boolean, AxiosError, Config>;
+    useGenerateCodeMutation: () => UseMutationResult<boolean, AxiosError, Config>;
     useSaveConfigMutation: () => UseMutationResult<boolean, unknown, Config>;
     useLoadConfigQuery: (
         isLoaded: boolean,
@@ -56,9 +56,8 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
         );
     };
 
-    const useGenerateCodeMutation = (onMutate: () => void) => {
+    const useGenerateCodeMutation = () => {
         return useMutation((config: Config) => HomeApi.postGenerate({ config }), {
-            onMutate,
             onSuccess: () => {
                 return alert('코드 생성이 완료되었습니다.');
             },

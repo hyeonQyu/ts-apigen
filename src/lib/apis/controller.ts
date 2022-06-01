@@ -17,6 +17,7 @@ export namespace Controller {
          * 코드 생성
          */
         doCommonResponse<GenerateReq, any, void>(app, 'generate', 'post', async (req, res) => {
+            await Service.postSave(req.body as SaveReq);
             const status = await Service.postGenerate(req.body);
             res.status(status).send();
         });

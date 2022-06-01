@@ -7,10 +7,10 @@ import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
-import { HomeProps } from '@pages/index';
+// import { HomeProps } from '@pages/index';
 import useLoad from '@hooks/common/useLoad';
 
-export interface IUseHomeParams extends HomeProps {}
+// export interface IUseHomeParams extends HomeProps {}
 
 export interface IUseHome {
     values: IUseHomeValues;
@@ -55,7 +55,7 @@ export interface IUseHomeHandlers {
     handleClickDeleteBaseRootLabel: (baseRoot: string) => void;
 }
 
-export default function useHome(params: IUseHomeParams): IUseHome {
+export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const controllerNamesToControllers = (controllerNames: string[], selectedControllerNames: string[] = []): ControllerOptionInfo[] => {
         const selectedControllerNameSet = new Set(selectedControllerNames);
         return controllerNames.map((name) => ({ name, checked: selectedControllerNameSet.has(name) }));
@@ -141,7 +141,7 @@ export default function useHome(params: IUseHomeParams): IUseHome {
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation, useLoadConfigQuery } = useHomeQuery();
 
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
-    const generateCodeMutation = useGenerateCodeMutation(() => saveConfig());
+    const generateCodeMutation = useGenerateCodeMutation();
     const saveConfigMutation = useSaveConfigMutation();
     const loadConfigQuery = useLoadConfigQuery(isLoaded, () => setIsLoaded(true));
 

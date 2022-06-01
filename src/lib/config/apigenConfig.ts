@@ -5,7 +5,7 @@ import { StringFormatter } from '../utils/string/stringFormatter';
 export namespace ApigenConfig {
     export let config: Config = {
         apiDocsUri: '',
-        generatedCodePath: `${StringFormatter.getNormalizedPath(process.cwd())}/apis`,
+        generatedCodePath: `${StringFormatter.getNormalizedPath(process.cwd())}/src/apis`,
         requestApi: 'axios',
         controllerNames: [],
         baseRootList: [],

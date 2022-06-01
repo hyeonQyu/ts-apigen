@@ -1,6 +1,7 @@
 import { ToastType } from '@components/common/toast/defines/toast';
-import { useSetRecoilState } from 'recoil';
-import { toastsState } from 'stores/store';
+import { useRecoilState } from 'recoil';
+import { lastToastSnState, toastsState } from 'stores/store';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface IUseToastMessageParams {}
 
@@ -12,16 +13,41 @@ export interface IUseToastMessage {
 export interface IUseToastMessageValues {}
 
 export interface IUseToastMessageHandlers {
-    showToast: (key: string, message: string, type: ToastType, duration?: number) => void;
+    showToast: (message: string, type: ToastType, duration?: number) => void;
 }
 
-export default function useToastMessage(params: IUseToastMessageParams): IUseToastMessage {
-    const {} = params;
-    const setToasts = useSetRecoilState(toastsState);
+export default function useToastMessage(/*params: IUseToastMessageParams*/): IUseToastMessage {
+    // const {} = params;
+    const [toasts, setToasts] = useRecoilState(toastsState);
+    const [lastToastSn, setLastToastSn] = useRecoilState(lastToastSnState);
+    const [addToastFlag, setAddToastFlag] = useState(false);
 
-    const showToast = (key: string, message: string, type: ToastType, duration: number = 3000) => {
-        setToasts((prev) => [...prev, { id: key, message, type, isShow: true, duration }]);
-    };
+    useEffect(() => {
+        const click = () => showToast('안녕하세요', 'warning');
+        window.addEventListener('click', click);
+        return () => window.removeEventListener('click', click);
+    }, [lastToastSn, toasts]);
+
+    const showToast = useCallback(
+        (message: string, type: ToastType, duration: number = 3000) => {
+            setToasts((prev) => [
+                ...prev,
+                {
+                    message,
+                    type,
+                    duration,
+                    isShow: true,
+                    id: lastToastSn,
+                },
+            ]);
+            setAddToastFlag((prev) => !prev);
+        },
+        [lastToastSn, toasts],
+    );
+
+    useEffect(() => {
+        setLastToastSn((prev) => prev + 1);
+    }, [addToastFlag]);
 
     return {
         values: {},

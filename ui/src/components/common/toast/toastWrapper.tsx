@@ -1,15 +1,14 @@
 import Portal from '@components/common/portal/portal';
 import { useRecoilValue } from 'recoil';
-import { toastsState } from 'stores/store';
 import Toast from '@components/common/toast/toast';
 import { zIndex } from '@defines/zIndex';
+import { toastsState } from 'stores/store';
 
 export interface ToastWrapperProps {}
 
 function ToastWrapper(props: ToastWrapperProps) {
     const {} = props;
     const toasts = useRecoilValue(toastsState);
-    console.log(toasts);
 
     if (toasts.length === 0) {
         return <></>;

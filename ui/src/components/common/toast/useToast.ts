@@ -39,11 +39,11 @@ const backgroundColorMap: {
 };
 
 export default function useToast(params: IUseToastParams): IUseToast {
-    const getBottom = (index: number, height: number) => (toasts.length - index - 1) * (height + 14);
-
     const [toasts, setToasts] = useRecoilState(toastsState);
 
-    const { isShow, index, type, duration, id } = params;
+    const getBottom = (index: number, height: number) => (toasts.length - index - 1) * (height + 14);
+
+    const { isShow, index, type, duration = 3000, id } = params;
 
     const toastRef = useRef<HTMLDivElement>(null);
 
@@ -51,6 +51,7 @@ export default function useToast(params: IUseToastParams): IUseToast {
     const [bottom, setBottom] = useState(getBottom(index, height));
     const [element, setElement] = useState<HTMLDivElement | null>(null);
     const [isTimeoutStarted, setIsTimeoutStarted] = useState(false);
+    const [timeoutId, setTimeoutId] = useState<unknown>(0);
 
     useEffect(() => {
         setBottom(getBottom(index, height));
@@ -61,21 +62,20 @@ export default function useToast(params: IUseToastParams): IUseToast {
     }, [toastRef]);
 
     useEffect(() => {
-        if (isShow && !isTimeoutStarted) {
-            console.log('timeout 시작', id);
-            setIsTimeoutStarted(true);
-            setTimeout(() => {
-                console.log('timeout 종료', id);
+        if (isShow && !timeoutId) {
+            const timeout = setTimeout(() => {
                 // 토스트 메시지 시간 만료
                 setToasts((prev) =>
                     prev.map((toast) => {
                         return {
                             ...toast,
-                            isShow: id !== toast.id,
+                            isShow: id === toast.id ? false : toast.isShow,
                         };
                     }),
                 );
             }, duration);
+            setTimeoutId(timeout);
+            setIsTimeoutStarted(() => true);
         }
     }, [isShow, isTimeoutStarted]);
 
@@ -94,8 +94,6 @@ export default function useToast(params: IUseToastParams): IUseToast {
 
             if (window.getComputedStyle(element).getPropertyValue('opacity') === '0') {
                 clearInterval(timeoutIntervalId);
-
-                console.log('삭제', toasts, id);
                 setToasts((prev) => prev.filter((toast) => toast.id !== id));
             }
         }, [isShow, element, toasts]),

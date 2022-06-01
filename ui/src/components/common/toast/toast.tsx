@@ -8,7 +8,7 @@ export interface ToastProps {
     message: string;
     type: ToastType;
     duration: number;
-    id: string;
+    id: number;
     index: number;
 }
 
@@ -29,7 +29,7 @@ function Toast(props: ToastProps) {
                 @keyframes rise {
                     0% {
                         opacity: 0;
-                        bottom: ${initialBottom};
+                        /**bottom: ${initialBottom};**/
                     }
                 }
 

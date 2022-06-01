@@ -74,6 +74,7 @@ function Toast(props: ToastProps) {
                     color: white;
                     font-size: 18px;
                     width: ${width - height}px;
+                    line-height: 1.3;
                 }
             `}</style>
         </>

@@ -9,6 +9,7 @@ import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
 // import { HomeProps } from '@pages/index';
 import useLoad from '@hooks/common/useLoad';
+import useToastMessage from '@hooks/common/useToastMessage';
 
 // export interface IUseHomeParams extends HomeProps {}
 
@@ -140,6 +141,10 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation, useLoadConfigQuery } = useHomeQuery();
 
+    const {
+        handlers: { showToast },
+    } = useToastMessage();
+
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
     const generateCodeMutation = useGenerateCodeMutation();
     const saveConfigMutation = useSaveConfigMutation();
@@ -203,7 +208,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     const handleClickGenerateCode = () => {
         if (!uri) {
-            alert('API docs URI를 입력하세요.');
+            showToast('API docs URI를 입력하세요.', 'warning');
             return;
         }
         generateCodeMutation.mutate(getConfig());

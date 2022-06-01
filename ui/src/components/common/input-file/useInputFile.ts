@@ -1,5 +1,6 @@
 import { MutableRefObject, useEffect, useState } from 'react';
 import { InputFileProps } from '@components/common/input-file/inputFile';
+import useToastMessage from '@hooks/common/useToastMessage';
 
 export interface IUseInputFileParams<T> extends InputFileProps<T> {
     inputRef: MutableRefObject<HTMLInputElement | null>;
@@ -14,6 +15,9 @@ export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInp
     const { inputRef, acceptableExtensionList, isFileJson = false, onChangeFileContent = () => {} } = params;
     const initialText = '파일을 선택하세요.';
     const [text, setText] = useState(initialText);
+    const {
+        handlers: { showToast },
+    } = useToastMessage();
 
     useEffect(() => {
         const { current } = inputRef;
@@ -32,7 +36,7 @@ export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInp
             const extension = `.${arr[arr.length - 1]}`;
 
             if (acceptableExtensionList.indexOf(extension) === -1) {
-                alert('유효하지 않은 파일 형식입니다.');
+                showToast('유효하지 않은 파일 형식입니다.', 'warning');
                 return;
             }
 

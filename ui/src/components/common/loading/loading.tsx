@@ -1,6 +1,8 @@
 import { useRecoilValue } from 'recoil';
 import { loadingCountState } from 'stores/store';
 import { zIndex } from '@defines/zIndex';
+import Mask from '@components/common/mask/mask';
+import Portal from '@components/common/portal/portal';
 
 export interface LoadingProps {}
 
@@ -14,46 +16,33 @@ function Loading(props: LoadingProps) {
 
     return (
         <>
-            <div className={'wrapper'}>
-                <div className={'background'} />
-                <div className={'loading'}>
-                    <div className={'loadingio-spinner-double-ring-0hjs6hp5lmk'}>
-                        <div className={'ldio-157102gp7nd'}>
-                            <div />
-                            <div />
-                            <div>
+            <Portal>
+                <Mask zIndex={zIndex.loading}>
+                    <div className={'loading'}>
+                        <div className={'loadingio-spinner-double-ring-0hjs6hp5lmk'}>
+                            <div className={'ldio-157102gp7nd'}>
                                 <div />
-                            </div>
-                            <div>
                                 <div />
+                                <div>
+                                    <div />
+                                </div>
+                                <div>
+                                    <div />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </Mask>
+            </Portal>
 
             <style jsx>{`
-                .wrapper {
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    z-index: ${zIndex.loading};
-                }
-
-                .background {
-                    background-color: black;
-                    opacity: 0.1;
-                    width: 100%;
-                    height: 100%;
-                    position: absolute;
-                }
-
                 .loading {
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     width: 100%;
                     height: 100%;
+                    z-index: ${zIndex.loading};
                 }
 
                 @keyframes ldio-157102gp7nd {

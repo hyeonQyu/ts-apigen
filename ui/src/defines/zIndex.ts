@@ -1,4 +1,5 @@
 export const zIndex = {
-    loading: 10,
-    toast: 15,
+    mask: 10,
+    loading: 20,
+    toast: 30,
 };

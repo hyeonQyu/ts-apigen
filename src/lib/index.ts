@@ -34,7 +34,7 @@ module.exports = {
                 Controller.response(app);
 
                 if (env === 'production') {
-                    UiExecutor.runHtmlUi();
+                    UiExecutor.runHtmlUi(port);
                 }
             })
             .parse(process.argv);

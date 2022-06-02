@@ -1,8 +1,12 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { ControllersReq, ControllersRes, GenerateReq, ConfigRes, SaveReq } from '@defines/models';
 
 export namespace HomeApi {
-    const client = axios.create({ baseURL: 'http://localhost:6200/api' });
+    let client: AxiosInstance;
+
+    export function setPort(port: number) {
+        client = axios.create({ baseURL: `http://localhost:${port}/api` });
+    }
 
     /**
      * 컨트롤러 목록 요청

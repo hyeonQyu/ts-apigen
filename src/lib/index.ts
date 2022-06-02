@@ -12,17 +12,17 @@ module.exports = {
     run(defaultOption: AppOption) {
         program
             .option('-p, --port <port>', 'port number of generator')
-            .option('-e, --env <port>', 'production or development')
+            .option('-e, --env <env>', 'production or development')
             .action(() => {
                 const options: AppOption = program.opts();
                 const { port = defaultOption.port, env = defaultOption.env } = options;
 
                 app.use(cors());
-                app.use(bodyParser.json({ limit: '50mb' }));
+                app.use(bodyParser.json({ limit: '500mb' }));
                 app.use(
                     bodyParser.urlencoded({
                         extended: true,
-                        limit: '50mb',
+                        limit: '500mb',
                     }),
                 );
                 app.use(bodyParser.json());

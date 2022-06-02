@@ -106,11 +106,31 @@ export namespace RequestCommonGenerator {
     function getAxiosCode(): string {
         return `
             export async function axiosGet<T>(url: string, params: object = {}, config?: AxiosRequestConfig) {
-                return axios.get<T>(url, { params, ...config });
+                return (await axios.get<T>(url, { params, ...config })).data;
             }
     
             export async function axiosPost<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
-                return await axios.post<T>(url, data, config);
+                return (await axios.post<T>(url, data, config)).data;
+            }
+            
+            export async function axiosPut<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
+                return (await axios.put<T>(url, data, config)).data;
+            }
+            
+            export async function axiosDelete<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
+                return (await axios.delete<T>(url, { data, ...config })).data;
+            }
+            
+            export async function axiosPatch<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
+                return (await axios.patch<T>(url, data, config)).data;
+            }
+            
+            export async function axiosHead<T>(url: string, config?: AxiosRequestConfig) {
+                return (await axios.head<T>(url, config)).data;
+            }
+            
+            export async function axiosOptions<T>(url: string, config?: AxiosRequestConfig) {
+                return (await axios.options<T>(url, config)).data;
             }
         `;
     }

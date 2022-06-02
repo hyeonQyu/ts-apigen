@@ -242,23 +242,27 @@ export namespace RequestGenerator {
                 const param: string = hasBody ? axiosDataMap[contentType] : '{}';
                 const config: string = `RequestCommon.get${CaseStyleFormatter.camelCaseToPascalCase(contentType)}Config(config)`;
 
-                return `${(() => {
-                    switch (methodType) {
-                        case 'get':
-                            return getAxiosGetCode(path, param, config, responseType);
-                        case 'post':
-                            return getAxiosPostCode(path, hasBody ? axiosDataMap[contentType] : '{}', config, responseType);
-                    }
-                })()}`;
+                return getAxiosCode(methodType, path, param, config, responseType);
         }
     }
 
-    function getAxiosGetCode(path: string, param: string, config: string, responseType: string): string {
-        return `return (await RequestCommon.axiosGet<${responseType}>(\'${path}\', ${param}, ${config})).data;`;
-    }
+    function getAxiosCode(method: MethodType, path: string, param: string, config: string, responseType: string): string {
+        switch (method) {
+            case 'get':
+            case 'post':
+            case 'put':
+            case 'delete':
+            case 'patch':
+                return `return RequestCommon.axios${CaseStyleFormatter.camelCaseToPascalCase(
+                    method,
+                )}<${responseType}>(\'${path}\', ${param}, ${config});`;
 
-    function getAxiosPostCode(path: string, param: string, config: string, responseType: string): string {
-        return `return (await RequestCommon.axiosPost<${responseType}>(\'${path}\', ${param}, ${config})).data`;
+            case 'head':
+            case 'options':
+                return `return RequestCommon.axios${CaseStyleFormatter.camelCaseToPascalCase(
+                    method,
+                )}<${responseType}>(\'${path}\', ${config});`;
+        }
     }
 
     function writeFile(fileName: string, ts: string) {

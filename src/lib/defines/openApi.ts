@@ -68,4 +68,4 @@ export type StatusCode = '200' | '201' | '401' | '403' | '404';
 
 export type PrimitiveTypes = 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'string';
 
-export type MethodType = 'get' | 'post' | 'head' | 'put' | 'delete' | 'options';
+export type MethodType = 'get' | 'post' | 'head' | 'put' | 'delete' | 'options' | 'patch';

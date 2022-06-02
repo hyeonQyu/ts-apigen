@@ -1,5 +1,5 @@
 node_modules/
-/apis
+/src/apis
 tsapigen.config.json
 
 /lib

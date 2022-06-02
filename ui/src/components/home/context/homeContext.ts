@@ -16,9 +16,12 @@ export const HomeContext = React.createContext<IHomeContext>({
         baseRoot: '',
         baseRootSet: new Set(),
         generatedCodePath: '',
+        isControllerInitDialogOpened: false,
     },
     handlers: {
-        handleClickInitSelectedController: () => {},
+        handleOpenControllerInitDialog: () => {},
+        handleCloseControllerInitDialog: () => {},
+        handleInitController: () => {},
         handleClickGenerateCode: () => {},
 
         setUri: () => {},

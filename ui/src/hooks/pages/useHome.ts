@@ -1,4 +1,13 @@
-import { ChangeEventHandler, Dispatch, FocusEventHandler, KeyboardEventHandler, SetStateAction, useEffect, useState } from 'react';
+import {
+    ChangeEventHandler,
+    Dispatch,
+    FocusEventHandler,
+    KeyboardEventHandler,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useState,
+} from 'react';
 import { PrettierConfig } from '@defines/prettierConfig';
 import { HttpApiType } from '@defines/httpApiType';
 import { ControllerOptionInfo } from '@defines/controllerOptionInfo';
@@ -30,10 +39,13 @@ export interface IUseHomeValues {
     generatedCodePath: string;
     baseRoot: string;
     baseRootSet: Set<string>;
+    isControllerInitDialogOpened: boolean;
 }
 
 export interface IUseHomeHandlers {
-    handleClickInitSelectedController: () => void;
+    handleOpenControllerInitDialog: () => void;
+    handleCloseControllerInitDialog: () => void;
+    handleInitController: () => void;
     handleClickGenerateCode: () => void;
 
     setUri: Dispatch<SetStateAction<string>>;
@@ -139,6 +151,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     const [savedConfig, setSavedConfig] = useState<Config>(getConfig());
 
+    const [isControllerInitDialogOpened, setIsControllerInitDialogOpened] = useState(false);
+
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation, useLoadConfigQuery } = useHomeQuery();
 
     const {
@@ -170,6 +184,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         setHttpApiType(requestApi);
         setGeneratedCodePath(generatedCodePath);
         setBaseRootSet(new Set(baseRootList));
+
+        setSavedConfig(config);
     }, [loadConfigQuery.data]);
 
     // 15초마다 자동저장
@@ -194,17 +210,28 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         setControllerOptions(controllersToControllerOptions(controllers));
     }, [controllers]);
 
-    const handleClickInitSelectedController = () => {
+    // Controller 선택 초기화 모달 열기
+    const handleOpenControllerInitDialog = useCallback(() => {
         if (selectedControllerNames.length === 0) {
             return;
         }
 
-        if (confirm('선택한 Controller를 모두 초기화하시겠습니까?')) {
-            setControllers((prev) => {
-                return prev.map(({ name }) => ({ name, checked: false }));
-            });
-        }
-    };
+        setIsControllerInitDialogOpened(true);
+    }, [selectedControllerNames]);
+
+    // Controller 선택 초기화 모달 닫기
+    const handleCloseControllerInitDialog = useCallback(() => {
+        setIsControllerInitDialogOpened(false);
+    }, []);
+
+    // Controller 선택 초기화
+    const handleInitController = useCallback(() => {
+        setControllers((prev) => {
+            return prev.map(({ name }) => ({ name, checked: false }));
+        });
+        setIsControllerInitDialogOpened(false);
+        showToast('Controller가 모두 선택 해제 되었습니다.', 'info');
+    }, [controllers]);
 
     const handleClickGenerateCode = () => {
         if (!uri) {
@@ -219,16 +246,19 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const handleUseApiDocsUriFocus = () => setIsLoadController(false);
 
     // 컨트롤러 선택
-    const handleSelectController = (value: string, selected: boolean = true) => {
-        setControllers(
-            controllers.map(({ name, checked }) => {
-                return {
-                    name,
-                    checked: name === value ? selected : checked,
-                };
-            }),
-        );
-    };
+    const handleSelectController = useCallback(
+        (value: string, selected: boolean = true) => {
+            setControllers(
+                controllers.map(({ name, checked }) => {
+                    return {
+                        name,
+                        checked: name === value ? selected : checked,
+                    };
+                }),
+            );
+        },
+        [controllers],
+    );
 
     // 선택한 Controller 에 대한 코드 생성 옵션 선택
     const handleChangeSelectedControllerType: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -290,9 +320,12 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             generatedCodePath,
             baseRoot,
             baseRootSet,
+            isControllerInitDialogOpened,
         },
         handlers: {
-            handleClickInitSelectedController,
+            handleOpenControllerInitDialog,
+            handleCloseControllerInitDialog,
+            handleInitController,
             handleClickGenerateCode,
             setUri,
             handleUseApiDocsUriBlur,

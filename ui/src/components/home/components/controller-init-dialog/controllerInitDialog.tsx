@@ -1,13 +1,15 @@
 import Modal from '@components/common/modal/modal';
+import { useHomeContext } from '@components/home/context/homeContext';
 
-export interface ControllerInitDialogProps {}
-
-function ControllerInitDialog(props: ControllerInitDialogProps) {
-    const {} = props;
+function ControllerInitDialog() {
+    const {
+        values: { isControllerInitDialogOpened },
+        handlers: { handleInitController, handleCloseControllerInitDialog },
+    } = useHomeContext();
 
     return (
         <>
-            <Modal>
+            <Modal isOpened={isControllerInitDialogOpened}>
                 <div className={'dialog'}>
                     <h1 className={'title'}>정말 초기화하시겠어요?</h1>
                     <div className={'detail'}>
@@ -17,8 +19,12 @@ function ControllerInitDialog(props: ControllerInitDialogProps) {
                         <p>API 요청 코드가 생성됩니다.</p>
                     </div>
                     <div className={'buttons'}>
-                        <button className={'yes'}>네, 초기화 할게요</button>
-                        <button className={'no'}>아니요, 초기화 안할래요</button>
+                        <button className={'yes'} onClick={handleInitController}>
+                            네, 초기화 할게요
+                        </button>
+                        <button className={'no'} onClick={handleCloseControllerInitDialog}>
+                            아니요, 초기화 안할래요
+                        </button>
                     </div>
                 </div>
             </Modal>
@@ -31,7 +37,7 @@ function ControllerInitDialog(props: ControllerInitDialogProps) {
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    padding: 50px 25px;
+                    padding: 50px 30px;
                 }
 
                 .title {

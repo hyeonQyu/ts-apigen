@@ -2,14 +2,14 @@ import { useHomeContext } from '@components/home/context/homeContext';
 
 function Header() {
     const {
-        handlers: { handleClickInitSelectedController, handleClickGenerateCode },
+        handlers: { handleOpenControllerInitDialog, handleClickGenerateCode },
     } = useHomeContext();
 
     return (
         <>
             <nav>
                 <ul>
-                    <li onClick={handleClickInitSelectedController}>Controller 선택 초기화</li>
+                    <li onClick={handleOpenControllerInitDialog}>Controller 선택 초기화</li>
                     <li onClick={handleClickGenerateCode}>코드 생성</li>
                 </ul>
             </nav>

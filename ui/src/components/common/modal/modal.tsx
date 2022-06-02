@@ -2,6 +2,8 @@ import Portal from '@components/common/portal/portal';
 import { ReactNode } from 'react';
 import Mask from '@components/common/mask/mask';
 import { zIndex } from '@defines/zIndex';
+import useModal from '@components/common/modal/useModal';
+import classNames from 'classnames';
 
 export interface ModalProps {
     width?: number;
@@ -12,24 +14,29 @@ export interface ModalProps {
 
 function Modal(props: ModalProps) {
     const { width, height, children, isOpened } = props;
+    const {
+        values: { appearAnimationDuration, disappearAnimationDuration, mounted },
+    } = useModal(props);
+
+    if (!mounted) {
+        return <></>;
+    }
 
     return (
         <>
             <Portal>
-                {isOpened && (
-                    <Mask zIndex={zIndex.mask}>
-                        <div className={'modal'}>{children}</div>
-                    </Mask>
-                )}
+                <Mask zIndex={zIndex.mask}>
+                    <div className={classNames('modal', !isOpened && 'close')}>{children}</div>
+                </Mask>
             </Portal>
 
             <style jsx>{`
-                @keyframes appear {
-                    0% {
+                @keyframes appears {
+                    from {
                         opacity: 0;
                         margin-top: 50px;
                     }
-                    100% {
+                    to {
                         opacity: 1;
                         margin-top: 0;
                     }
@@ -41,7 +48,13 @@ function Modal(props: ModalProps) {
                     z-index: ${zIndex.mask};
                     background-color: white;
                     border-radius: 20px;
-                    animation: appear 0.4 ease;
+                    animation: appears ${appearAnimationDuration}s ease-in-out;
+                    transition: ${disappearAnimationDuration}s;
+                }
+
+                .modal.close {
+                    opacity: 0;
+                    margin-top: 50px;
                 }
             `}</style>
         </>

@@ -22,7 +22,7 @@ function Label(props: LabelProps) {
                 .label {
                     padding: 8px 12px;
                     background: ${backgroundColor};
-                    border-radius: 5px;
+                    border-radius: 100px;
                     color: ${fontColor};
                     display: flex;
                     width: fit-content;

@@ -1,4 +1,3 @@
-import { useHomeContext } from '@components/home/context/homeContext';
 import ApiDocsUriRow from '@components/home/components/form-area/components/form-rows/apiDocsUri/apiDocsUriRow';
 import PrettierConfigFileRow from '@components/home/components/form-area/components/form-rows/prettierConfigFile/prettierConfigFileRow';
 import ControllerSelectRow from '@components/home/components/form-area/components/form-rows/controllerSelect/controllerSelectRow';
@@ -11,14 +10,10 @@ import BaseRootLabelContainer from '@components/home/components/form-area/compon
 import FormButtons from '@components/home/components/form-area/components/form-buttons/formButtons';
 
 function FormArea() {
-    const {
-        handlers: { handleSubmitForm },
-    } = useHomeContext();
-
     return (
         <>
             <div className={'form-area'}>
-                <form onSubmit={handleSubmitForm}>
+                <form onSubmit={(e) => e.preventDefault()}>
                     <ApiDocsUriRow />
                     <PrettierConfigFileRow />
                     <ControllerSelectRow />

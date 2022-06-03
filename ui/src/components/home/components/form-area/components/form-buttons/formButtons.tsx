@@ -3,7 +3,7 @@ import { useHomeContext } from '@components/home/context/homeContext';
 function FormButtons() {
     const {
         values: { selectedControllerNames },
-        handlers: { handleOpenControllerInitDialog },
+        handlers: { handleOpenControllerInitDialog, handleClickGenerate },
     } = useHomeContext();
 
     return (
@@ -12,7 +12,7 @@ function FormButtons() {
                 <button type={'button'} onClick={handleOpenControllerInitDialog} disabled={selectedControllerNames.length === 0}>
                     Controller 선택 초기화
                 </button>
-                <button type={'submit'} className={'submit'}>
+                <button type={'button'} className={'generate'} onClick={handleClickGenerate}>
                     코드 생성
                 </button>
             </div>
@@ -47,13 +47,13 @@ function FormButtons() {
                     margin-left: 10px;
                 }
 
-                .submit {
+                .generate {
                     background-color: #3595f2;
                     color: white;
                     font-weight: 600;
                 }
 
-                .submit:hover:not(:disabled) {
+                .generate:hover:not(:disabled) {
                     background-color: #2c78cd;
                 }
             `}</style>

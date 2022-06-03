@@ -23,7 +23,7 @@ export const HomeContext = React.createContext<IHomeContext>({
         handleOpenControllerInitDialog: () => {},
         handleCloseControllerInitDialog: () => {},
         handleInitController: () => {},
-        handleSubmitForm: () => {},
+        handleClickGenerate: () => {},
 
         setUri: () => {},
         handleUseApiDocsUriBlur: () => {},

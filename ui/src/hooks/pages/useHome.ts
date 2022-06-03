@@ -2,7 +2,6 @@ import {
     ChangeEventHandler,
     Dispatch,
     FocusEventHandler,
-    FormEventHandler,
     KeyboardEventHandler,
     SetStateAction,
     useCallback,
@@ -49,7 +48,7 @@ export interface IUseHomeHandlers {
     handleOpenControllerInitDialog: () => void;
     handleCloseControllerInitDialog: () => void;
     handleInitController: () => void;
-    handleSubmitForm: FormEventHandler<HTMLFormElement>;
+    handleClickGenerate: () => void;
 
     setUri: Dispatch<SetStateAction<string>>;
     handleUseApiDocsUriBlur: FocusEventHandler<HTMLInputElement>;
@@ -255,9 +254,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         showToast('Controller가 모두 선택 해제 되었습니다.', 'info');
     }, [controllers]);
 
-    const handleSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
-        e.preventDefault();
-
+    const handleClickGenerate = () => {
         if (!uri) {
             showToast('API docs URI를 입력하세요.', 'warning');
             return;
@@ -351,7 +348,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             handleOpenControllerInitDialog,
             handleCloseControllerInitDialog,
             handleInitController,
-            handleSubmitForm,
+            handleClickGenerate,
             setUri,
             handleUseApiDocsUriBlur,
             handleUseApiDocsUriFocus,

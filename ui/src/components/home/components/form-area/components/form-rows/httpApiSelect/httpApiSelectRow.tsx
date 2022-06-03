@@ -1,5 +1,5 @@
 import SelectBox from '@components/common/select-box/selectBox';
-import FormRow from '@components/home/components/form-rows/common/formRow';
+import FormRow from '@components/home/components/form-area/components/form-rows/common/formRow';
 import { useHomeContext } from '@components/home/context/homeContext';
 
 function HttpApiSelectRow() {

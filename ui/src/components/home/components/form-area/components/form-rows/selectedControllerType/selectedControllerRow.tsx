@@ -1,5 +1,5 @@
 import { useHomeContext } from '@components/home/context/homeContext';
-import FormRow from '@components/home/components/form-rows/common/formRow';
+import FormRow from '@components/home/components/form-area/components/form-rows/common/formRow';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 
 function SelectedControllerRow() {

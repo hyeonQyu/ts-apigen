@@ -1,4 +1,4 @@
-import LabelContainer from '@components/home/components/label-container/common/labelContainer';
+import LabelContainer from '@components/home/components/form-area/components/label-container/common/labelContainer';
 import { useHomeContext } from '@components/home/context/homeContext';
 import Label from '@components/common/label/label';
 

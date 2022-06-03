@@ -2,10 +2,13 @@ import { MutableRefObject, useEffect, useState } from 'react';
 import { IUseSelectBoxValues } from '@components/common/select-box/useSelectBox';
 import { SelectBoxProps } from '@components/common/select-box/selectBox';
 import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
+import { ISelectBoxContext } from '@components/common/select-box/context/selectBoxContext';
+import useAnimationMount from '@hooks/common/useAnimationMount';
 
 export interface IUseSelectBoxOptionsParams<T extends number | string>
     extends Pick<IUseSelectBoxValues<T>, 'isOpened'>,
-        Pick<SelectBoxProps<T>, 'options' | 'optionSize' | 'placeholder'> {
+        Pick<SelectBoxProps<T>, 'options' | 'optionSize' | 'placeholder'>,
+        Pick<ISelectBoxContext<T>, 'height'> {
     keyword: string;
     setKeyword(keyword: string): void;
     searchBarRef: MutableRefObject<HTMLInputElement | null>;
@@ -17,20 +20,27 @@ export interface IUseSelectBoxOptions<T extends number | string> {
 }
 
 export interface IUseSelectBoxOptionsValues<T extends number | string> {
+    mounted: boolean;
     filteredOptions: SelectBoxOption<T>[];
     dropdownHeight: string;
     optionsWrapperHeight: string;
+    appearAnimationDuration: number;
+    disappearAnimationDuration: number;
 }
 
 export interface IUseSelectBoxOptionsHandlers {}
 
 export default function useSelectBoxOptions<T extends number | string>(params: IUseSelectBoxOptionsParams<T>): IUseSelectBoxOptions<T> {
-    const { keyword, setKeyword, isOpened, options = [], searchBarRef, optionSize = 20, placeholder } = params;
+    const { keyword, setKeyword, isOpened, options = [], searchBarRef, optionSize = 20, placeholder, height } = params;
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [dropdownHeight, setDropdownHeight] = useState('100%');
     const [optionsWrapperHeight, setOptionsWrapperHeight] = useState('100%');
+    const appearAnimationDuration = 0.4;
+    const disappearAnimationDuration = 0.2;
 
-    useEffect(() => {});
+    const {
+        values: { mounted },
+    } = useAnimationMount({ isOpened, disappearAnimationDuration });
 
     // 필터링 검색어 제거
     useEffect(() => {
@@ -59,16 +69,18 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
     useEffect(() => {
         let length = Math.min(filteredOptions.length, optionSize);
         placeholder && length++;
-        setDropdownHeight(`${length * 32}px`);
-
-        setOptionsWrapperHeight(placeholder && filteredOptions.length > optionSize ? `calc(100% - 32px)` : '100%');
+        setDropdownHeight(`${length * height}px`);
+        setOptionsWrapperHeight(placeholder && filteredOptions.length > optionSize ? `calc(100% - ${height}px)` : '100%');
     }, [optionSize, filteredOptions, placeholder]);
 
     return {
         values: {
+            mounted,
             filteredOptions,
             dropdownHeight,
             optionsWrapperHeight,
+            appearAnimationDuration,
+            disappearAnimationDuration,
         },
         handlers: {},
     };

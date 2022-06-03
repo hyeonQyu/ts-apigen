@@ -30,15 +30,16 @@ function InputFile<T>(props: InputFileProps<T>) {
                 button {
                     background-color: white;
                     border: 1px solid #a1a1a1;
-                    border-radius: 5px;
+                    border-radius: 20px;
                     cursor: pointer;
                     color: #5f5f5f;
                     padding: 5px 10px;
+                    transition: 0.3s;
                 }
 
                 button:hover {
-                    border: 1px solid #4f8ff1;
-                    color: #4488f1;
+                    background-color: #f3f7f8;
+                    border: 1px solid #cecece;
                 }
 
                 span {

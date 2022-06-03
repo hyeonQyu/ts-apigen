@@ -13,7 +13,7 @@ export interface IUseInputFile<T> {
 
 export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInputFile<T> {
     const { inputRef, acceptableExtensionList, isFileJson = false, onChangeFileContent = () => {} } = params;
-    const initialText = '파일을 선택하세요.';
+    const initialText = '';
     const [text, setText] = useState(initialText);
     const {
         handlers: { showToast },

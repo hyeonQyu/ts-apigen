@@ -38,7 +38,7 @@ function SelectBox<T extends string | number>(props: SelectBoxProps<T>) {
 
     return (
         <>
-            <SelectBoxContext.Provider value={{ props, useHook: selectBox }}>
+            <SelectBoxContext.Provider value={{ props, useHook: selectBox, height: 40 }}>
                 <div className={'wrapper'} ref={ref}>
                     <SelectBoxHead />
                     <SelectBoxOptions />

@@ -16,12 +16,34 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, []);
 
     return (
-        <RecoilRoot>
-            <QueryClientProvider client={queryClient}>
-                <Component {...pageProps} />
-                <CommonInPortal />
-            </QueryClientProvider>
-        </RecoilRoot>
+        <>
+            <RecoilRoot>
+                <QueryClientProvider client={queryClient}>
+                    <Component {...pageProps} />
+                    <CommonInPortal />
+                </QueryClientProvider>
+            </RecoilRoot>
+
+            <style jsx global>{`
+                input {
+                    width: 100%;
+                    height: 40px;
+                    outline: none;
+                    border: none;
+                    border-radius: 40px;
+                    padding: 0 20px;
+                    background-color: #e5ecef;
+                    transition: 0.3s;
+                    color: #585858;
+                    font-size: 16px;
+                }
+
+                input:focus {
+                    background-color: #f3f7f8;
+                    color: #444444;
+                }
+            `}</style>
+        </>
     );
 }
 

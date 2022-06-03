@@ -13,7 +13,6 @@ function ApiDocsUriRow() {
         <>
             <FormRow title={'API docs URI'} required>
                 <input
-                    className={'uri'}
                     placeholder={'https://my-application.net/api-docs'}
                     value={uri}
                     onChange={onChange}
@@ -22,20 +21,7 @@ function ApiDocsUriRow() {
                 />
             </FormRow>
 
-            <style jsx>{`
-                .uri {
-                    width: 100%;
-                    height: 32px;
-                    outline: none;
-                    border: 1px solid gray;
-                    border-radius: 5px;
-                    padding: 0 10px;
-                }
-
-                .uri:focus {
-                    border: 1px solid cornflowerblue;
-                }
-            `}</style>
+            <style jsx>{``}</style>
         </>
     );
 }

@@ -5,6 +5,7 @@ import { IUseSelectBox } from '@components/common/select-box/useSelectBox';
 export interface ISelectBoxContext<T extends string | number> {
     props: Omit<SelectBoxProps<T>, 'width'>;
     useHook: IUseSelectBox<T>;
+    height: number;
 }
 
 export const SelectBoxContext = React.createContext<ISelectBoxContext<any>>({
@@ -29,6 +30,7 @@ export const SelectBoxContext = React.createContext<ISelectBoxContext<any>>({
             select() {},
         },
     },
+    height: 40,
 });
 
 export const useSelectBoxContext = () => React.useContext(SelectBoxContext);

@@ -17,12 +17,13 @@ export const HomeContext = React.createContext<IHomeContext>({
         baseRootSet: new Set(),
         generatedCodePath: '',
         isControllerInitDialogOpened: false,
+        hasLottie: true,
     },
     handlers: {
         handleOpenControllerInitDialog: () => {},
         handleCloseControllerInitDialog: () => {},
         handleInitController: () => {},
-        handleClickGenerateCode: () => {},
+        handleSubmitForm: () => {},
 
         setUri: () => {},
         handleUseApiDocsUriBlur: () => {},

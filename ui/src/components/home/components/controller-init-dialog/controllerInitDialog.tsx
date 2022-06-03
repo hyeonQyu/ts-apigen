@@ -66,6 +66,7 @@ function ControllerInitDialog() {
                     border-radius: 8px;
                     cursor: pointer;
                     font-weight: 600;
+                    transition: 0.3s;
                 }
 
                 .buttons button:not(:first-child) {
@@ -73,10 +74,9 @@ function ControllerInitDialog() {
                 }
 
                 .yes {
-                    background-color: #2f87e8;
+                    background-color: #3595f2;
                     color: white;
                 }
-
                 .yes:hover {
                     background-color: #2c78cd;
                 }
@@ -86,7 +86,6 @@ function ControllerInitDialog() {
                     color: #404040;
                     opacity: 0.5;
                 }
-
                 .no:hover {
                     background-color: #cdcdcd;
                 }

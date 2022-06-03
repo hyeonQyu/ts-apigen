@@ -15,20 +15,7 @@ function BaseRootAddRow() {
                 <input placeholder={'root/'} onKeyPress={handleBaseRootAddInputKeyPress} onChange={onChange} value={baseRoot} />
             </FormRow>
 
-            <style jsx>{`
-                input {
-                    width: 100%;
-                    height: 32px;
-                    outline: none;
-                    border: 1px solid gray;
-                    border-radius: 5px;
-                    padding: 0 10px;
-                }
-
-                input:focus {
-                    border: 1px solid cornflowerblue;
-                }
-            `}</style>
+            <style jsx>{``}</style>
         </>
     );
 }

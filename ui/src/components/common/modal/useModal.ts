@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { ModalProps } from '@components/common/modal/modal';
+import useAnimationMount from '@hooks/common/useAnimationMount';
 
 export interface IUseModalParams extends Pick<ModalProps, 'isOpened'> {}
 
@@ -21,18 +21,9 @@ export default function useModal(params: IUseModalParams): IUseModal {
     const disappearAnimationDuration = 0.2;
 
     const { isOpened = false } = params;
-    const [mounted, setMounted] = useState(isOpened);
-
-    useEffect(() => {
-        if (isOpened) {
-            setMounted(true);
-            return;
-        }
-
-        setTimeout(() => {
-            setMounted(false);
-        }, disappearAnimationDuration * 1000);
-    }, [isOpened]);
+    const {
+        values: { mounted },
+    } = useAnimationMount({ isOpened, disappearAnimationDuration });
 
     return {
         values: {

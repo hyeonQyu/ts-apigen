@@ -53,6 +53,11 @@ function SelectedControllerRow() {
                 .option {
                     cursor: pointer;
                 }
+
+                .option input {
+                    width: initial;
+                    height: initial;
+                }
             `}</style>
         </>
     );

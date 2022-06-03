@@ -44,8 +44,9 @@ function Toast(props: ToastProps) {
                     transition: opacity 0.2s ease, bottom 0.2s ease;
                     animation: appear 0.4s ease;
                     background-color: ${backgroundColor};
-                    border-radius: 8px;
+                    border-radius: ${height}px;
                     z-index: ${zIndex.toast};
+                    padding: 0 10px;
                 }
 
                 .toast.close {
@@ -75,6 +76,7 @@ function Toast(props: ToastProps) {
                     font-size: 18px;
                     width: ${width - height}px;
                     line-height: 1.3;
+                    word-break: keep-all;
                 }
             `}</style>
         </>

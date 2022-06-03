@@ -2,6 +2,7 @@ import {
     ChangeEventHandler,
     Dispatch,
     FocusEventHandler,
+    FormEventHandler,
     KeyboardEventHandler,
     SetStateAction,
     useCallback,
@@ -16,7 +17,6 @@ import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
-// import { HomeProps } from '@pages/index';
 import useLoad from '@hooks/common/useLoad';
 import useToastMessage from '@hooks/common/useToastMessage';
 
@@ -40,13 +40,14 @@ export interface IUseHomeValues {
     baseRoot: string;
     baseRootSet: Set<string>;
     isControllerInitDialogOpened: boolean;
+    hasLottie: boolean;
 }
 
 export interface IUseHomeHandlers {
     handleOpenControllerInitDialog: () => void;
     handleCloseControllerInitDialog: () => void;
     handleInitController: () => void;
-    handleClickGenerateCode: () => void;
+    handleSubmitForm: FormEventHandler<HTMLFormElement>;
 
     setUri: Dispatch<SetStateAction<string>>;
     handleUseApiDocsUriBlur: FocusEventHandler<HTMLInputElement>;
@@ -153,6 +154,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     const [isControllerInitDialogOpened, setIsControllerInitDialogOpened] = useState(false);
 
+    const [hasLottie, setHasLottie] = useState(true);
+
     const { useControllersQuery, useGenerateCodeMutation, useSaveConfigMutation, useLoadConfigQuery } = useHomeQuery();
 
     const {
@@ -210,12 +213,22 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         setControllerOptions(controllersToControllerOptions(controllers));
     }, [controllers]);
 
+    useEffect(() => {
+        const showLottieByWindowWidth = () => {
+            if (hasLottie && window.innerWidth < 1180) {
+                setHasLottie(false);
+            } else if (!hasLottie && window.innerWidth > 1180) {
+                setHasLottie(true);
+            }
+        };
+        showLottieByWindowWidth();
+
+        window.addEventListener('resize', showLottieByWindowWidth);
+        return () => window.removeEventListener('resize', showLottieByWindowWidth);
+    }, [hasLottie]);
+
     // Controller 선택 초기화 모달 열기
     const handleOpenControllerInitDialog = useCallback(() => {
-        if (selectedControllerNames.length === 0) {
-            return;
-        }
-
         setIsControllerInitDialogOpened(true);
     }, [selectedControllerNames]);
 
@@ -233,7 +246,9 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         showToast('Controller가 모두 선택 해제 되었습니다.', 'info');
     }, [controllers]);
 
-    const handleClickGenerateCode = () => {
+    const handleSubmitForm: FormEventHandler<HTMLFormElement> = (e) => {
+        e.preventDefault();
+
         if (!uri) {
             showToast('API docs URI를 입력하세요.', 'warning');
             return;
@@ -321,12 +336,13 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             baseRoot,
             baseRootSet,
             isControllerInitDialogOpened,
+            hasLottie,
         },
         handlers: {
             handleOpenControllerInitDialog,
             handleCloseControllerInitDialog,
             handleInitController,
-            handleClickGenerateCode,
+            handleSubmitForm,
             setUri,
             handleUseApiDocsUriBlur,
             handleUseApiDocsUriFocus,

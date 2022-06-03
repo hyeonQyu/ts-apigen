@@ -66,7 +66,7 @@ function Loading(props: LoadingProps) {
                     left: 10px;
                     border-radius: 50%;
                     border: 10px solid #000;
-                    border-color: #009ef7 transparent #009ef7 transparent;
+                    border-color: #3595f2 transparent #3595f2 transparent;
                     animation: ldio-157102gp7nd 1s linear infinite;
                 }
 
@@ -80,7 +80,7 @@ function Loading(props: LoadingProps) {
                 }
 
                 .ldio-157102gp7nd > div:nth-child(2) {
-                    border-color: transparent #a6d5fa transparent #a6d5fa;
+                    border-color: transparent #ffb601 transparent #ffb601;
                 }
 
                 .ldio-157102gp7nd > div:nth-child(3) {
@@ -103,15 +103,15 @@ function Loading(props: LoadingProps) {
                     height: 10px;
                     top: -10px;
                     left: 25px;
-                    background: #009ef7;
+                    background: #3595f2;
                     border-radius: 50%;
-                    box-shadow: 0 70px 0 0 #009ef7;
+                    box-shadow: 0 70px 0 0 #3595f2;
                 }
 
                 .ldio-157102gp7nd > div:nth-child(3) div:after {
                     left: -10px;
                     top: 25px;
-                    box-shadow: 70px 0 0 0 #009ef7;
+                    box-shadow: 70px 0 0 0 #3595f2;
                 }
 
                 .ldio-157102gp7nd > div:nth-child(4) {
@@ -134,15 +134,15 @@ function Loading(props: LoadingProps) {
                     height: 10px;
                     top: -10px;
                     left: 14px;
-                    background: #a6d5fa;
+                    background: #ffb601;
                     border-radius: 50%;
-                    box-shadow: 0 48px 0 0 #a6d5fa;
+                    box-shadow: 0 48px 0 0 #ffb601;
                 }
 
                 .ldio-157102gp7nd > div:nth-child(4) div:after {
                     left: -10px;
                     top: 14px;
-                    box-shadow: 48px 0 0 0 #a6d5fa;
+                    box-shadow: 48px 0 0 0 #ffb601;
                 }
 
                 .loadingio-spinner-double-ring-0hjs6hp5lmk {

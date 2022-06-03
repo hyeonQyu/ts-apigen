@@ -42,6 +42,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                     background-color: #f3f7f8;
                     color: #444444;
                 }
+
+                input::placeholder {
+                    color: #afafaf;
+                }
             `}</style>
         </>
     );

@@ -65,10 +65,10 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
 
     const useGenerateCodeMutation = () => {
         return useMutation((config: Config) => HomeApi.postGenerate({ config }), {
-            onSettled: () => {
-                setTimeout(() => showToast('설정이 자동 저장되었습니다.', 'info'), 100);
+            onSuccess: () => {
+                showToast('코드 생성을 완료했어요.', 'success');
+                setTimeout(() => showToast('설정이 저장되었습니다.', 'info'), 100);
             },
-            onSuccess: () => showToast('코드 생성을 완료했어요.', 'success'),
             onError: (error: AxiosError) => {
                 switch (error.response?.status) {
                     case 500:

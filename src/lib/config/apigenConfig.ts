@@ -9,8 +9,15 @@ export namespace ApigenConfig {
         requestApi: 'axios',
         controllerNames: [],
         baseRootList: [],
-        prettierConfigName: '',
-        prettierConfig: null,
+        prettierConfigFileName: 'ℹ️ 기본 설정 적용중',
+        prettierConfig: {
+            trailingComma: 'all',
+            tabWidth: 4,
+            semi: true,
+            singleQuote: true,
+            printWidth: 140,
+            parser: 'babel-ts',
+        },
         selectedControllerType: 'INCLUDE',
     };
 
@@ -18,6 +25,10 @@ export namespace ApigenConfig {
         config = {
             ...config,
             ...newConfig,
+        };
+        config.prettierConfig = {
+            ...newConfig.prettierConfig,
+            parser: 'babel-ts',
         };
         config.baseRootList.sort((root1, root2) => root2.length - root1.length);
     }

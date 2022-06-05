@@ -8,7 +8,7 @@ export interface Config {
     controllerNames: string[];
 
     /** .prettier 설정 파일 이름 */
-    prettierConfigName: string;
+    prettierConfigFileName: string;
 
     /** .prettier 설정, 없으면 기본 prettier 설정을 사용 */
     prettierConfig: PrettierConfig | null;

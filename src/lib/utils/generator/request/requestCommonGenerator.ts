@@ -1,12 +1,13 @@
 import { ApigenConfig } from '../../../config/apigenConfig';
-import { PrettierParser } from '../../parser/prettierParser';
 
 const prettier = require('prettier');
 const fs = require('fs');
 
 export namespace RequestCommonGenerator {
     export function generateCommonCode() {
-        const directoryPath = `${ApigenConfig.config.generatedCodePath}/requests`;
+        const { generatedCodePath, prettierConfig } = ApigenConfig.config;
+
+        const directoryPath = `${generatedCodePath}/requests`;
 
         if (!fs.existsSync(directoryPath)) {
             fs.mkdirSync(directoryPath);
@@ -24,7 +25,7 @@ export namespace RequestCommonGenerator {
             }
         `;
 
-        fs.writeFileSync(`${directoryPath}/RequestCommon.ts`, prettier.format(ts, PrettierParser.prettierConfig));
+        fs.writeFileSync(`${directoryPath}/RequestCommon.ts`, prettier.format(ts, prettierConfig));
     }
 
     function getImportAxiosCode(): string {

@@ -1,6 +1,5 @@
 import { ModelInfo } from '../../../defines/modelInfo';
 import { ApigenConfig } from '../../../config/apigenConfig';
-import { PrettierParser } from '../../parser/prettierParser';
 import { ImportGenerator } from '../import/importGenerator';
 
 const prettier = require('prettier');
@@ -8,7 +7,9 @@ const fs = require('fs');
 
 export namespace ModelGenerator {
     export function generateModels(modelInfoByName: Map<string, ModelInfo>) {
-        const directoryPath = `${ApigenConfig.config.generatedCodePath}/models`;
+        const { generatedCodePath, prettierConfig } = ApigenConfig.config;
+
+        const directoryPath = `${generatedCodePath}/models`;
 
         if (!fs.existsSync(directoryPath)) {
             fs.mkdirSync(directoryPath);
@@ -26,7 +27,7 @@ export namespace ModelGenerator {
                 }
             `;
 
-            fs.writeFileSync(`${directoryPath}/${name}.ts`, prettier.format(ts, PrettierParser.prettierConfig));
+            fs.writeFileSync(`${directoryPath}/${name}.ts`, prettier.format(ts, prettierConfig));
         });
     }
 }

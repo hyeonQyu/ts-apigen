@@ -1,7 +1,6 @@
 import { ApiInfo, ByContentType, ControllerInfo, RequestInfo, ResponseInfo } from '../../../defines/controllerInfo';
 import { ApigenConfig } from '../../../config/apigenConfig';
 import { ImportGenerator } from '../import/importGenerator';
-import { PrettierParser } from '../../parser/prettierParser';
 import { MethodType } from '../../../defines/openApi';
 import { RequestCommonGenerator } from './requestCommonGenerator';
 import { CaseStyleFormatter } from '../../string/caseStyleFormatter';
@@ -266,14 +265,12 @@ export namespace RequestGenerator {
     }
 
     function writeFile(fileName: string, ts: string) {
+        const { prettierConfig, generatedCodePath } = ApigenConfig.config;
         try {
-            fs.writeFileSync(
-                `${ApigenConfig.config.generatedCodePath}/requests/${fileName}.ts`,
-                prettier.format(ts, PrettierParser.prettierConfig),
-            );
+            fs.writeFileSync(`${generatedCodePath}/requests/${fileName}.ts`, prettier.format(ts, prettierConfig));
         } catch (e) {
             console.error('generate request', e);
-            const errorFilePath = `${ApigenConfig.config.generatedCodePath}/requests/${fileName}Error.ts`;
+            const errorFilePath = `${generatedCodePath}/requests/${fileName}Error.ts`;
             fs.writeFileSync(errorFilePath, ts);
             throw new Error(`Prettier 전환 중 에러가 발생했습니다. ${errorFilePath} 를 확인하세요.`);
         }

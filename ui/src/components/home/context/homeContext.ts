@@ -7,6 +7,7 @@ export const HomeContext = React.createContext<IHomeContext>({
     values: {
         isLoaded: false,
         uri: '',
+        prettierConfigFileName: '',
         prettierConfig: null,
         controllers: [],
         selectedControllerNames: [],
@@ -30,7 +31,8 @@ export const HomeContext = React.createContext<IHomeContext>({
         handleUseApiDocsUriBlur: () => {},
         handleUseApiDocsUriFocus: () => {},
 
-        setPrettierConfig: () => {},
+        handleChangePrettierConfigFileName: () => {},
+        handleChangePrettierConfig: () => {},
 
         handleSelectController: () => {},
         handleClickDeleteControllerLabel: () => {},

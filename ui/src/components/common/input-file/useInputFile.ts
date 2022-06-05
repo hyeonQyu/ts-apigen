@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useState } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 import { InputFileProps } from '@components/common/input-file/inputFile';
 import useToastMessage from '@hooks/common/useToastMessage';
 
@@ -8,13 +8,10 @@ export interface IUseInputFileParams<T> extends InputFileProps<T> {
 
 export interface IUseInputFile<T> {
     handleSelectFile(): void;
-    text: string;
 }
 
 export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInputFile<T> {
-    const { inputRef, acceptableExtensionList, isFileJson = false, onChangeFileContent = () => {} } = params;
-    const initialText = '';
-    const [text, setText] = useState(initialText);
+    const { inputRef, acceptableExtensionList, isFileJson = false, onChangeFileName = () => {}, onChangeFileContent = () => {} } = params;
     const {
         handlers: { showToast },
     } = useToastMessage();
@@ -41,7 +38,7 @@ export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInp
             }
 
             const content = await files[0].text();
-            setText(name);
+            onChangeFileName(name);
             onChangeFileContent(isFileJson ? JSON.parse(content) : content);
         };
 
@@ -60,6 +57,5 @@ export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInp
 
     return {
         handleSelectFile,
-        text,
     };
 }

@@ -9,6 +9,7 @@ export namespace ApigenConfig {
         requestApi: 'axios',
         controllerNames: [],
         baseRootList: [],
+        prettierConfigName: '',
         prettierConfig: null,
         selectedControllerType: 'INCLUDE',
     };

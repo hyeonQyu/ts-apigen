@@ -4,14 +4,17 @@ import useInputFile from './useInputFile';
 export interface InputFileProps<T> {
     acceptableExtensionList: string[];
     isFileJson?: boolean;
-    onChangeFileContent?(fileContent: T | null): void;
+    onChangeFileName?: (name: string) => void;
+    onChangeFileContent?: (fileContent: T) => void;
+    onHoverText?: () => void;
+    text?: string;
 }
 
 function InputFile<T>(props: InputFileProps<T>) {
-    const { acceptableExtensionList } = props;
+    const { acceptableExtensionList, text } = props;
     const ref = useRef(null);
 
-    const { handleSelectFile, text } = useInputFile<T>({
+    const { handleSelectFile } = useInputFile<T>({
         inputRef: ref,
         ...props,
     });

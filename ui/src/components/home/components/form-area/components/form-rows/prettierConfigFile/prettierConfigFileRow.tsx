@@ -5,17 +5,29 @@ import { useHomeContext } from '@components/home/context/homeContext';
 
 function PrettierConfigFileRow() {
     const {
-        values: { prettierConfig },
-        handlers: { setPrettierConfig },
+        values: { prettierConfigFileName, prettierConfig },
+        handlers: { handleChangePrettierConfigFileName, handleChangePrettierConfig },
     } = useHomeContext();
 
     return (
         <>
             <FormRow title={'prettier 설정 파일(.prettierrc)'}>
-                <InputFile<PrettierConfig> acceptableExtensionList={['.prettierrc']} isFileJson onChangeFileContent={setPrettierConfig} />
+                <div className={'form__prettier-wrapper'}>
+                    <InputFile<PrettierConfig>
+                        acceptableExtensionList={['.prettierrc']}
+                        isFileJson
+                        text={prettierConfigFileName}
+                        onChangeFileName={handleChangePrettierConfigFileName}
+                        onChangeFileContent={handleChangePrettierConfig}
+                    />
+                </div>
             </FormRow>
 
-            <style jsx>{``}</style>
+            <style jsx global>{`
+                .form__prettier-wrapper span {
+                    cursor: pointer;
+                }
+            `}</style>
         </>
     );
 }

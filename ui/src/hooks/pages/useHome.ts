@@ -29,6 +29,7 @@ export interface IUseHome {
 export interface IUseHomeValues {
     isLoaded: boolean;
     uri: string;
+    prettierConfigFileName: string;
     prettierConfig: PrettierConfig | null;
     controllers: ControllerOptionInfo[];
     selectedControllerNames: string[];
@@ -55,7 +56,8 @@ export interface IUseHomeHandlers {
 
     handleChangeSelectedControllerType: ChangeEventHandler<HTMLInputElement>;
 
-    setPrettierConfig: Dispatch<SetStateAction<PrettierConfig | null>>;
+    handleChangePrettierConfigFileName: (name: string) => void;
+    handleChangePrettierConfig: (config: PrettierConfig | null) => void;
 
     handleSelectController: (value: string, selected?: boolean) => void;
     handleClickDeleteControllerLabel: (name: string) => void;
@@ -83,6 +85,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         return {
             apiDocsUri: uri,
             requestApi: httpApiType,
+            prettierConfigFileName,
             prettierConfig,
             controllerNames: selectedControllerNames,
             baseRootList: Array.from(baseRootSet),
@@ -134,6 +137,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [uri, setUri] = useState('');
     const [isLoadController, setIsLoadController] = useState(false);
 
+    const [prettierConfigFileName, setPrettierConfigFileName] = useState<string>('');
     const [prettierConfig, setPrettierConfig] = useState<PrettierConfig | null>(null);
 
     const [controllers, setControllers] = useState<ControllerOptionInfo[]>([]);
@@ -178,9 +182,19 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         const config = data?.config ?? getConfig();
         const controllerNamesByUri = data?.controllerNamesByUri ?? [];
 
-        const { apiDocsUri, prettierConfig, controllerNames, selectedControllerType, requestApi, generatedCodePath, baseRootList } = config;
+        const {
+            apiDocsUri,
+            prettierConfigFileName,
+            prettierConfig,
+            controllerNames,
+            selectedControllerType,
+            requestApi,
+            generatedCodePath,
+            baseRootList,
+        } = config;
 
         setUri(apiDocsUri);
+        setPrettierConfigFileName(prettierConfigFileName);
         setPrettierConfig(prettierConfig);
         setControllers(controllerNamesToControllers(controllerNamesByUri, controllerNames));
         setSelectedControllerType(selectedControllerType);
@@ -254,6 +268,10 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         generateCodeMutation.mutate(getConfig());
     };
 
+    // prettier 설정 변경
+    const handleChangePrettierConfigFileName = (name: string) => setPrettierConfigFileName(name);
+    const handleChangePrettierConfig = (config: PrettierConfig | null) => setPrettierConfig(config);
+
     // API docs URI Focus 및 Blur 이벤트 핸들러
     const handleUseApiDocsUriBlur = () => setIsLoadController(true);
     const handleUseApiDocsUriFocus = () => setIsLoadController(false);
@@ -324,6 +342,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         values: {
             isLoaded,
             uri,
+            prettierConfigFileName,
             prettierConfig,
             controllers,
             selectedControllerNames,
@@ -345,7 +364,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             setUri,
             handleUseApiDocsUriBlur,
             handleUseApiDocsUriFocus,
-            setPrettierConfig,
+            handleChangePrettierConfigFileName,
+            handleChangePrettierConfig,
             handleSelectController,
             handleChangeSelectedControllerType,
             handleClickDeleteControllerLabel,

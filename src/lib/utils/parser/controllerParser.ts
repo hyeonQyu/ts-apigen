@@ -73,12 +73,12 @@ export namespace ControllerParser {
 
     function setControllerDescriptionByName(tags: ITag[]) {
         tags.forEach(({ name, description }) => {
-            controllerDescriptionByName.set(CaseStyleFormatter.snakeCaseToPascalCase(name), description.replace(/\s/g, ''));
+            controllerDescriptionByName.set(CaseStyleFormatter.kebabCaseToPascalCase(name), description.replace(/\s/g, ''));
         });
     }
 
     function getController(restApi: Omit<IRestApi, 'path'>): string {
-        const name = CaseStyleFormatter.snakeCaseToPascalCase(Object.values(restApi)[0].tags[0]);
+        const name = CaseStyleFormatter.kebabCaseToPascalCase(Object.values(restApi)[0].tags[0]);
         return controllerDescriptionByName.get(name) ?? '';
     }
 

@@ -1,4 +1,5 @@
 import { ISchema } from '../../defines/openApi';
+import { CaseStyleFormatter } from '../string/caseStyleFormatter';
 
 export namespace TypeNameParser {
     /**
@@ -14,7 +15,7 @@ export namespace TypeNameParser {
     }
 
     function getTypeNameFromRef(schema: ISchema, refSet?: Set<string>): string {
-        const typeName = schema.$ref?.substring('#/definitions/'.length);
+        const typeName = CaseStyleFormatter.genericToPascalCase(schema.$ref?.substring('#/definitions/'.length));
 
         if (typeName) {
             refSet?.add(typeName);

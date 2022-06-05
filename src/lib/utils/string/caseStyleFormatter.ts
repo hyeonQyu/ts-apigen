@@ -1,5 +1,5 @@
 export namespace CaseStyleFormatter {
-    export function snakeCaseToPascalCase(str: string): string {
+    export function kebabCaseToPascalCase(str: string): string {
         return str
             .split('-')
             .map((v) => camelCaseToPascalCase(v))
@@ -13,7 +13,14 @@ export namespace CaseStyleFormatter {
     export function baseRootToPascalCase(baseRoot: string): string {
         return baseRoot
             .split('/')
-            .map((v) => snakeCaseToPascalCase(v))
+            .map((v) => kebabCaseToPascalCase(v))
             .join('');
+    }
+
+    export function genericToPascalCase(str?: string): string {
+        if (!str) {
+            return '';
+        }
+        return kebabCaseToPascalCase(str.replace(/»/g, '').replace(/«/g, '-').replace(/,/g, '-'));
     }
 }

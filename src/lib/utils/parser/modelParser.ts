@@ -1,6 +1,7 @@
 import { IDefinitions } from '../../defines/openApi';
 import { ModelInfo, TypeInfo } from '../../defines/modelInfo';
 import { TypeNameParser } from './typeNameParser';
+import { CaseStyleFormatter } from '../string/caseStyleFormatter';
 
 export namespace ModelParser {
     export function getByModelInfoByName(definitions: IDefinitions): Map<string, ModelInfo> {
@@ -14,7 +15,7 @@ export namespace ModelParser {
             Object.entries(properties).forEach(([property, schema]) => {
                 typeInfo[property] = TypeNameParser.getTypeNameFromSchema(schema, refSet);
             });
-            modelInfoByName.set(name, { refSet, typeInfo });
+            modelInfoByName.set(CaseStyleFormatter.genericToPascalCase(name), { refSet, typeInfo });
         });
 
         return modelInfoByName;

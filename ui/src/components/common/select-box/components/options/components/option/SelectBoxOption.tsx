@@ -32,10 +32,10 @@ function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<
                 >
                     {isMultiSelect ? (
                         <Checkbox checked={selected}>
-                            <Shortening>{name}</Shortening>
+                            <Shortening lineHeight={2}>{name}</Shortening>
                         </Checkbox>
                     ) : (
-                        <Shortening>{name}</Shortening>
+                        <Shortening lineHeight={2}>{name}</Shortening>
                     )}
                 </div>
             </div>
@@ -46,6 +46,7 @@ function SelectBoxOption<T extends number | string>(props: SelectBoxOptionProps<
                     padding: 4px 10px;
                     background: white;
                     color: #444444;
+                    border-radius: 20px;
                 }
 
                 .option-inner {

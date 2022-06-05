@@ -1,5 +1,6 @@
 export const zIndex = {
-    mask: 10,
-    loading: 20,
-    toast: 30,
+    speechBubble: 10,
+    mask: 20,
+    loading: 30,
+    toast: 40,
 };

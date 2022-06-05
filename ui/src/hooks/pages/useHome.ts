@@ -265,6 +265,10 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
             showToast('API docs URI를 입력하세요.', 'warning');
             return;
         }
+        if (!generatedCodePath) {
+            showToast('코드 생성 경로를 입력하세요.', 'warning');
+            return;
+        }
         generateCodeMutation.mutate(getConfig());
     };
 

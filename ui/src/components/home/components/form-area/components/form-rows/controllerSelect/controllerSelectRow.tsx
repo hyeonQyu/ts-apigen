@@ -13,11 +13,11 @@ function ControllerSelectRow() {
             <FormRow title={'Controller 선택'}>
                 <SelectBox
                     value={selectedControllerNames}
-                    placeholder={'컨트롤러 이름으로 검색'}
+                    placeholder={'Controller 이름으로 검색'}
                     options={controllerOptions}
                     onChange={handleSelectController}
                     optionSize={10}
-                    boxTitle={'컨트롤러를 선택하세요.'}
+                    boxTitle={'Controller를 선택하세요.'}
                 />
             </FormRow>
 

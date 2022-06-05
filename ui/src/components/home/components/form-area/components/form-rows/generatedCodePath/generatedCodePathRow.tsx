@@ -11,7 +11,7 @@ function GeneratedCodePathRow() {
 
     return (
         <>
-            <FormRow title={'자동 생성 코드 경로'}>
+            <FormRow title={'자동 생성 코드 경로'} required>
                 <input className={'path'} value={generatedCodePath} onChange={onChange} />
             </FormRow>
 

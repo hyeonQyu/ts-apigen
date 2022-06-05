@@ -9,7 +9,7 @@ export interface SelectBoxSearchBarProps {
 }
 
 function SelectBoxSearchBar(props: SelectBoxSearchBarProps) {
-    const { props: contextProps } = useSelectBoxContext();
+    const { props: contextProps, height } = useSelectBoxContext();
     const { placeholder } = contextProps;
     const { onChange, keyword, searchBarRef } = props;
 
@@ -22,7 +22,8 @@ function SelectBoxSearchBar(props: SelectBoxSearchBarProps) {
 
             <style jsx>{`
                 .search {
-                    height: 30px;
+                    margin-top: 5px;
+                    height: ${height - 2}px;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;

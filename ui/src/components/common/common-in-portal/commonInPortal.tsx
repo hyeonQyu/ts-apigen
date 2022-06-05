@@ -1,5 +1,5 @@
 import Portal from '@components/common/portal/portal';
-import Loading from '@components/common/loading/loading';
+import LoadingPortal from '@components/common/loading/loadingPortal';
 import ToastWrapper from '@components/common/toast/toastWrapper';
 
 export interface CommonInPortalProps {}
@@ -10,7 +10,7 @@ function CommonInPortal(props: CommonInPortalProps) {
     return (
         <>
             <Portal>
-                <Loading />
+                <LoadingPortal />
                 <ToastWrapper />
             </Portal>
 

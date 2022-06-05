@@ -31,7 +31,7 @@ export interface IUseHomeQuery {
     useSaveConfigMutation: () => UseMutationResult<boolean, unknown, Config>;
     useLoadConfigQuery: (
         isLoaded: boolean,
-        onSuccess: () => void,
+        onSettled: () => void,
     ) =>
         | QueryObserverIdleResult<ConfigRes>
         | QueryObserverLoadingErrorResult<ConfigRes>
@@ -89,12 +89,13 @@ export default function useHomeQuery(/*params: IUseHomeQueryParams*/): IUseHomeQ
         });
     };
 
-    const useLoadConfigQuery = (isLoaded: boolean, onSuccess: () => void) => {
+    const useLoadConfigQuery = (isLoaded: boolean, onSettled: () => void) => {
         return useQuery(['load'], () => HomeApi.getConfig(), {
             enabled: !isLoaded,
-            onSuccess,
+            onSettled,
+            onError: () => showToast('알 수 없는 오류가 발생했어요. 프로그램을 다시 실행하세요.', 'error'),
             refetchOnWindowFocus: false,
-            retry: 1,
+            retry: 2,
         });
     };
 

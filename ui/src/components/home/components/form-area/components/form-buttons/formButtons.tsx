@@ -2,7 +2,7 @@ import { useHomeContext } from '@components/home/context/homeContext';
 
 function FormButtons() {
     const {
-        values: { selectedControllerNames },
+        values: { selectedControllerNames, isLoaded },
         handlers: { handleOpenControllerInitDialog, handleClickGenerate },
     } = useHomeContext();
 
@@ -12,7 +12,7 @@ function FormButtons() {
                 <button type={'button'} onClick={handleOpenControllerInitDialog} disabled={selectedControllerNames.length === 0}>
                     Controller 선택 초기화
                 </button>
-                <button type={'button'} className={'generate'} onClick={handleClickGenerate}>
+                <button type={'button'} className={'generate'} onClick={handleClickGenerate} disabled={!isLoaded}>
                     코드 생성
                 </button>
             </div>

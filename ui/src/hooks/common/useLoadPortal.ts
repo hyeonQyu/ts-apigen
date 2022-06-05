@@ -2,22 +2,22 @@ import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { loadingCountState } from 'stores/store';
 
-export interface IUseLoadParams {
+export interface IUseLoadPortalParams {
     isLoading: boolean;
     isSuccess: boolean;
     isError: boolean;
 }
 
-export interface IUseLoad {
-    values: IUseLoadValues;
-    handlers: IUseLoadHandlers;
+export interface IUseLoadPortal {
+    values: IUseLoadPortalValues;
+    handlers: IUseLoadPortalHandlers;
 }
 
-export interface IUseLoadValues {}
+export interface IUseLoadPortalValues {}
 
-export interface IUseLoadHandlers {}
+export interface IUseLoadPortalHandlers {}
 
-export default function useLoad(params: IUseLoadParams): IUseLoad {
+export default function useLoadPortal(params: IUseLoadPortalParams): IUseLoadPortal {
     const { isLoading, isSuccess, isError } = params;
     const setLoadingCount = useSetRecoilState(loadingCountState);
 

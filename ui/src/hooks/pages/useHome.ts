@@ -16,10 +16,8 @@ import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
-import useLoad from '@hooks/common/useLoad';
+import useLoadPortal from '@hooks/common/useLoadPortal';
 import useToastMessage from '@hooks/common/useToastMessage';
-import { useSetRecoilState } from 'recoil';
-import { loadingCountState } from 'stores/store';
 
 // export interface IUseHomeParams extends HomeProps {}
 
@@ -29,6 +27,7 @@ export interface IUseHome {
 }
 
 export interface IUseHomeValues {
+    isLoaded: boolean;
     uri: string;
     prettierConfig: PrettierConfig | null;
     controllers: ControllerOptionInfo[];
@@ -163,26 +162,19 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
         handlers: { showToast },
     } = useToastMessage();
 
-    const setLoadingCount = useSetRecoilState(loadingCountState);
-
     const controllersQuery = useControllersQuery(uri, isLoadController, () => setIsLoadController(false));
     const generateCodeMutation = useGenerateCodeMutation();
     const saveConfigMutation = useSaveConfigMutation();
     const loadConfigQuery = useLoadConfigQuery(isLoaded, () => setIsLoaded(true));
 
     const controllerNames = controllersQuery.data?.controllerNames ?? [];
-    useLoad(controllersQuery);
-    useLoad(generateCodeMutation);
+    useLoadPortal(controllersQuery);
+    useLoadPortal(generateCodeMutation);
 
     // 저장된 설정 최초 1회만 불러오기
     useEffect(() => {
-        const { data, isLoading } = loadConfigQuery;
-        if (isLoading) {
-            setLoadingCount(1);
-            return;
-        }
+        const { data } = loadConfigQuery;
 
-        setLoadingCount(0);
         const config = data?.config ?? getConfig();
         const controllerNamesByUri = data?.controllerNamesByUri ?? [];
 
@@ -330,6 +322,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     return {
         values: {
+            isLoaded,
             uri,
             prettierConfig,
             controllers,

@@ -30,7 +30,7 @@ export interface IUseHomeValues {
     isLoaded: boolean;
     uri: string;
     prettierConfigFileName: string;
-    prettierConfig: PrettierConfig | null;
+    prettierConfig: PrettierConfig;
     controllers: ControllerOptionInfo[];
     selectedControllerNames: string[];
     controllerOptions: SelectBoxOption<string>[];
@@ -57,7 +57,7 @@ export interface IUseHomeHandlers {
     handleChangeSelectedControllerType: ChangeEventHandler<HTMLInputElement>;
 
     handleChangePrettierConfigFileName: (name: string) => void;
-    handleChangePrettierConfig: (config: PrettierConfig | null) => void;
+    handleChangePrettierConfig: (config: PrettierConfig) => void;
 
     handleSelectController: (value: string, selected?: boolean) => void;
     handleClickDeleteControllerLabel: (name: string) => void;
@@ -138,7 +138,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const [isLoadController, setIsLoadController] = useState(false);
 
     const [prettierConfigFileName, setPrettierConfigFileName] = useState<string>('');
-    const [prettierConfig, setPrettierConfig] = useState<PrettierConfig | null>(null);
+    const [prettierConfig, setPrettierConfig] = useState<PrettierConfig>({});
 
     const [controllers, setControllers] = useState<ControllerOptionInfo[]>([]);
     const [selectedControllerNames, setSelectedControllerNames] = useState<string[]>(controllersToSelectedControllerNames(controllers));
@@ -270,7 +270,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     // prettier 설정 변경
     const handleChangePrettierConfigFileName = (name: string) => setPrettierConfigFileName(name);
-    const handleChangePrettierConfig = (config: PrettierConfig | null) => setPrettierConfig(config);
+    const handleChangePrettierConfig = (config: PrettierConfig) => setPrettierConfig(config);
 
     // API docs URI Focus 및 Blur 이벤트 핸들러
     const handleUseApiDocsUriBlur = () => setIsLoadController(true);

@@ -6,12 +6,13 @@ export interface InputFileProps<T> {
     isFileJson?: boolean;
     onChangeFileName?: (name: string) => void;
     onChangeFileContent?: (fileContent: T) => void;
-    onHoverText?: () => void;
+    onMouseEnterText?: () => void;
+    onMouseLeaveText?: () => void;
     text?: string;
 }
 
 function InputFile<T>(props: InputFileProps<T>) {
-    const { acceptableExtensionList, text } = props;
+    const { acceptableExtensionList, text, onMouseEnterText = () => {}, onMouseLeaveText = () => {} } = props;
     const ref = useRef(null);
 
     const { handleSelectFile } = useInputFile<T>({
@@ -25,7 +26,9 @@ function InputFile<T>(props: InputFileProps<T>) {
                 <button onClick={handleSelectFile} type={'button'}>
                     파일 선택
                 </button>
-                <span>{text}</span>
+                <span onMouseEnter={onMouseEnterText} onMouseLeave={onMouseLeaveText}>
+                    {text}
+                </span>
                 <input type={'file'} ref={ref} accept={acceptableExtensionList.join()} />
             </div>
 

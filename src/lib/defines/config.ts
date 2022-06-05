@@ -11,7 +11,7 @@ export interface Config {
     prettierConfigFileName: string;
 
     /** .prettier 설정, 없으면 기본 prettier 설정을 사용 */
-    prettierConfig: PrettierConfig | null;
+    prettierConfig: PrettierConfig;
 
     /** 자동 생성되는 코드가 위치할 경로 */
     generatedCodePath: string;

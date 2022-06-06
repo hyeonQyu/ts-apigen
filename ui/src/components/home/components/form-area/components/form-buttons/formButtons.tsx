@@ -14,7 +14,7 @@ function FormButtons() {
                     Controller 선택 초기화
                 </button>
                 <button type={'button'} className={'generate'} onClick={handleClickGenerate} disabled={!isLoaded}>
-                    {isGeneratingCode ? <Loading type={'generate'} width={100} height={40} /> : '코드 생성'}
+                    {isGeneratingCode ? <Loading type={'generate'} width={100} height={40} speed={1.7} /> : '코드 생성'}
                 </button>
             </div>
 

@@ -73,14 +73,31 @@ export interface IUseHomeHandlers {
 }
 
 export default function useHome(/*params: IUseHomeParams*/): IUseHome {
-    const controllerNamesToControllers = (controllerNames: string[], selectedControllerNames: string[] = []): ControllerOptionInfo[] => {
-        const selectedControllerNameSet = new Set(selectedControllerNames);
-        return controllerNames.map((name) => ({ name, checked: selectedControllerNameSet.has(name) }));
-    };
-    const controllersToSelectedControllerNames = (controllers: ControllerOptionInfo[]): string[] =>
-        controllers.filter(({ checked }) => checked).map(({ name }) => name);
-    const controllersToControllerOptions = (controllers: ControllerOptionInfo[]): SelectBoxOption<string>[] =>
-        controllers.map(({ name }) => ({ name, value: name }));
+    const controllerNamesToControllers = useCallback(
+        (controllerNames: string[], selectedControllerNames: string[] = []): ControllerOptionInfo[] => {
+            const selectedControllerNameSet = new Set(selectedControllerNames);
+            return controllerNames.map((name) => ({ name, checked: selectedControllerNameSet.has(name) }));
+        },
+        [],
+    );
+    const controllersToSelectedControllerNames = useCallback((controllers: ControllerOptionInfo[]): string[] => {
+        return controllers.filter(({ checked }) => checked).map(({ name }) => name);
+    }, []);
+    const controllersToControllerOptions = useCallback((controllers: ControllerOptionInfo[]): SelectBoxOption<string>[] => {
+        return controllers.map(({ name }) => ({ name, value: name }));
+    }, []);
+
+    const isSameControllers = useCallback((controllerNames: string[], controllers: ControllerOptionInfo[]): boolean => {
+        if (controllerNames.length !== controllers.length) {
+            return false;
+        }
+        for (let i = 0; i < controllerNames.length; i++) {
+            if (controllerNames[i] !== controllers[i].name) {
+                return false;
+            }
+        }
+        return true;
+    }, []);
 
     const getConfig = (): Config => {
         return {
@@ -217,7 +234,7 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
 
     // Controller 목록 조회 API 호출 후
     useEffect(() => {
-        if (controllerNames.length === 0) {
+        if (controllerNames.length === 0 || isSameControllers(controllerNames, controllers)) {
             return;
         }
         setControllers(controllerNamesToControllers(controllerNames));

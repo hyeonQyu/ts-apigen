@@ -47,6 +47,7 @@ function Toast(props: ToastProps) {
                     border-radius: ${height}px;
                     z-index: ${zIndex.toast};
                     padding: 0 10px;
+                    box-shadow: 3px 3px 5px rgba(75, 75, 75, 0.4);
                 }
 
                 .toast.close {

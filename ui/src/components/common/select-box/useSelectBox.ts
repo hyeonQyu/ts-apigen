@@ -1,10 +1,8 @@
 import { SelectBoxProps } from '@components/common/select-box/selectBox';
-import { MutableRefObject, useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 
 export interface IUseSelectBoxParams<T extends number | string>
-    extends Pick<SelectBoxProps<T>, 'options' | 'value' | 'boxTitle' | 'disabled' | 'onChange'> {
-    ref: MutableRefObject<HTMLDivElement | null>;
-}
+    extends Pick<SelectBoxProps<T>, 'options' | 'value' | 'boxTitle' | 'disabled' | 'onChange'> {}
 
 export interface IUseSelectBox<T extends number | string> {
     values: IUseSelectBoxValues<T>;
@@ -16,6 +14,7 @@ export interface IUseSelectBoxValues<T extends number | string> {
     isMultiSelect: boolean;
     selectedValueSet: Set<T>;
     isOpened: boolean;
+    ref: MutableRefObject<HTMLDivElement | null>;
 }
 
 export interface IUseSelectBoxHandlers<T extends number | string> {
@@ -24,7 +23,8 @@ export interface IUseSelectBoxHandlers<T extends number | string> {
 }
 
 export default function useSelectBox<T extends number | string>(params: IUseSelectBoxParams<T>): IUseSelectBox<T> {
-    const { options = [], value, boxTitle = '옵션을 선택하세요.', ref, disabled, onChange = () => {} } = params;
+    const { options = [], value, boxTitle = '옵션을 선택하세요.', disabled, onChange = () => {} } = params;
+    const ref = useRef<HTMLDivElement | null>(null);
     const [message, setMessage] = useState<string>(boxTitle);
     const [nameByValue, setNameByValue] = useState(new Map<T, string>());
     const [selectedValueSet, setSelectedValueSet] = useState(new Set<T>());
@@ -130,6 +130,7 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
             isMultiSelect,
             selectedValueSet,
             isOpened,
+            ref,
         },
 
         handlers: {

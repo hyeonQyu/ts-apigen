@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { SelectBoxContext } from './context/selectBoxContext';
 import SelectBoxHead from '@components/common/select-box/components/head/SelectBoxHead';
 import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
@@ -35,8 +35,10 @@ export interface SelectBoxProps<T extends number | string> {
 
 function SelectBox<T extends string | number>(props: SelectBoxProps<T>) {
     const { width = '100%' } = props;
-    const ref = useRef(null);
-    const selectBox = useSelectBox<T>({ ...props, ref });
+    const selectBox = useSelectBox<T>({ ...props });
+    const {
+        values: { ref },
+    } = selectBox;
 
     const {
         handlers: { getSizeCss },

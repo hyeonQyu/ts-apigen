@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { IUseSelectBoxValues } from '@components/common/select-box/useSelectBox';
 import { SelectBoxProps } from '@components/common/select-box/selectBox';
 import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
@@ -11,7 +11,6 @@ export interface IUseSelectBoxOptionsParams<T extends number | string>
         Pick<ISelectBoxContext<T>, 'height'> {
     keyword: string;
     setKeyword(keyword: string): void;
-    searchBarRef: MutableRefObject<HTMLInputElement | null>;
 }
 
 export interface IUseSelectBoxOptions<T extends number | string> {
@@ -20,6 +19,7 @@ export interface IUseSelectBoxOptions<T extends number | string> {
 }
 
 export interface IUseSelectBoxOptionsValues<T extends number | string> {
+    searchBarRef: MutableRefObject<HTMLInputElement | null>;
     mounted: boolean;
     filteredOptions: SelectBoxOption<T>[];
     dropdownHeight: string;
@@ -31,7 +31,8 @@ export interface IUseSelectBoxOptionsValues<T extends number | string> {
 export interface IUseSelectBoxOptionsHandlers {}
 
 export default function useSelectBoxOptions<T extends number | string>(params: IUseSelectBoxOptionsParams<T>): IUseSelectBoxOptions<T> {
-    const { keyword, setKeyword, isOpened, options = [], searchBarRef, optionSize = 20, placeholder, height } = params;
+    const { keyword, setKeyword, isOpened, options = [], optionSize = 20, placeholder, height } = params;
+    const searchBarRef = useRef<HTMLInputElement>(null);
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [dropdownHeight, setDropdownHeight] = useState('100%');
     const [optionsWrapperHeight, setOptionsWrapperHeight] = useState('100%');
@@ -60,8 +61,12 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
 
     // 필터링 검색바 focus
     useEffect(() => {
-        if (searchBarRef.current && isOpened) {
-            searchBarRef.current?.focus();
+        if (isOpened) {
+            setTimeout(() => {
+                if (isOpened) {
+                    searchBarRef.current?.focus();
+                }
+            }, appearAnimationDuration);
         }
     }, [isOpened, searchBarRef]);
 
@@ -75,6 +80,7 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
 
     return {
         values: {
+            searchBarRef,
             mounted,
             filteredOptions,
             dropdownHeight,

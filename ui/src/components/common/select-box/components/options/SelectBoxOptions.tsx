@@ -3,7 +3,6 @@ import SelectBoxOption from '@components/common/select-box/components/options/co
 import SelectBoxSearchBar from '@components/common/select-box/components/options/components/search-bar/SelectBoxSearchBar';
 import useInput from '@hooks/common/useInput';
 import useSelectBoxOptions from '@components/common/select-box/components/options/useSelectBoxOptions';
-import { useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import classNames from 'classnames';
 
@@ -16,15 +15,21 @@ function SelectBoxOptions() {
         height,
     } = useSelectBoxContext();
     const { value: keyword, setValue: setKeyword, onChange } = useInput();
-    const searchBarRef = useRef<HTMLInputElement>(null);
     const {
-        values: { mounted, filteredOptions, dropdownHeight, optionsWrapperHeight, appearAnimationDuration, disappearAnimationDuration },
+        values: {
+            searchBarRef,
+            mounted,
+            filteredOptions,
+            dropdownHeight,
+            optionsWrapperHeight,
+            appearAnimationDuration,
+            disappearAnimationDuration,
+        },
     } = useSelectBoxOptions({
         keyword,
         setKeyword,
         isOpened,
         options,
-        searchBarRef,
         optionSize,
         placeholder,
         height,

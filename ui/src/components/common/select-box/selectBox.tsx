@@ -4,6 +4,8 @@ import SelectBoxHead from '@components/common/select-box/components/head/SelectB
 import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
 import useSelectBox from '@components/common/select-box/useSelectBox';
 import SelectBoxOptions from '@components/common/select-box/components/options/SelectBoxOptions';
+import { Size } from '@defines/size';
+import useCssSize from '@hooks/common/useCssSize';
 
 export interface SelectBoxProps<T extends number | string> {
     /** 선택할 수 있는 항목 목록 */
@@ -13,7 +15,7 @@ export interface SelectBoxProps<T extends number | string> {
     value?: T | T[];
 
     /** 너비 */
-    width?: number | string;
+    width?: Size;
 
     /** 필터링 검색바 placeholder, 값이 존재하는 경우에만 검색바가 생김 */
     placeholder?: string;
@@ -36,6 +38,10 @@ function SelectBox<T extends string | number>(props: SelectBoxProps<T>) {
     const ref = useRef(null);
     const selectBox = useSelectBox<T>({ ...props, ref });
 
+    const {
+        handlers: { getSizeCss },
+    } = useCssSize({});
+
     return (
         <>
             <SelectBoxContext.Provider value={{ props, useHook: selectBox, height: 40 }}>
@@ -48,7 +54,7 @@ function SelectBox<T extends string | number>(props: SelectBoxProps<T>) {
             <style jsx>{`
                 .wrapper {
                     padding: 0;
-                    width: ${typeof width === 'string' ? width : `${width}px`};
+                    ${getSizeCss('width', width)}
                     position: relative;
                 }
             `}</style>

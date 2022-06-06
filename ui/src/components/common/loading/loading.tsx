@@ -1,15 +1,20 @@
 import Lottie from 'lottie-react';
 import { lottieLoading } from '@public/assets/lotties/loading';
 import { LoadingType } from '@components/common/loading/defines/loadingType';
+import { Size } from '@defines/size';
+import useCssSize from '@hooks/common/useCssSize';
 
 export interface LoadingProps {
-    width?: number | string;
-    height?: number | string;
+    width?: Size;
+    height?: Size;
     type: LoadingType;
 }
 
 function Loading(props: LoadingProps) {
     const { width = '100%', height, type } = props;
+    const {
+        handlers: { getSizeCss },
+    } = useCssSize({});
 
     return (
         <>
@@ -19,8 +24,8 @@ function Loading(props: LoadingProps) {
 
             <style jsx>{`
                 .loading {
-                    width: ${typeof width === 'number' ? `${width}px` : width};
-                    ${height ? `height: ${typeof height === 'number' ? `${height}px` : height}` : ''};
+                    ${getSizeCss('width', width)}
+                    ${getSizeCss('height', height)}
                     display: flex;
                     align-items: center;
                 }

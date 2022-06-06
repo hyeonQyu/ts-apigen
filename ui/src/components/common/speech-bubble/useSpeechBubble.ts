@@ -1,6 +1,7 @@
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { SpeechBubbleProps } from '@components/common/speech-bubble/speechBubble';
-import { SpeechBubbleTailPosition } from '@components/common/speech-bubble/defines/speechBubble';
+import useCssSize from '@hooks/common/useCssSize';
+import { SizeCss } from '@defines/size';
 
 export interface IUseSpeechBubbleParams extends SpeechBubbleProps {}
 
@@ -15,30 +16,19 @@ export interface IUseSpeechBubbleValues {
     tailAbsolutePosition: string;
 }
 
-export interface IUseSpeechBubbleHandlers {
-    getSpeechBubbleAbsolutePosition: (propertyName: string, value?: number | string) => string;
-}
+export interface IUseSpeechBubbleHandlers {}
 
 export default function useSpeechBubble(params: IUseSpeechBubbleParams): IUseSpeechBubble {
     const { isShow = false, tailPosition = 'left', tailMargin = 5, onPositionUp = () => {}, onPositionDown = () => {} } = params;
+
     const speechBubbleRef = useRef(null);
+
     const [isReverse, setIsReverse] = useState(false);
-    const [tailAbsolutePosition, setTailAbsolutePosition] = useState('');
+    const [tailAbsolutePosition, setTailAbsolutePosition] = useState<SizeCss>('');
 
-    const getTailAbsolutePosition = useCallback(
-        (propertyName: SpeechBubbleTailPosition) => {
-            return `${propertyName}: ${typeof tailMargin === 'string' ? tailMargin : `${tailMargin}px`};`;
-        },
-        [tailMargin],
-    );
-
-    const getSpeechBubbleAbsolutePosition = (propertyName: string, value?: number | string) => {
-        if (value === undefined) {
-            return '';
-        }
-
-        return `${propertyName}: ${typeof value === 'string' ? value : `${value}px`};`;
-    };
+    const {
+        handlers: { getSizeCss },
+    } = useCssSize({});
 
     useEffect(() => {
         const element = speechBubbleRef?.current;
@@ -52,12 +42,12 @@ export default function useSpeechBubble(params: IUseSpeechBubbleParams): IUseSpe
         if (top < bottom) {
             // 아래에 표시
             setIsReverse(true);
-            setTailAbsolutePosition(getTailAbsolutePosition(tailPosition === 'left' ? 'right' : 'left'));
+            setTailAbsolutePosition(getSizeCss(tailPosition === 'left' ? 'right' : 'left', tailMargin));
             onPositionDown();
         } else {
             // 위에 표시
             setIsReverse(false);
-            setTailAbsolutePosition(getTailAbsolutePosition(tailPosition === 'left' ? 'left' : 'right'));
+            setTailAbsolutePosition(getSizeCss(tailPosition === 'left' ? 'left' : 'right', tailMargin));
             onPositionUp();
         }
     }, [isShow]);
@@ -68,8 +58,6 @@ export default function useSpeechBubble(params: IUseSpeechBubbleParams): IUseSpe
             isReverse,
             tailAbsolutePosition,
         },
-        handlers: {
-            getSpeechBubbleAbsolutePosition,
-        },
+        handlers: {},
     };
 }

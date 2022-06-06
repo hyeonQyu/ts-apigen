@@ -3,6 +3,8 @@ import { SpeechBubbleTailPosition } from '@components/common/speech-bubble/defin
 import classNames from 'classnames';
 import useSpeechBubble from '@components/common/speech-bubble/useSpeechBubble';
 import { zIndex } from '@defines/zIndex';
+import useCssSize from '@hooks/common/useCssSize';
+import { Size } from '@defines/size';
 
 export interface SpeechBubbleProps {
     children?: ReactNode | ReactNode[];
@@ -11,20 +13,24 @@ export interface SpeechBubbleProps {
     onPositionDown?: () => void;
     autoReverse?: boolean;
     tailPosition?: SpeechBubbleTailPosition;
-    tailMargin?: number | string;
+    tailMargin?: Size;
 
-    top?: number | string;
-    bottom?: number | string;
-    left?: number | string;
-    right?: number | string;
+    top?: Size;
+    bottom?: Size;
+    left?: Size;
+    right?: Size;
 }
 
 function SpeechBubble(props: SpeechBubbleProps) {
     const { isShow = false, children, top, bottom, left, right } = props;
+
     const {
         values: { speechBubbleRef, isReverse, tailAbsolutePosition },
-        handlers: { getSpeechBubbleAbsolutePosition },
     } = useSpeechBubble(props);
+
+    const {
+        handlers: { getSizeCss },
+    } = useCssSize({});
 
     if (!isShow) {
         return <></>;
@@ -52,10 +58,10 @@ function SpeechBubble(props: SpeechBubbleProps) {
                     border-radius: 10px;
                     border: #c1c2c6 solid 1px;
                     box-shadow: 0 2px 5px #515b6f33;
-                    ${getSpeechBubbleAbsolutePosition('top', top)}
-                    ${getSpeechBubbleAbsolutePosition('bottom', bottom)}
-                    ${getSpeechBubbleAbsolutePosition('left', left)}
-                    ${getSpeechBubbleAbsolutePosition('right', right)}
+                    ${getSizeCss('top', top)}
+                    ${getSizeCss('bottom', bottom)}
+                    ${getSizeCss('left', left)}
+                    ${getSizeCss('right', right)}
                 }
 
                 .speech-bubble:before,

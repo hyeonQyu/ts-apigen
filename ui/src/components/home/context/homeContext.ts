@@ -6,9 +6,11 @@ export interface IHomeContext extends IUseHome {}
 export const HomeContext = React.createContext<IHomeContext>({
     values: {
         isLoaded: false,
+        isControllerLoading: false,
+        isGeneratingCode: false,
         uri: '',
         prettierConfigFileName: '',
-        prettierConfig: null,
+        prettierConfig: {},
         controllers: [],
         selectedControllerNames: [],
         controllerOptions: [],

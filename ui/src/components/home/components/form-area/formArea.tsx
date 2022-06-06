@@ -38,7 +38,7 @@ function FormArea() {
                         </>
                     ) : (
                         <div className={'loading-wrapper'}>
-                            <Loading width={'12%'} />
+                            <Loading width={'12%'} type={'all'} />
                         </div>
                     )}
                     <FormButtons />

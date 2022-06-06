@@ -1,11 +1,6 @@
 import { atom, selector } from 'recoil';
 import { ToastInfoState, ToastState } from 'stores/define/toast';
 
-export const loadingCountState = atom<number>({
-    key: 'loadingCount',
-    default: 0,
-});
-
 export const toastsState = atom<ToastState[]>({
     key: 'toasts',
     default: [],

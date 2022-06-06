@@ -16,7 +16,6 @@ import useHomeQuery from '@requests/queries/useHomeQuery';
 import { SelectedControllerType } from '@defines/selectedControllerType';
 import useInterval from '@hooks/common/useInterval';
 import { Config } from '@defines/config';
-import useLoadPortal from '@hooks/common/useLoadPortal';
 import useToastMessage from '@hooks/common/useToastMessage';
 
 // export interface IUseHomeParams extends HomeProps {}
@@ -28,6 +27,8 @@ export interface IUseHome {
 
 export interface IUseHomeValues {
     isLoaded: boolean;
+    isControllerLoading: boolean;
+    isGeneratingCode: boolean;
     uri: string;
     prettierConfigFileName: string;
     prettierConfig: PrettierConfig;
@@ -171,9 +172,10 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     const saveConfigMutation = useSaveConfigMutation();
     const loadConfigQuery = useLoadConfigQuery(isLoaded, () => setIsLoaded(true));
 
-    const controllerNames = controllersQuery.data?.controllerNames ?? [];
-    useLoadPortal(controllersQuery);
-    useLoadPortal(generateCodeMutation);
+    const { data: controllersData, isLoading: isControllerLoading } = controllersQuery;
+    const controllerNames = controllersData?.controllerNames ?? [];
+
+    const { isLoading: isGeneratingCode } = generateCodeMutation;
 
     // 저장된 설정 최초 1회만 불러오기
     useEffect(() => {
@@ -345,6 +347,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     return {
         values: {
             isLoaded,
+            isControllerLoading,
+            isGeneratingCode,
             uri,
             prettierConfigFileName,
             prettierConfig,

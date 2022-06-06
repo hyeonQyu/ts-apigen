@@ -1,8 +1,9 @@
 import { useHomeContext } from '@components/home/context/homeContext';
+import Loading from '@components/common/loading/loading';
 
 function FormButtons() {
     const {
-        values: { selectedControllerNames, isLoaded },
+        values: { isGeneratingCode, selectedControllerNames, isLoaded },
         handlers: { handleOpenControllerInitDialog, handleClickGenerate },
     } = useHomeContext();
 
@@ -13,7 +14,7 @@ function FormButtons() {
                     Controller 선택 초기화
                 </button>
                 <button type={'button'} className={'generate'} onClick={handleClickGenerate} disabled={!isLoaded}>
-                    코드 생성
+                    {isGeneratingCode ? <Loading type={'generate'} width={100} height={40} /> : '코드 생성'}
                 </button>
             </div>
 
@@ -32,6 +33,9 @@ function FormButtons() {
                     padding: 0 20px;
                     cursor: pointer;
                     transition: 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
 
                 button:disabled {
@@ -51,6 +55,7 @@ function FormButtons() {
                     background-color: #3595f2;
                     color: white;
                     font-weight: 600;
+                    width: 120px;
                 }
 
                 .generate:hover:not(:disabled) {

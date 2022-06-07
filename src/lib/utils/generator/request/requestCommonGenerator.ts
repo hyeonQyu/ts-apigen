@@ -25,7 +25,7 @@ export namespace RequestCommonGenerator {
             }
         `;
 
-        fs.writeFileSync(`${directoryPath}/RequestCommon.ts`, prettier.format(ts, prettierConfig));
+        fs.writeFileSync(`${directoryPath}/requestCommon.ts`, prettier.format(ts, prettierConfig));
     }
 
     function getImportAxiosCode(): string {

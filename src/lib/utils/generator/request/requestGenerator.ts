@@ -36,7 +36,7 @@ export namespace RequestGenerator {
 
             const ts = `
                 import { AxiosRequestConfig } from 'axios';
-                import { RequestCommon } from './RequestCommon';
+                import { RequestCommon } from './requestCommon';
                 ${ImportGenerator.getImportCode(refSet, '../models')}
                 export namespace ${name} {
                     ${
@@ -47,7 +47,7 @@ export namespace RequestGenerator {
                 }
             `;
 
-            writeFile(name, ts);
+            writeFile(CaseStyleFormatter.PascalCaseToCamelCase(name), ts);
 
             contentTypeCount.init();
         });

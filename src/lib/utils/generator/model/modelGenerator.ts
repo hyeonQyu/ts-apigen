@@ -1,6 +1,7 @@
 import { ModelInfo } from '../../../defines/modelInfo';
 import { ApigenConfig } from '../../../config/apigenConfig';
 import { ImportGenerator } from '../import/importGenerator';
+import { CaseStyleFormatter } from '../../string/caseStyleFormatter';
 
 const prettier = require('prettier');
 const fs = require('fs');
@@ -27,7 +28,7 @@ export namespace ModelGenerator {
                 }
             `;
 
-            fs.writeFileSync(`${directoryPath}/${name}.ts`, prettier.format(ts, prettierConfig));
+            fs.writeFileSync(`${directoryPath}/${CaseStyleFormatter.PascalCaseToCamelCase(name)}.ts`, prettier.format(ts, prettierConfig));
         });
     }
 }

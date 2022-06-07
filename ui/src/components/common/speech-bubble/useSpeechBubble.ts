@@ -50,7 +50,7 @@ export default function useSpeechBubble(params: IUseSpeechBubbleParams): IUseSpe
             setTailAbsolutePosition(getSizeCss(tailPosition === 'left' ? 'left' : 'right', tailMargin));
             onPositionUp();
         }
-    }, [isShow]);
+    }, [isShow, getSizeCss, onPositionDown, onPositionUp, tailMargin, tailPosition]);
 
     return {
         values: {

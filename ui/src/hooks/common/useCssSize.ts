@@ -1,4 +1,5 @@
 import { Size, SizeCss, SizeProperty } from '@defines/size';
+import { useCallback } from 'react';
 
 export interface IUseCssSizeParams {}
 
@@ -16,7 +17,7 @@ export interface IUseCssSizeHandlers {
 export default function useCssSize(params: IUseCssSizeParams): IUseCssSize {
     const {} = params;
 
-    const getSizeCss = (property: SizeProperty, size?: Size): SizeCss => {
+    const getSizeCss = useCallback((property: SizeProperty, size?: Size): SizeCss => {
         if (size === undefined) {
             return '';
         }
@@ -26,7 +27,7 @@ export default function useCssSize(params: IUseCssSizeParams): IUseCssSize {
         }
 
         return `${property}: ${size};`;
-    };
+    }, []);
 
     return {
         values: {},

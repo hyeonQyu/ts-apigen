@@ -10,7 +10,7 @@ export interface IUseSelectBoxOptionsParams<T extends number | string>
         Pick<SelectBoxProps<T>, 'options' | 'optionSize' | 'placeholder'>,
         Pick<ISelectBoxContext<T>, 'height'> {
     keyword: string;
-    setKeyword(keyword: string): void;
+    setKeyword: (keyword: string) => void;
 }
 
 export interface IUseSelectBoxOptions<T extends number | string> {
@@ -48,7 +48,7 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
         if (!isOpened) {
             setKeyword('');
         }
-    }, [isOpened]);
+    }, [isOpened, setKeyword]);
 
     // 필터링 된 옵션 목록
     useEffect(() => {
@@ -76,7 +76,7 @@ export default function useSelectBoxOptions<T extends number | string>(params: I
         placeholder && length++;
         setDropdownHeight(`${length * height}px`);
         setOptionsWrapperHeight(placeholder && filteredOptions.length > optionSize ? `calc(100% - ${height}px)` : '100%');
-    }, [optionSize, filteredOptions, placeholder]);
+    }, [optionSize, filteredOptions, placeholder, height]);
 
     return {
         values: {

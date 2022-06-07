@@ -280,6 +280,9 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     }, [controllers]);
 
     const handleClickGenerate = () => {
+        if (isGeneratingCode) {
+            return;
+        }
         if (!uri) {
             showToast('API docs URI를 입력하세요.', 'warning');
             return;
@@ -292,8 +295,8 @@ export default function useHome(/*params: IUseHomeParams*/): IUseHome {
     };
 
     // prettier 설정 변경
-    const handleChangePrettierConfigFileName = (name: string) => setPrettierConfigFileName(name);
-    const handleChangePrettierConfig = (config: PrettierConfig) => setPrettierConfig(config);
+    const handleChangePrettierConfigFileName = useCallback((name: string) => setPrettierConfigFileName(name), []);
+    const handleChangePrettierConfig = useCallback((config: PrettierConfig) => setPrettierConfig(config), []);
 
     // API docs URI Focus 및 Blur 이벤트 핸들러
     const handleUseApiDocsUriBlur = () => setIsLoadController(true);

@@ -44,7 +44,7 @@ export default function useInputFile<T>(params: IUseInputFileParams<T>): IUseInp
 
         current.addEventListener('change', handleChangeFile);
         return () => current.removeEventListener('change', handleChangeFile);
-    }, [inputRef]);
+    }, [inputRef, acceptableExtensionList, isFileJson, onChangeFileContent, onChangeFileName, showToast]);
 
     const handleSelectFile = () => {
         const { current } = inputRef;

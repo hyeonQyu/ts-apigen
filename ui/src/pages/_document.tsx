@@ -5,7 +5,6 @@ export default class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <title>ts-apigen</title>
                     <meta charSet="utf-8" />
                     <link href="https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css" rel="stylesheet" type="text/css" />
                     <body>

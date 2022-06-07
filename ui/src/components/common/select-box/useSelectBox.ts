@@ -14,7 +14,7 @@ export interface IUseSelectBoxValues<T extends number | string> {
     isMultiSelect: boolean;
     selectedValueSet: Set<T>;
     isOpened: boolean;
-    ref: MutableRefObject<HTMLDivElement | null>;
+    ref: MutableRefObject<HTMLDivElement | null> | null;
 }
 
 export interface IUseSelectBoxHandlers<T extends number | string> {
@@ -33,7 +33,10 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
 
     // options 를 Map 형태로 변경
     useEffect(() => {
-        nameByValue.clear();
+        setNameByValue((prev) => {
+            prev.clear();
+            return prev;
+        });
 
         options.forEach(({ value, name }) => {
             setNameByValue((prev) => {
@@ -54,7 +57,7 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
         } else {
             setSelectedValueSet(new Set([value]));
         }
-    }, [value]);
+    }, [isMultiSelect, value]);
 
     // 표시되는 메시지
     useEffect(() => {
@@ -90,7 +93,7 @@ export default function useSelectBox<T extends number | string>(params: IUseSele
 
             setMessage(nameByValue.get(value) ?? boxTitle);
         }
-    }, [selectedValueSet, boxTitle, nameByValue]);
+    }, [selectedValueSet, boxTitle, nameByValue, isMultiSelect]);
 
     const closeSelectBox = (e: any) => {
         if (isOpened && (!ref.current || !ref.current.contains(e.target))) {

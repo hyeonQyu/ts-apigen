@@ -20,6 +20,7 @@ export const SelectBoxContext = React.createContext<ISelectBoxContext<any>>({
     },
     useHook: {
         values: {
+            ref: null,
             message: '옵션을 선택하세요.',
             isMultiSelect: false,
             selectedValueSet: new Set<string | number>(),

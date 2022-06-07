@@ -43,8 +43,8 @@ export default function useToast(params: IUseToastParams): IUseToast {
 
     const { width, height } = toastConfig;
 
-    const getBottom = (index: number, height: number) => 160 + (toasts.length - index - 1) * (height + 14);
-    const getLeft = (windowWidth: number) => (windowWidth - width) / 2;
+    const getBottom = useCallback((index: number, height: number) => 160 + (toasts.length - index - 1) * (height + 14), [toasts]);
+    const getLeft = useCallback((windowWidth: number) => (windowWidth - width) / 2, [width]);
 
     const { isShow, index, type, duration = 3000, id } = params;
 
@@ -58,11 +58,11 @@ export default function useToast(params: IUseToastParams): IUseToast {
 
     useEffect(() => {
         setLeft(getLeft(window.innerWidth));
-    }, [window.innerWidth]);
+    }, [window.innerWidth, getLeft]);
 
     useEffect(() => {
         setBottom(getBottom(index, height));
-    }, [index, toasts]);
+    }, [index, toasts, getBottom]);
 
     useEffect(() => {
         setElement(toastRef.current);
@@ -84,7 +84,7 @@ export default function useToast(params: IUseToastParams): IUseToast {
             setTimeoutId(timeout);
             setIsTimeoutStarted(() => true);
         }
-    }, [isShow, isTimeoutStarted]);
+    }, [isShow, isTimeoutStarted, duration, id, setToasts, timeoutId]);
 
     const { intervalId } = useInterval(
         useCallback(() => {
@@ -103,7 +103,7 @@ export default function useToast(params: IUseToastParams): IUseToast {
                 clearInterval(timeoutIntervalId);
                 setToasts((prev) => prev.filter((toast) => toast.id !== id));
             }
-        }, [isShow, element, toasts]),
+        }, [isShow, element, toasts, id, setToasts]),
         200,
     );
 

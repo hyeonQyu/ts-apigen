@@ -4,6 +4,7 @@ import ControllerInitDialog from '@components/home/components/controller-init-di
 import { assetBackground } from '@public/assets/background';
 import FormArea from '@components/home/components/form-area/formArea';
 import LottieArea from '@components/home/components/lottie-area/lottieArea';
+import Head from 'next/head';
 
 export interface HomeProps {}
 
@@ -13,6 +14,10 @@ function Home(/*props: HomeProps*/) {
     return (
         <>
             <HomeContext.Provider value={home}>
+                <Head>
+                    <title>ts-apigen</title>
+                </Head>
+
                 <div className={'background'}>
                     <div className={'home-wrapper'}>
                         <LottieArea />

@@ -26,7 +26,7 @@ export default function useLoading(params: IUseLoadingParams): IUseLoading {
         }
 
         element.setSpeed(speed);
-    }, [lottieRef]);
+    }, [lottieRef, speed]);
 
     return {
         values: {

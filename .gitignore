@@ -5,3 +5,4 @@ tsapigen.config.json
 /lib
 /bin
 /release-ui
+/test-backend

@@ -1,6 +1,6 @@
 # [TS-APIgen] typescript REST API 요청 코드 자동 생성
 
-## 개요
+## 1. 개요
 Typescript를 도입하면서 API 타입을 코드로 작성하게 되었습니다. 그러나 백엔드에서 코드로 작성하는 API를 Swagger와 같은 문서를 보고 프론트엔드에서 다시 요청 코드를 작성해야 한다는 것이 상당히 번거롭게 느껴졌습니다.
 
 Swagger가 API 문서를 UI로 표시해주는 기능을 보고 프론트의 요청 코드 작성을 자동화할 수 있을 것 같다는 생각을 하게 되었습니다.
@@ -14,7 +14,7 @@ Swagger에서도 OAS로 표현된 데이터를 UI로 표시하고 있었습니�
 
 > 개방된 공공 API를 의미하는 Open API와 다른 의미입니다.
 
-## 설치 및 실행
+## 2. 설치 및 실행
 ### npm package
 [ts-apigen - npm (npmjs.com)](https://www.npmjs.com/package/ts-apigen)
 
@@ -39,7 +39,7 @@ $ npx ts-apigen --port 8888
 $ npx ts-apigen -p 8888
 ```
 
-## 옵션
+## 3. 옵션
 ### API docs URI (required)
 OpenAPI Spec을 반환하는 URI 주소로 아래 Swagger UI에서 붉은색 네모 영역에 해당됩니다.
 
@@ -100,11 +100,12 @@ Controller를 선택하면 선택한 Controller에 대응하는 Request.ts 파�
 
 > Base Root 지정이 필요한 Controller에 대해 Base Root를 지정하지 않으면 생성된 코드에 오류가 생길 수 있습니다.
 
-## 코드 생성
+## 4. 코드 생성
 하단의 코드 생성 버튼을 클릭하면 자동 생성 코드 경로에 지정한 위치에 코드가 생성됩니다.
+
 ![image](https://user-images.githubusercontent.com/44297538/172748649-4c5c246f-10a4-41d7-81ef-af572e7d2b8c.png)
 
-## 제약 사항
+## 5. 제약 사항
 OAS가 표현할 수 있는 데이터의 한계, OAS에 대한 지식 부족, 구현 난이도 및 중요도 등의 이유로 몇가지 제약 사항이 있습니다.
 
 ### 제네릭
@@ -142,5 +143,5 @@ OAS는 다양한 언어를 지원할 수 있는 RESTful API 디자인의 표준�
 
  
 
-## 기타
+## 6. 기타
 기타 문의사항은 [여기](https://github.com/hyeonQyu/ts-apigen/issues)에 남겨주세요.

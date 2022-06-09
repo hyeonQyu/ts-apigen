@@ -19,7 +19,7 @@ Swagger에서도 OAS로 표현된 데이터를 UI로 표시하고 있었습니�
 [ts-apigen - npm (npmjs.com)](https://www.npmjs.com/package/ts-apigen)
 
 ### 설치
-front 프로젝트 루트 디렉토리에서 아래와 같이 설치합니다.
+프로젝트 루트 디렉토리에서 아래와 같이 설치합니다.
 
 개발 시에만 사용하기 때문에 **devDependencies**에 추가합니다.
 

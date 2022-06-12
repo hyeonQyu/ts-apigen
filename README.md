@@ -33,11 +33,15 @@ $ npm -D install ts-apigen
 
 --port 옵션을 사용하여 실행 포트를 변경할 수 있습니다. 옵션 없이 실행 시 **6200**번 포트를 사용합니다.
 
+브라우저에서 아래 화면이 나타나면 정상적으로 실행된 것입니다.
+
 ```
 $ npx ts-apigen
 $ npx ts-apigen --port 8888
 $ npx ts-apigen -p 8888
 ```
+![image](https://user-images.githubusercontent.com/44297538/173226378-c46eaf34-5654-46f6-8da3-49ab605a582f.png)
+
 
 ## 3. 옵션
 ### API docs URI (required)
@@ -46,9 +50,15 @@ OpenAPI Spec을 반환하는 URI 주소로 아래 Swagger UI에서 붉은색 네
 유효한 URI 입력 시 해당 Spec에 정의되어 있는 Controller 목록을 불러옵니다.
 
 ![image](https://user-images.githubusercontent.com/44297538/172747696-04c9ccc0-2c7a-4ea2-9e1c-5578bb051891.png)
+
+![uri](https://user-images.githubusercontent.com/44297538/173227288-500d0efa-c8a5-44b3-b97b-4e9f851736e7.gif)
 ***
 ### prettier 설정 파일
 생성되는 typescript 코드의 포맷 설정 파일(.prettierrc)입니다.
+
+선택한 .prettierrc 파일 이름 위에 커서를 올리면 적용할 설정을 확인할 수 있습니다.
+
+![image](https://user-images.githubusercontent.com/44297538/173227036-c62b8b04-71a2-4b18-bde3-421dbbe1c465.png)
 
 파일 미선택 시 기본 설정이 적용되며 기본 설정은 아래와 같습니다.
 
@@ -104,6 +114,46 @@ Controller를 선택하면 선택한 Controller에 대응하는 Request.ts 파�
 하단의 코드 생성 버튼을 클릭하면 자동 생성 코드 경로에 지정한 위치에 코드가 생성됩니다.
 
 ![image](https://user-images.githubusercontent.com/44297538/172748649-4c5c246f-10a4-41d7-81ef-af572e7d2b8c.png)
+
+##### Controller 코드 예
+```java
+@RestController
+@RequestMapping("/apigen")
+public class ApigenController {
+    // ContentType: application/json
+    // 반환형에 ResponseEntity<ApigenInfoResVO>를 사용하지 않아도 요청 코드는 정상적으로 생성됨
+    @GetMapping("/info")
+    private ResponseEntity<ApigenInfoResVO> info(@RequestBody ApigenInfoReqVO req) {
+        /** do something **/
+        return res;
+    }
+    
+    // ContentType: formData
+    // 반환형에 ResponseEntity<ApigenPerson>를 사용해도 요청 코드는 정상적으로 생성됨
+    @GetMapping("/person")
+    private ApigenPerson person(@RequestParam(required = true) Integer personSn) {
+        /** do something **/
+        return res;
+    }
+}
+```
+
+##### 생성된 요청 코드
+```typescript
+export namespace ApigenRequest {
+    export async function info(req: ApigenInfoReqVO, config?: AxiosRequestConfig): Promise<ApigenInfoResVO> {
+        return RequestCommon.axiosGet<ApigenInfoResVO>('/apigen/info', req, RequestCommon.getJsonConfig(config));
+    }
+
+    export async function person(personSn: number, config?: AxiosRequestConfig): Promise<ApigenPerson> {
+        return RequestCommon.axiosGet<ApigenPerson>(
+            '/apigen/person',
+            RequestCommon.createFormData({ personSn }),
+            RequestCommon.getFormDataConfig(config),
+        );
+    }
+}
+```
 
 ## 5. 제약 사항
 OAS가 표현할 수 있는 데이터의 한계, OAS에 대한 지식 부족, 구현 난이도 및 중요도 등의 이유로 몇가지 제약 사항이 있습니다.

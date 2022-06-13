@@ -17,6 +17,8 @@ export namespace RequestCommonGenerator {
             ${getImportAxiosCode()}
 
             export namespace RequestCommon {
+                const _axios = axios.create();
+                
                 ${getConfigCode()}
                 
                 ${getCreateFormDataCode()}
@@ -29,7 +31,7 @@ export namespace RequestCommonGenerator {
     }
 
     function getImportAxiosCode(): string {
-        return "import axios, { AxiosRequestConfig } from 'axios';";
+        return "import axios, { AxiosInterceptorOptions, AxiosRequestConfig } from 'axios';";
     }
 
     function getCreateFormDataCode(): string {
@@ -106,32 +108,48 @@ export namespace RequestCommonGenerator {
 
     function getAxiosCode(): string {
         return `
+            export function setAxiosInterceptorsRequest<T>(
+                onFulfilled?: (value: AxiosRequestConfig<any>) => T | Promise<T>,
+                onRejected?: (error: any) => any,
+                options?: AxiosInterceptorOptions,
+            ) {
+                _axios.interceptors.request.use(onFulfilled, onRejected, options);
+            }
+        
+            export function setAxiosInterceptorsResponse<T>(
+                onFulfilled?: (value: AxiosRequestConfig<any>) => T | Promise<T>,
+                onRejected?: (error: any) => any,
+                options?: AxiosInterceptorOptions,
+            ) {
+                _axios.interceptors.response.use(onFulfilled, onRejected, options);
+            }
+
             export async function axiosGet<T>(url: string, params: object = {}, config?: AxiosRequestConfig) {
-                return (await axios.get<T>(url, { params, ...config })).data;
+                return (await _axios.get<T>(url, { params, ...config })).data;
             }
     
             export async function axiosPost<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
-                return (await axios.post<T>(url, data, config)).data;
+                return (await _axios.post<T>(url, data, config)).data;
             }
             
             export async function axiosPut<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
-                return (await axios.put<T>(url, data, config)).data;
+                return (await _axios.put<T>(url, data, config)).data;
             }
             
             export async function axiosDelete<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
-                return (await axios.delete<T>(url, { data, ...config })).data;
+                return (await _axios.delete<T>(url, { data, ...config })).data;
             }
             
             export async function axiosPatch<T>(url: string, data: object = {}, config?: AxiosRequestConfig) {
-                return (await axios.patch<T>(url, data, config)).data;
+                return (await _axios.patch<T>(url, data, config)).data;
             }
             
             export async function axiosHead<T>(url: string, config?: AxiosRequestConfig) {
-                return (await axios.head<T>(url, config)).data;
+                return (await _axios.head<T>(url, config)).data;
             }
             
             export async function axiosOptions<T>(url: string, config?: AxiosRequestConfig) {
-                return (await axios.options<T>(url, config)).data;
+                return (await _axios.options<T>(url, config)).data;
             }
         `;
     }

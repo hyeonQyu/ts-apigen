@@ -47,7 +47,7 @@ export namespace RequestGenerator {
                 }
             `;
 
-            writeFile(CaseStyleFormatter.PascalCaseToCamelCase(name), ts);
+            writeFile(CaseStyleFormatter.pascalCaseToCamelCase(name), ts);
 
             contentTypeCount.init();
         });
@@ -258,6 +258,7 @@ export namespace RequestGenerator {
 
             case 'head':
             case 'options':
+            default:
                 return `return RequestCommon.axios${CaseStyleFormatter.camelCaseToPascalCase(
                     method,
                 )}<${responseType}>(\'${path}\', ${config});`;

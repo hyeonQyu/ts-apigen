@@ -3,6 +3,8 @@ import { ITag } from '../defines/openApi';
 import { StringFormatter } from '../utils/string/stringFormatter';
 
 export namespace ApigenConfig {
+    export let openApiVersion: number = 2;
+
     export let config: Config = {
         apiDocsUri: '',
         generatedCodePath: `${StringFormatter.getNormalizedPath(process.cwd())}/src/apis`,

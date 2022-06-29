@@ -1,6 +1,6 @@
 import React from 'react';
 import { SelectBoxContext } from './context/selectBoxContext';
-import SelectBoxHead from '@components/common/select-box/components/head/SelectBoxHead';
+import SelectBoxHead from '@components/common/select-box/components/head/selectBoxHead';
 import { SelectBoxOption } from '@components/common/select-box/defines/selectBoxOption';
 import useSelectBox from '@components/common/select-box/useSelectBox';
 import SelectBoxOptions from '@components/common/select-box/components/options/SelectBoxOptions';

@@ -28,7 +28,23 @@ export namespace ModelGenerator {
                 }
             `;
 
-            fs.writeFileSync(`${directoryPath}/${CaseStyleFormatter.PascalCaseToCamelCase(name)}.ts`, prettier.format(ts, prettierConfig));
+            fs.writeFileSync(`${directoryPath}/${CaseStyleFormatter.pascalCaseToCamelCase(name)}.ts`, prettier.format(ts, prettierConfig));
         });
+    }
+
+    function getDirectoryPath() {
+        const { config, openApiVersion } = ApigenConfig;
+        const { generatedCodePath } = config;
+
+        switch (openApiVersion) {
+            // 3.0
+            case 3:
+                return;
+
+            // 2.0
+            case 2:
+            default:
+                return `${generatedCodePath}/models`;
+        }
     }
 }

@@ -24,7 +24,11 @@ export namespace CaseStyleFormatter {
         return kebabCaseToPascalCase(str.replace(/»/g, '').replace(/«/g, '-').replace(/,/g, '-'));
     }
 
-    export function PascalCaseToCamelCase(str: string) {
+    export function genericToCamelCase(str?: string): string {
+        return pascalCaseToCamelCase(genericToPascalCase(str));
+    }
+
+    export function pascalCaseToCamelCase(str: string) {
         const firstLowerCaseIndex = getFirstLowerCaseIndex(str);
         return `${str.substring(0, firstLowerCaseIndex).toLowerCase()}${str.substring(firstLowerCaseIndex)}`;
     }

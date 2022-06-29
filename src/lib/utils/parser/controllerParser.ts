@@ -143,7 +143,7 @@ export namespace ControllerParser {
     }
 
     function getResponseInfo(responses: IResponse, refSet: Set<string>): ResponseInfo | null {
-        const status: IStatus | null = responses[200] ?? null;
+        const status: IStatus | null = responses['200'] ?? null;
 
         if (!status || !status?.schema) {
             return null;

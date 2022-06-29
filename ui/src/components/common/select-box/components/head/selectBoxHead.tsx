@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useSelectBoxContext } from '@components/common/select-box/context/selectBoxContext';
-import Shortening from '@components/common/shortening/Shortening';
+import Shortening from '@components/common/shortening/shortening';
 import ArrowIcon from '@icons/arrow/arrowIcon';
 
 function SelectBoxHead<T extends number | string>() {

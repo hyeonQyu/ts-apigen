@@ -1,5 +1,6 @@
 import { ISchema } from '../../defines/openApi';
 import { CaseStyleFormatter } from '../string/caseStyleFormatter';
+import { ApigenConfig } from '../../config/apigenConfig';
 
 export namespace TypeNameParser {
     /**
@@ -15,7 +16,7 @@ export namespace TypeNameParser {
     }
 
     function getTypeNameFromRef(schema: ISchema, refSet?: Set<string>): string {
-        const typeName = CaseStyleFormatter.genericToPascalCase(schema.$ref?.substring('#/definitions/'.length));
+        const typeName = getTypeName(schema);
 
         if (typeName) {
             refSet?.add(typeName);
@@ -41,5 +42,18 @@ export namespace TypeNameParser {
         }
 
         return type ?? 'any';
+    }
+
+    function getTypeName(schema: ISchema): string | undefined {
+        switch (ApigenConfig.openApiVersion) {
+            // 3.0
+            case 3:
+                return CaseStyleFormatter.genericToCamelCase(schema.$ref?.substring('#/components/'.length));
+
+            // 2.0
+            case 2:
+            default:
+                return CaseStyleFormatter.genericToPascalCase(schema.$ref?.substring('#/definitions/'.length));
+        }
     }
 }

@@ -3,7 +3,7 @@ import { useSelectBoxContext } from '@components/common/select-box/context/selec
 import Checkbox from '@components/common/checkbox/checkbox';
 import useSelectBoxOption from '@components/common/select-box/components/options/components/option/useSelectBoxOption';
 import classNames from 'classnames';
-import Shortening from '@components/common/shortening/Shortening';
+import Shortening from '@components/common/shortening/shortening';
 
 export interface SelectBoxOptionProps<T extends number | string> {
     option: SelectBoxOption<T>;
